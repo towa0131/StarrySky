@@ -1,0 +1,140 @@
+#Cai ??t StarrySky cho server (Genisys VN Version)
+
+#Phien b?n file cai ??t
+config:
+ version: 1
+
+level:
+ #Ch?nh n?u mu?n b?t/t?t th?i ti?t (true/false)
+ weather: true
+ #Th?i gian ng?u nhien ?i?u ch?nh th?i ti?t
+ weather-random-duration-min: 6000
+ weather-random-duration-max: 12000
+ #Th?i gian ?anh s?m set ng?u nhien，m?c ??nh la 10s, 0 = hu? s?m set
+ lightning-time: 200
+ #B?t/t?t n?u s?m set ?anh co l?a (true/false)
+ lightning-fire: false
+ #B?t/t?t n?u mu?n l?a lan (true/false)
+ fire-spread: false
+ 
+player:
+ #B?t/t?t n?u mu?n them ch? ?? ?oi (true/false)
+ hunger: true
+ #S? mau ?oi t?i ?a n?u co ng??i t?n cong (m?c ??nh la 20)
+ hunger-health: 10
+ #Th?i gian "t?n cong" c?n ?oi, M?c ??nh la 80=4 giay
+ hunger-timer: 3000
+ #B?t/t?t n?u mu?n them ch? ?? ?i?m kinh nghi?m (true/false)
+ experience: true
+ #B?t/t?t n?u mu?n server ch?t khong m?t ?? (true/false)
+ keep-inventory: false
+ #B?t/t?t n?u t? ??ng quet h?t ?? trong kho ?? khi chuy?n sang ch? ?? sang t?o (true/false)
+ auto-clear-inventory : true
+ #B?t/t?t n?u mu?n ch?t khong m?t kinh nghi?m (true/false)
+ keep-experience: false
+ #N?u ng??i ch?i vao game b? crash, ??t no la 10. H?y ch? ??=-1
+ chunk-radius: -1
+
+nether:
+ #B?t/t?t n?u mu?n them ??a ng?c vao server, khi b?t server h? th?ng s? t? t?o th? gi?i ??a ng?c (true/false)
+ allow-nether: true
+ #??t ten cho th? gi?i ??a ng?c c?a b?n.
+ level-name: "nether"
+ 
+server:
+ #Tai t?o l?i h? th?ng ?i?m kinh nghi?m，0=h?y b? ch? ??
+ experience-cache: 65535
+ #B?t/t?t n?u mu?n them Iron Golem vao server (true/false)
+ allow-iron-golem: false
+ #B?t/t?t n?u mu?n them Snow Golem vao server (true/false)
+ allow-snow-golem: false
+ #B?t/t?t n?u mu?n h?y server.log <file theo doi l?nh va ng??i ch?i trong server> (true/false)
+ disable-log: false
+ #B?t/t?t n?u mu?n h?y ch? ?? bay (true/false)
+ anti-fly: true
+ #B?t/t?t n?u mu?n yeu c?u kh?i Async (m?c ??nh: true) (true/false)
+ async-chunk-request: true
+ #Ch?n ?? thong bao ng??i ch?i ?a vao ho?c r?i (n?u b?n khong bi?t co th? b? qua)
+ #0 = Tin nh?n, 1 = M?o, 2 = Thanh n?i ? thanh ch?n ??
+ player-msg-type: 0
+ login-msg: "§3@player joined the game"
+ logout-msg: "§3@player left the game"
+ #B?t/t?t n?u mu?n s? d?ng ?? ch? t?o qua file json (m?c ??nh: false) (true/false)
+ recipes-from-json: false
+ #B?t/t?t n?u mu?n s? d?ng ?? cre qua file json (m?c ??nh: false) (true/false)
+ creative-items-from-json: false
+ #B?t/t?t n?u mu?n ki?m tra t?c ?? (khong con ??y lui m?i khi ?i) (true/false)
+ check-movement: true
+ #B?t/t?t n?u kich ho?t ch? ?? sang t?o gi?i h?n (Khong th? r?t ??, m? r??ng va h?n th? n?a) (m?c ??nh: false) (true/false)
+ limited-creative: true
+ #B?t/t?t n?u mu?n kich ho?t DestroyBlockParticle (pha block t? nhien) (true/false)
+ destroy-block-particle: true
+ #B?t/t?t n?u mu?n them chai nem (true/false)
+ allow-splash-potion: true
+ #B?t/t?t n?u mu?n them L?nh Nang Cao (m?c ??nh: false) (true/false)
+ advanced-command-selector: false
+ 
+enchantment:
+ #B?t/t?t n?u mu?n kich ho?t Cai ?e
+ enable-anvil: true
+ #B?t/t?t n?u mu?n kich ho?t Ban Phu Phep
+ enable-enchanting-table: true
+ #B?t/t?t n?u mu?n ??m sach trong t? sach, co th? gay server lag
+ #N?u ?? false, server s? t? ??ng ??m t? (0~15)
+ count-bookshelf: false
+ 
+redstone:
+ ##########################################
+ ###B?t/t?t n?u mu?n them ch? ?? ?a ??###
+ ##########################################
+ #N?u khong b?t thi s? khong ho?t ??ng#
+ ##########################################
+ enable: false
+ #B?t/t?t n?u mu?n chia t? l? ho?t ??ng
+ frequency-pulse: false
+ #?anh s? t? l? ho?t ??ng, m?c ??nh: 1 giay
+ pulse-frequency: 1
+
+synapse:
+ #N?u mu?n kich ho?t API c?a Synapse ho?c k?t n?i vao server Synapse, kich ho?t ch? n?? nay
+ enabled: false
+ server-ip: 127.0.0.1
+ server-port: 10305
+ #N?u Client nay la server chinh ho?c sv lobby
+ is-main-server: true
+ #M?t kh?u Synapse (co th? tham kh?o ? server.properties t?i Synapse)
+ server-password: 16bitlongkey
+ #Mo t? v? h? th?ng Synapse c?a b?n
+ description: "A Synapse client"
+ #H?y RakLib t?c la ch? co th? vao Synapse ma khong vao server nay (m?c ??nh la false)
+ disable-rak: false
+
+dserver:
+ #T?t c? cac server g?p vao. B?t/t?t ?? ho?t ??ng (true/false)
+ enable: false
+ #Query update automatically
+ query-auto-update: false
+ #Query update periodical
+ query-tick-update: true
+ #The max players' number of Motd
+ motd-max-players: 0
+ #The max players' number of query，0=Default
+ query-max-players: 0
+ #Show the number of all players on motd
+ motd-all-players: false
+ #Show the number of all players on Query
+ query-all-players: false
+ #Show the number of online players on motd
+ motd-players: false
+ #Show the number of online players on Query
+ query-players: false
+ #Update Frequency ,20=1s
+ time: 40
+ #Auto-retry times when failed
+ retry-times: 3
+ #the server list，Separate by ';'，e.g. 1.example.com:19132;2.example.com:19133
+ server-list: ""
+
+inventory:
+ #Set this to true if you have problems with anvils. Will process inventory transactions in a vanilla fashion with no anti-cheats or verification.
+ allow-cheats: false

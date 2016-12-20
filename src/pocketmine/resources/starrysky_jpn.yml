@@ -1,0 +1,134 @@
+#StarrySkyの設定ファイル
+
+#設定ファイルのバージョン
+config:
+ version: 1
+
+level:
+ #天候の有効化
+ weather: true
+ #天候のランダムな期間
+ weather-random-duration-min: 6000
+ weather-random-duration-max: 12000
+ #ランダムに発生する雷の間隔、0で無効
+ lightning-time: 200
+ #雷が落ちたところを燃やすかどうか
+ lightning-fire: false
+ #火の燃え広がりの有効化
+ fire-spread: false
+ 
+player:
+ #腹減り度の有効化
+ hunger: true
+ #腹減り度が0の場合に受けるダメージの最低HP、例:10で残り体力10(ハート5個)で止まる
+ hunger-health: 10
+ #腹減り度の減る時間、例:80で4秒
+ hunger-timer: 3000
+ #経験値の有効化
+ experience: true
+ #プレイヤーが死んだ際、インベントリのアイテムを落とさないか
+ keep-inventory: false
+ #ゲームモードを変更した際、インベントリのアイテムを残すかどうか
+ auto-clear-inventory : true
+ #プレイヤーが死んだ際、経験値を落とさないか
+ keep-experience: false
+ #参加時にプレーヤーがクラッシュした場合は、これを10未満に設定します。
+ chunk-radius: -1
+
+nether:
+ #ネザーを生成するか
+ allow-nether: true
+ #ネザーの名前
+ level-name: "nether"
+ 
+server:
+ #プレイヤーデータを事前に生成する、0 = 無効
+ experience-cache: 65535
+ #アイアンゴーレムの作成の有効化
+ allow-iron-golem: false
+ #スノーゴーレムの作成の有効化
+ allow-snow-golem: false
+ #サーバーのログの無効化
+ disable-log: false
+ #フライハックの自動Kickの有効化
+ anti-fly: true
+ #非同期チャンク要求を有効にする場合は選択します
+ async-chunk-request: true
+ #プレイヤー参加時のメッセージ形式の設定
+ #0 = チャット欄, 1 = ティップ形式, 2 = ポップアップ形式
+ player-msg-type: 0
+ login-msg: "§3@player joined the game"
+ logout-msg: "§3@player left the game"
+ #jsonからレシピを読み込むかどうか
+ recipes-from-json: false
+ #jsonからクリエイティブレシピを読み込むかどうか
+ creative-items-from-json: false
+ #移動チェックの有効化
+ check-movement: true
+ #限られたクリエイティブ(アイテムドロップの無効化、チェストの開閉の無効化)
+ limited-creative: true
+ #ブロック破壊時のパーティクルの有効化
+ destroy-block-particle: true
+ #スプラッシュポーションの有効化
+ allow-splash-potion: true
+ #コマンドセレクターの有効化
+ advanced-command-selector: false
+
+enchantment:
+ #金床の有効化
+ enable-anvil: true
+ #エンチャントテーブルの有効化
+ enable-enchanting-table: true
+ #エンチャントレベルを本棚カウント制にするかどうか(0～15)
+ count-bookshelf: false
+
+redstone:
+ #レッドストーン回路の有効化
+ enable: false
+ #周波数パルスの有効化(動力を伝えるか)
+ frequency-pulse: false
+ #周波数パルス数 例:1で1秒
+ pulse-frequency: 1
+
+synapse:
+ #Synapseの有効化
+ enabled: false
+ server-ip: 127.0.0.1
+ server-port: 10305
+ #このクライアントがロビー・メインサーバーかどうか
+ is-main-server: true
+ server-password: 32bitlongkey
+ #このクライアントの説明は、このクライアントの識別子です 
+ description: "A Synapse client"
+ #プレーヤーがSynapseを通して加わることができるだけであるRakLib手段を無効にするかどうか
+ disable-rak: false
+
+dserver:
+ #統一されるすべてのマルチ・サーバーのカウント
+ enable: false
+ #Queryの自動更新の有効化
+ query-auto-update: false
+ #Queryの定期更新の有効化
+ query-tick-update: true
+ #Motdの最大プレイヤーの数
+ motd-max-players: 0
+ #Queryの最大プレイヤーの数
+ query-max-players: 0
+ #Motdですべてのプレイヤーの数を表示するかどうか
+ motd-all-players: false
+ #Queryですべてのプレイヤーの数を表示するかどうか
+ query-all-players: false
+ #Motdでオンラインのプレイヤーの数を表示するかどうか
+ motd-players: false
+ #Queryでオンラインのプレイヤーの数を表示するかどうか
+ query-players: false
+ #更新頻度、20=1秒
+ time: 40
+ #失敗時のリトライ回数
+ retry-times: 3
+ #サーバリストは、';'で区切ります。例: 1.example.com:19132;2.example.com:19133
+ server-list: ""
+
+inventory:
+ #もしあなたが金床について問題を抱えてるならオンにする。反不正行為者または確認なしでバニラ・ファッションで在庫取引を処理します。 
+ allow-cheats: false

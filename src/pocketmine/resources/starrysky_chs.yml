@@ -1,0 +1,138 @@
+#StarrySky高?配置文件
+
+#配置文件版本
+config:
+ version: 1
+ 
+level:
+ #?置是否??天气
+ weather: true
+ #随机天气持???最小?，最大?
+ weather-random-duration-min: 6000
+ weather-random-duration-max: 12000
+ #随机???隔，默?10秒，0 = 禁用
+ lightning-time: 200
+ #是否?用???中着火
+ lightning-fire: false
+ #是否?用火?蔓延
+ fire-spread: false
+ 
+player:
+ #是否打???
+ hunger: true
+ #???扣血下限
+ hunger-health: 10
+ #?????器，默?80=4秒
+ hunger-timer: 3000
+ #是否打???系?
+ experience: true
+ #是否??死亡不掉落
+ keep-inventory: false
+ #是否??切?模式自?清除背包
+ auto-clear-inventory: true
+ #是否??死亡??不掉落
+ keep-experience: false
+ #如果玩家?入游??崩?, ??置低于10的?. 禁用 = -1
+ chunk-radius: -1
+ 
+nether:
+ #是否允?地?，打?此??会自?生成地?地?
+ allow-nether: true
+ #地?地?名
+ level-name: "nether"
+ 
+server:
+ #??数据?生成，0不?用
+ experience-cache: 65535
+ #是否允?生成?傀儡
+ allow-iron-golem: false
+ #是否允?生成雪傀儡
+ allow-snow-golem: false
+ #是否禁用server.log
+ disable-log: false
+ #是否?用反?行作弊
+ anti-fly: true
+ #是否?用??方式?送区?
+ async-chunk-request: true
+ #玩家?出服?器消息提醒方式。0?Message，1?Tip，2?Popup
+ player-msg-type: 0
+ login-msg: "§3@player 加入了游?"
+ logout-msg: "§3@player 退出了游?"
+ #是否从recipes.json?取合成公式
+ recipes-from-json: false
+ #是否从creativeitems.json?取?造物品
+ creative-items-from-json: false
+ #是否?行移???(不再拉回了)
+ check-movement: true
+ #是否限制?造某些功能(禁止?物品, 禁止操作箱子等等)
+ limited-creative: true
+ #是否??方?破坏粒子
+ destroy-block-particle: true
+ #是否允???型?水
+ allow-splash-potion: true
+ #是否?用高?指令??器
+ advanced-command-selector: false
+
+enchantment:
+ #是否允?使用?砧
+ enable-anvil: true
+ #是否允?使用附魔台
+ enable-enchanting-table: true
+ #是否?用?算附魔等?(?算?架数量)，可能造成服?器延?
+ #如果不?用本?, 附魔等?将在0-15?随机?取
+ count-bookshelf: false
+
+redstone:
+ ##############################
+ #######是否???石系?#######
+ ##############################
+ #如果不改?true将无法使用?石#
+ ##############################
+ enable: false
+ #是否允??率脉冲
+ frequency-pulse: false
+ #?置脉冲?率, 默?: 1s
+ pulse-frequency: 1
+
+synapse:
+ #如果?想使用 Synapse API 或?接到一个synapse服?器,?将enabled置?true
+ enabled: false
+ server-ip: 127.0.0.1
+ server-port: 10305
+ #?置?服?器是否?接待大?服?器或主服?器
+ is-main-server: true
+ server-password: 16bitlongkey
+ #?置?服?器唯一的??符
+ description: "A Synapse client"
+ #?用Disable RakLib?置玩家?能通?接待大?服?器或主服?器加入游?
+ disable-rak: false
+ 
+dserver:
+ #多服??一人数
+ enable: false
+ #Query自?更新
+ query-auto-update: false
+ #Query周期更新
+ query-tick-update: true
+ #Motd最大人数，0?默?
+ motd-max-players: 0
+ #Query最大人数，0?默?
+ query-max-players: 0
+ #Motd?示?人数
+ motd-all-players: false
+ #Query?示?人数
+ query-all-players: false
+ #Motd?示人数
+ motd-players: false
+ #Query?示人数
+ query-players: false
+ #更新?率，20 = 1秒
+ time: 40
+ #?取失?自?重?次数
+ retry-times: 3
+ #服?器列表，用;隔?，例如 1.example.com:19132;2.example.com:19133
+ server-list: ""
+
+inventory:
+ #Set this to true if you have problems with anvils. Will process inventory transactions in a vanilla fashion with no anti-cheats or verification.
+ allow-cheats: false

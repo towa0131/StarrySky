@@ -383,6 +383,11 @@ class CreativeItems{
 			["id" => Item::SPAWN_EGG, "meta" => 42], //Magma Cube
 			["id" => Item::SPAWN_EGG, "meta" => 41], //Ghast
 			["id" => Item::SPAWN_EGG, "meta" => 43], //Blaze
+			["id" => Item::SPAWN_EGG, "meta" => 53], //Ender Dragon
+			["id" => Item::SPAWN_EGG, "meta" => 55], //Endermite
+			["id" => Item::SPAWN_EGG, "meta" => 20], //IronGolem
+			["id" => Item::SPAWN_EGG, "meta" => 21], //SnowGolem
+			["id" => Item::SPAWN_EGG, "meta" => 52], //Wither
 			["id" => Item::FIRE_CHARGE],
 			["id" => Item::WOODEN_SWORD],
 			["id" => Item::WOODEN_HOE],

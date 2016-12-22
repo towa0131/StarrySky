@@ -3117,7 +3117,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							if($ev->isCancelled()){
 								break;
 							}
-							if(substr($ev->getMessage(), 0, 2) === "./"){ //Command (./ = FILTHY HACK. TODO: REMOVE THIS)
+							if(substr($ev->getMessage(), 0, 1) === "/"){ //Command (./ = FILTHY HACK. TODO: REMOVE THIS)
 								Timings::$playerCommandTimer->startTiming();
 								$this->server->dispatchCommand($ev->getPlayer(), substr($ev->getMessage(), 2));
 								Timings::$playerCommandTimer->stopTiming();
@@ -3337,7 +3337,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 
 					//Nasty hack. TODO: Get rid
-					$canCraft = true;//0.13.1大量物品本地配方出现问题,无法解决,使用极端(唯一)方法修复.
+					$canCraft = true;//0.13.1大量物品本地配方出???,无法解决,使用?端(唯一)方法修?.
 
 					/** @var Item[] $ingredients */
 					$ingredients = $packet->input;

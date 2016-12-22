@@ -20,20 +20,20 @@
  * 
 */
 
-
 namespace pocketmine\entity;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
-class EnderDragon extends Monster{
-	const NETWORK_ID = 53;
+class PolarBear extends Monster{
+	const NETWORK_ID = 28;
+
 	public function initEntity(){
 		parent::initEntity();
-		$this->setMaxHealth(200);
+		$this->setMaxHealth(30);
 	}
 
 	public function getName() : string{
-		return "Ender Dragon";
+		return "Polar Bear";
 	}
 	
 	public function spawnTo(Player $player){

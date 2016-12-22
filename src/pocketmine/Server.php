@@ -470,18 +470,10 @@ class Server{
 		return \pocketmine\API_VERSION;
 	}
 
-
 	/**
 	 * @return string
 	 */
-	public function getH4PMApiVersion(){
-		return \pocketmine\STARRYSKY_API_VERSION;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getElyApiVersion(){
+	public function getStarrySkyApiVersion(){
 		return \pocketmine\STARRYSKY_API_VERSION;
 	}
 
@@ -1670,10 +1662,6 @@ class Server{
 		$this->allowInventoryCheats = $this->getAdvancedProperty("inventory.allow-cheats", false);
 	}
 
-	public function isSynapseEnabled() : bool {
-		return $this->getSynapse() !== null;
-	}
-
 	/**
 	 * @return int
 	 *
@@ -2039,10 +2027,6 @@ class Server{
 				$this,
 				"updateDServerInfo"
 			]), $this->dserverConfig["timer"]);
-
-			if($this->isSynapseEnabled()){
-				$this->synapse = new Synapse($this, $this->synapseConfig);
-			}
 
 			if($cfgVer > $advVer){
 				$this->logger->notice("Your starrysky.yml needs update");
@@ -2886,9 +2870,6 @@ class Server{
 
 		Timings::$connectionTimer->startTiming();
 		$this->network->processInterfaces();
-		if($this->isSynapseEnabled()){
-			$this->synapse->tick();
-		}
 
 		if($this->rcon !== null){
 			$this->rcon->check();

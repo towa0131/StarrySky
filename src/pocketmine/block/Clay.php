@@ -32,7 +32,7 @@ class Clay extends Solid{
 
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 0.6;
 	}
 
@@ -40,11 +40,11 @@ class Clay extends Solid{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Clay Block";
 	}
 
-	public function getDrops(Item $item) : array {
+	public function getDrops(Item $item){
 		return [
 			[Item::CLAY, 0, 4],
 		];

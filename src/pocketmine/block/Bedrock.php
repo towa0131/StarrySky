@@ -31,11 +31,11 @@ class Bedrock extends Solid{
 
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Bedrock";
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return -1;
 	}
 

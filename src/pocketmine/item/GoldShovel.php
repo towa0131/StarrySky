@@ -30,8 +30,4 @@ class GoldShovel extends Tool{
 	public function isShovel(){
 		return Tool::TIER_GOLD;
 	}
-
-	public function getAttackDamage(){
-		return 2;
-	}
 }

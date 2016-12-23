@@ -32,7 +32,7 @@ class ItemBlock extends Item{
 		parent::__construct($block->getId(), $block->getDamage(), $count, $block->getName());
 	}
 
-	public function setDamage(int $meta){
+	public function setDamage($meta){
 		$this->meta = $meta !== -1 ? $meta & 0xf : -1;
 		$this->block->setDamage($this->meta !== -1 ? $this->meta : 0);
 	}

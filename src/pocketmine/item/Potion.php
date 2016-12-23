@@ -26,8 +26,8 @@ use pocketmine\Player;
 use pocketmine\entity\Effect;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
-use pocketmine\event\entity\EntityDrinkPotionEvent;
 use pocketmine\network\protocol\EntityEventPacket;
+use pocketmine\event\entity\EntityDrinkPotionEvent;
 
 class Potion extends Item{
 	
@@ -70,7 +70,6 @@ class Potion extends Item{
 	const STRENGTH_TWO = 33;
 	const WEAKNESS = 34;
 	const WEAKNESS_T = 35;
-	const DECAY = 36; //TODO
 	
 	//Structure: Potion ID => [matching effect, duration in ticks, amplifier]
 	//Use false if no effects.
@@ -131,11 +130,7 @@ class Potion extends Item{
 	}
 
 	public static function getColor(int $meta){
-		$effect = Effect::getEffect(self::getEffectId($meta));
-		if($effect !== null){
-			return $effect->getColor();
-		}
-		return [0, 0, 0];
+		return Effect::getEffect(self::getEffectId($meta))->getColor();
 	}
 
 	public function getMaxStackSize() : int{
@@ -159,7 +154,7 @@ class Potion extends Item{
 	 * @return Effect[]
 	 */
 	public static function getEffectsById(int $id) : array{
-		if(count(self::POTIONS[$id] ?? []) === 3){
+		if(count(self::POTIONS[$id]) === 3){
 			return [Effect::getEffect(self::POTIONS[$id][0])->setDuration(self::POTIONS[$id][1])->setAmplifier(self::POTIONS[$id][2])];
 		}
 		return [];
@@ -233,7 +228,7 @@ class Potion extends Item{
 			case self::REGENERATION_TWO:
 				return Effect::REGENERATION;
 			default:
-				return 0;
+				return Effect::WATER_BREATHING;
 		}
 	}
 	

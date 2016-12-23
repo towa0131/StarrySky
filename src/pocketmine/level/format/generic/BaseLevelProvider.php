@@ -76,7 +76,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 		return $this->level;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return $this->levelData["LevelName"];
 	}
 
@@ -93,11 +93,11 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function setSeed($value){
-		$this->levelData->RandomSeed = new LongTag("RandomSeed", (int) $value);
+		$this->levelData->RandomSeed = new LongTag("RandomSeed", $value);
 	}
 
 	public function getSpawn(){
-		return new Vector3((float) $this->levelData["SpawnX"] + 0.5, (float) $this->levelData["SpawnY"], (float) $this->levelData["SpawnZ"] + 0.5);
+		return new Vector3((float) $this->levelData["SpawnX"], (float) $this->levelData["SpawnY"], (float) $this->levelData["SpawnZ"]);
 	}
 
 	public function setSpawn(Vector3 $pos){
@@ -126,5 +126,12 @@ abstract class BaseLevelProvider implements LevelProvider{
 		file_put_contents($this->getPath() . "level.dat", $buffer);
 	}
 
+	public function requestChunkTask($x, $z){
+		$chunk = $this->getChunk($x, $z, false);
+		if(!($chunk instanceof GenericChunk)){
+			throw new ChunkException("Invalid Chunk sent");
+		}
 
+		$this->getLevel()->chunkRequestCallback($x, $z, $chunk->networkSerialize());
+	}
 }

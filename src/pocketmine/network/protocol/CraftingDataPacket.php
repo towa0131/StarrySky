@@ -44,6 +44,10 @@ class CraftingDataPacket extends DataPacket{
 	public $entries = [];
 	public $cleanRecipes = false;
 
+	public function getName(){
+		return "CraftingDataPacket";
+	}
+
 	public function clean(){
 		$this->entries = [];
 		return parent::clean();
@@ -152,8 +156,8 @@ class CraftingDataPacket extends DataPacket{
 	}
 
 	private static function writeFurnaceRecipe(FurnaceRecipe $recipe, BinaryStream $stream){
-		if(!$recipe->getInput()->hasAnyDamageValue()){ //Data recipe
-		$stream->putVarInt($recipe->getInput()->getId());
+		if($recipe->getInput()->hasAnyDamageValue()){ //Data recipe
+			$stream->putVarInt($recipe->getInput()->getId());
 			$stream->putVarInt($recipe->getInput()->getDamage());
 			$stream->putSlot($recipe->getResult());
 

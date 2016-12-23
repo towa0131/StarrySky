@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ *  ____            _        _   __  __ _                  __  __ ____  
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- *
+ * 
  *
 */
 
@@ -71,6 +71,7 @@ namespace pocketmine {
 	use pocketmine\utils\Terminal;
 	use pocketmine\utils\Utils;
 	use pocketmine\wizard\Installer;
+	use raklib\RakLib;
 
 	const VERSION = "1.0dev";
 	const API_VERSION = "2.1.0";
@@ -105,6 +106,11 @@ namespace pocketmine {
 	}
 
 	if(!class_exists("ClassLoader", false)){
+		if(!is_file(\pocketmine\PATH . "src/spl/ClassLoader.php")){
+			echo "[CRITICAL] Unable to find the PocketMine-SPL library." . PHP_EOL;
+			echo "[CRITICAL] Please use provided builds or clone the repository recursively." . PHP_EOL;
+			exit(1);
+		}
 		require_once(\pocketmine\PATH . "src/spl/ClassLoader.php");
 		require_once(\pocketmine\PATH . "src/spl/BaseClassLoader.php");
 		require_once(\pocketmine\PATH . "src/pocketmine/CompatibleClassLoader.php");
@@ -115,6 +121,14 @@ namespace pocketmine {
 	$autoloader->addPath(\pocketmine\PATH . "src" . DIRECTORY_SEPARATOR . "spl");
 	$autoloader->register(true);
 
+	try{
+		if(!class_exists(RakLib::class)){
+			throw new \Exception;
+		}
+	}catch(\Exception $e){
+		echo "[CRITICAL] Unable to find the RakLib library." . PHP_EOL;
+		exit(1);
+	}
 
 	set_time_limit(0); //Who set it to 30 seconds?!?!
 
@@ -176,7 +190,7 @@ namespace pocketmine {
 			$default_timezone = timezone_name_from_abbr($timezone);
 			ini_set("date.timezone", $default_timezone);
 			date_default_timezone_set($default_timezone);
-		} else {
+		}else{
 			date_default_timezone_set($timezone);
 		}
 	}
@@ -324,7 +338,7 @@ namespace pocketmine {
 				if(function_exists("posix_kill")){
 					posix_kill($pid, SIGKILL);
 				}else{
-					exec("kill -9 " . ((int)$pid) . " > /dev/null 2>&1");
+					exec("kill -9 " . ((int) $pid) . " > /dev/null 2>&1");
 				}
 		}
 	}
@@ -415,15 +429,6 @@ namespace pocketmine {
 			++$errors;
 		}
 	}
-	
-	if(extension_loaded("xdebug")){
-		$logger->warning("
-
-
-	You are running PocketMine with xdebug enabled. This has a major impact on performance.
-
-		");
-	}
 
 	if(!extension_loaded("curl")){
 		$logger->critical("Unable to find the cURL extension.");
@@ -446,7 +451,7 @@ namespace pocketmine {
 	}
 
 	if($errors > 0){
-		$logger->critical("Please update your PHP from itxtech.org/genisys/get/, or recompile PHP again.");
+		$logger->critical("Please use the installer provided on the homepage, or recompile PHP again.");
 		$logger->shutdown();
 		$logger->join();
 		exit(1); //Exit with error
@@ -454,31 +459,28 @@ namespace pocketmine {
 
 	if(file_exists(\pocketmine\PATH . ".git/refs/heads/master")){ //Found Git information!
 		define('pocketmine\GIT_COMMIT', strtolower(trim(file_get_contents(\pocketmine\PATH . ".git/refs/heads/master"))));
-	}else{
-		define('pocketmine\GIT_COMMIT', "8f465763c590293e2003ce616832b6507edf5b1c");
+	}else{ //Unknown :(
+		define('pocketmine\GIT_COMMIT', str_repeat("00", 20));
 	}
 
 	@define("ENDIANNESS", (pack("d", 1) === "\77\360\0\0\0\0\0\0" ? Binary::BIG_ENDIAN : Binary::LITTLE_ENDIAN));
 	@define("INT32_MASK", is_int(0xffffffff) ? 0xffffffff : -1);
 	@ini_set("opcache.mmap_base", bin2hex(random_bytes(8))); //Fix OPCache address errors
 
-	$lang = "unknown";
 	if(!file_exists(\pocketmine\DATA . "server.properties") and !isset($opts["no-wizard"])){
-		$inst = new Installer();
-		$lang = $inst->getDefaultLang();
+		new Installer();
 	}
 
-	/*if(\Phar::running(true) === ""){
-		$logger->warning("Non-packaged PocketMine-MP installation detected, do not use on production.");
-	}*/
+	if(\Phar::running(true) === ""){
+	}
 
 	ThreadManager::init();
-	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH, $lang);
+	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
 
 	$logger->info("Stopping other threads");
 
 	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
-		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
+		$logger->debug("Stopping " . $thread->getThreadName() . " thread");
 		$thread->quit();
 	}
 
@@ -488,7 +490,7 @@ namespace pocketmine {
 	$logger->shutdown();
 	$logger->join();
 
-	echo "Server has stopped" . Terminal::$FORMAT_RESET . "\n";
+	echo Terminal::$FORMAT_RESET . "\n";
 
 	exit(0);
 

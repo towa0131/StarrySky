@@ -23,7 +23,6 @@ namespace pocketmine\network\protocol;
 
 #include <rules/DataPacket.h>
 
-
 class LevelEventPacket extends DataPacket{
 	const NETWORK_ID = Info::LEVEL_EVENT_PACKET;
 
@@ -32,7 +31,6 @@ class LevelEventPacket extends DataPacket{
 	const EVENT_SOUND_SHOOT = 1002;
 	const EVENT_SOUND_DOOR = 1003;
 	const EVENT_SOUND_FIZZ = 1004;
-	const EVENT_SOUND_TNT = 1005;
 
 	const EVENT_SOUND_GHAST = 1007;
 	const EVENT_SOUND_GHAST_SHOOT = 1008;
@@ -45,11 +43,11 @@ class LevelEventPacket extends DataPacket{
 	const EVENT_SOUND_ZOMBIE_INFECT = 1016;
 	const EVENT_SOUND_ZOMBIE_HEAL = 1017;
 	const EVENT_SOUND_ENDERMAN_TELEPORT = 1018;
-	
-	const EVENT_SOUND_ANVIL_BREAK = 1020; //This sound is played on the anvil's final use, NOT when the block is broken.
+
+	const EVENT_SOUND_ANVIL_BREAK = 1020;
 	const EVENT_SOUND_ANVIL_USE = 1021;
 	const EVENT_SOUND_ANVIL_FALL = 1022;
-	
+
 	const EVENT_SOUND_DROP_ITEM = 1030;
 	const EVENT_SOUND_THROW_PROJECTILE = 1031;
 	
@@ -63,11 +61,9 @@ class LevelEventPacket extends DataPacket{
 	const EVENT_SOUND_EXP_PICKUP = 1051;
 	const EVENT_SOUND_BLOCK_PLACE = 1052;
 
-	const EVENT_SOUND_BUTTON_CLICK = 3500;
-
 	const EVENT_PARTICLE_SHOOT = 2000;
 	const EVENT_PARTICLE_DESTROY = 2001;
-	const EVENT_PARTICLE_SPLASH = 2002; //This is actually the splash potion sound with particles
+	const EVENT_PARTICLE_SPLASH = 2002;
 	const EVENT_PARTICLE_EYE_DESPAWN = 2003;
 	const EVENT_PARTICLE_SPAWN = 2004;
 
@@ -89,10 +85,14 @@ class LevelEventPacket extends DataPacket{
 	const EVENT_ADD_PARTICLE_MASK = 0x4000;
 
 	public $evid;
-	public $x = 0; //Weather effects don't have coordinates -_-
+	public $x = 0; //Weather effects don't have coordinates
 	public $y = 0;
 	public $z = 0;
 	public $data;
+
+	public function getName(){
+		return "LevelEventPacket";
+	}
 
 	public function decode(){
 

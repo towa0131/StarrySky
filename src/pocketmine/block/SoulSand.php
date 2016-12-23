@@ -21,7 +21,6 @@
 
 namespace pocketmine\block;
 
-
 use pocketmine\item\Tool;
 use pocketmine\math\AxisAlignedBB;
 
@@ -33,11 +32,11 @@ class SoulSand extends Solid{
 
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Soul Sand";
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 0.5;
 	}
 
@@ -45,7 +44,7 @@ class SoulSand extends Solid{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	protected function recalculateBoundingBox() {
+	protected function recalculateBoundingBox(){
 
 		return new AxisAlignedBB(
 			$this->x,

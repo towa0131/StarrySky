@@ -33,6 +33,10 @@ class ResourcePacksInfoPacket extends DataPacket{
 	/** @var ResourcePackInfoEntry */
 	public $resourcePackEntries = [];
 
+	public function getName(){
+		return "ResourcePacksInfoPacket";
+	}
+
 	public function decode(){
 
 	}
@@ -45,13 +49,13 @@ class ResourcePacksInfoPacket extends DataPacket{
 		foreach($this->behaviourPackEntries as $entry){
 			$this->putString($entry->getPackId());
 			$this->putString($entry->getVersion());
-			$this->putLong($entry->getUint64()); 
+			$this->putVarInt($entry->getPackSize());
 		}
 		$this->putShort(count($this->resourcePackEntries));
 		foreach($this->resourcePackEntries as $entry){
 			$this->putString($entry->getPackId());
 			$this->putString($entry->getVersion());
-			$this->putLong($entry->getUint64()); 
+			$this->putVarInt($entry->getPackSize());
 		}
 	}
 }

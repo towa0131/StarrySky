@@ -22,7 +22,6 @@
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
-use pocketmine\item\enchantment\enchantment;
 
 class Carrot extends Crops{
 
@@ -32,19 +31,18 @@ class Carrot extends Crops{
 		$this->meta = $meta;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Carrot Block";
 	}
 
-	public function getDrops(Item $item) : array {
+	public function getDrops(Item $item){
 		$drops = [];
 		if($this->meta >= 0x07){
-			$fortunel = $item->getEnchantmentLevel(Enchantment::TYPE_MINING_FORTUNE);
-			$fortunel = $fortunel > 3 ? 3 : $fortunel;
-			$drops[] = [Item::CARROT, 0, mt_rand(1, 4 + $fortunel)];
+			$drops[] = [Item::CARROT, 0, mt_rand(1, 4)];
 		}else{
 			$drops[] = [Item::CARROT, 0, 1];
 		}
+
 		return $drops;
 	}
 }

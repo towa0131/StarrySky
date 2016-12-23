@@ -26,7 +26,7 @@ namespace pocketmine\tile;
 
 use pocketmine\event\Timings;
 use pocketmine\level\format\Chunk;
-use pocketmine\level\format\FullChunk;
+use pocketmine\level\format\GenericChunk;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\nbt\tag\CompoundTag;
@@ -81,7 +81,7 @@ abstract class Tile extends Position{
 	 *
 	 * @return Tile
 	 */
-	public static function createTile($type, FullChunk $chunk, CompoundTag $nbt, ...$args){
+	public static function createTile($type, GenericChunk $chunk, CompoundTag $nbt, ...$args){
 		if(isset(self::$knownTiles[$type])){
 			$class = self::$knownTiles[$type];
 			return new $class($chunk, $nbt, ...$args);
@@ -115,7 +115,7 @@ abstract class Tile extends Position{
 		return self::$shortNames[static::class];
 	}
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+	public function __construct(Generic $chunk, CompoundTag $nbt){
 		if($chunk === null or $chunk->getProvider() === null){
 			throw new ChunkException("Invalid garbage Chunk given to Tile");
 		}

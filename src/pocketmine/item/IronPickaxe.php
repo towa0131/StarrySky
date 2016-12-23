@@ -30,8 +30,4 @@ class IronPickaxe extends Tool{
 	public function isPickaxe(){
 		return Tool::TIER_IRON;
 	}
-
-	public function getAttackDamage(){
-		return 5;
-	}
 }

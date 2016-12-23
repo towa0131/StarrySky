@@ -17,7 +17,7 @@
  * @link http://www.pocketmine.net/
  * 
  *
- */
+*/
 
 namespace pocketmine\network\protocol;
 
@@ -30,6 +30,10 @@ class FullChunkDataPacket extends DataPacket{
 	public $chunkX;
 	public $chunkZ;
 	public $data;
+
+	public function getName(){
+		return "FullChunkDataPacket";
+	}
 
 	public function decode(){
 

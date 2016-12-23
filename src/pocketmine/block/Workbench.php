@@ -34,15 +34,15 @@ class Workbench extends Solid{
 		$this->meta = $meta;
 	}
 
-	public function canBeActivated() : bool {
+	public function canBeActivated(){
 		return true;
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 2.5;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Crafting Table";
 	}
 
@@ -52,14 +52,13 @@ class Workbench extends Solid{
 
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
-			if($player->getServer()->limitedCreative and $player->isCreative()) return true;
-			$player->craftingType = Player::CRAFTING_BIG;
+			$player->craftingType = 1;
 		}
 
 		return true;
 	}
 
-	public function getDrops(Item $item) : array {
+	public function getDrops(Item $item){
 		return [
 			[$this->id, 0, 1],
 		];

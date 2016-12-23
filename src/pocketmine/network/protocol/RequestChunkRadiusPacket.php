@@ -1,36 +1,42 @@
 <?php
 
 /*
- *
- *  _____   _____   __   _   _   _____  __    __  _____
- * /  ___| | ____| |  \ | | | | /  ___/ \ \  / / /  ___/
- * | |     | |__   |   \| | | | | |___   \ \/ /  | |___
- * | |  _  |  __|  | |\   | | | \___  \   \  /   \___  \
- * | |_| | | |___  | | \  | | |  ___| |   / /     ___| |
- * \_____/ |_____| |_|  \_| |_| /_____/  /_/     /_____/
- *
+ *   ____  _            _      _       _     _
+ *  |  _ \| |          | |    (_)     | |   | |
+ *  | |_) | |_   _  ___| |     _  __ _| |__ | |_
+ *  |  _ <| | | | |/ _ \ |    | |/ _` | '_ \| __|
+ *  | |_) | | |_| |  __/ |____| | (_| | | | | |_
+ *  |____/|_|\__,_|\___|______|_|\__, |_| |_|\__|
+ *                                __/ |
+ *                               |___/
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * @author iTX Technologies
- * @link https://itxtech.org
- *
- */
+ * @author BlueLightJapan Team
+ * 
+*/
 
 namespace pocketmine\network\protocol;
+
+#include <rules/DataPacket.h>
+
 
 class RequestChunkRadiusPacket extends DataPacket{
 	const NETWORK_ID = Info::REQUEST_CHUNK_RADIUS_PACKET;
 
 	public $radius;
 
+	public function getName(){
+		return "RequestChunkRadiusPacket";
+	}
+
 	public function decode(){
 		$this->radius = $this->getVarInt();
 	}
 
 	public function encode(){
-
 	}
+
 }

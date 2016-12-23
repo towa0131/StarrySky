@@ -23,7 +23,6 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
-use pocketmine\item\enchantment\enchantment;
 
 class Ice extends Transparent{
 
@@ -33,11 +32,11 @@ class Ice extends Transparent{
 
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Ice";
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 0.5;
 	}
 
@@ -46,19 +45,12 @@ class Ice extends Transparent{
 	}
 
 	public function onBreak(Item $item){
-		if($item->getEnchantmentLevel(Enchantment::TYPE_MINING_SILK_TOUCH) === 0){
-			$this->getLevel()->setBlock($this, new Water(), true);
-		}
+		$this->getLevel()->setBlock($this, new Water(), true);
+
 		return true;
 	}
 
-	public function getDrops(Item $item) : array {
-		if($item->getEnchantmentLevel(Enchantment::TYPE_MINING_SILK_TOUCH) > 0){
-			return [
-				[Item::ICE, 0, 1],
-			];
-		}else{
-			return [];
-		}
+	public function getDrops(Item $item){
+		return [];
 	}
 }

@@ -29,7 +29,7 @@ use pocketmine\Server;
 
 abstract class Crops extends Flowable{
 
-	public function canBeActivated() : bool {
+	public function canBeActivated(){
 		return true;
 	}
 

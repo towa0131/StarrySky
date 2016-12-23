@@ -251,14 +251,15 @@ abstract class PluginBase implements Plugin{
 
 	public function saveDefaultConfig(){
 		if(!file_exists($this->configFile)){
-			$this->saveResource("config.yml", false);
+			return $this->saveResource("config.yml", false);
 		}
+		return false;
 	}
 
 	public function reloadConfig(){
 		$this->config = new Config($this->configFile);
 		if(($configStream = $this->getResource("config.yml")) !== null){
-			$this->config->setDefaults(yaml_parse(config::fixYAMLIndexes(stream_get_contents($configStream))));
+			$this->config->setDefaults(yaml_parse(Config::fixYAMLIndexes(stream_get_contents($configStream))));
 			fclose($configStream);
 		}
 	}

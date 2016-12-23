@@ -33,11 +33,11 @@ class Dirt extends Solid{
 
 	}
 
-	public function canBeActivated() : bool {
+	public function canBeActivated(){
 		return true;
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 0.5;
 	}
 
@@ -45,13 +45,13 @@ class Dirt extends Solid{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Dirt";
 	}
 
 	public function onActivate(Item $item, Player $player = null){
 		if($item->isHoe()){
-			$item->useOn($this, 2);
+			$item->useOn($this);
 			$this->getLevel()->setBlock($this, Block::get(Item::FARMLAND, 0), true);
 
 			return true;

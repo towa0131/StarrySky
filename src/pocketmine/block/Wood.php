@@ -39,11 +39,11 @@ class Wood extends Solid{
 		$this->meta = $meta;
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 2;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		static $names = [
 			self::OAK => "Oak Wood",
 			self::SPRUCE => "Spruce Wood",
@@ -51,14 +51,6 @@ class Wood extends Solid{
 			self::JUNGLE => "Jungle Wood",
 		];
 		return $names[$this->meta & 0x03];
-	}
-
-	public function getBurnChance() : int{
-		return 5;
-	}
-
-	public function getBurnAbility() : int{
-		return 10;
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
@@ -77,7 +69,7 @@ class Wood extends Solid{
 		return true;
 	}
 
-	public function getDrops(Item $item) : array {
+	public function getDrops(Item $item){
 		return [
 			[$this->id, $this->meta & 0x03, 1],
 		];

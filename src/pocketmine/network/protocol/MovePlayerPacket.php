@@ -41,13 +41,17 @@ class MovePlayerPacket extends DataPacket{
 	public $mode = self::MODE_NORMAL;
 	public $onGround;
 
+	public function getName(){
+		return "MovePlayerPacket";
+	}
+
 	public function clean(){
 		$this->teleport = false;
 		return parent::clean();
 	}
 
 	public function decode(){
-		$this->eid = $this->getEntityId();
+		$this->eid = $this->getEntityId(); //EntityRuntimeID
 		$this->getVector3f($this->x, $this->y, $this->z);
 		$this->pitch = $this->getLFloat();
 		$this->yaw = $this->getLFloat();
@@ -58,7 +62,7 @@ class MovePlayerPacket extends DataPacket{
 
 	public function encode(){
 		$this->reset();
-		$this->putEntityId($this->eid);
+		$this->putEntityId($this->eid); //EntityRuntimeID
 		$this->putVector3f($this->x, $this->y, $this->z);
 		$this->putLFloat($this->pitch);
 		$this->putLFloat($this->yaw);

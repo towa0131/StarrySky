@@ -109,7 +109,7 @@ class Permission{
 	/**
 	 * @return string
 	 */
-	public function getName() : string{
+	public function getName(){
 		return $this->name;
 	}
 
@@ -179,7 +179,7 @@ class Permission{
 		if($name instanceof Permission){
 			$name->getChildren()[$this->getName()] = $value;
 			$name->recalculatePermissibles();
-			return;
+			return null;
 		}else{
 			$perm = Server::getInstance()->getPluginManager()->getPermission($name);
 			if($perm === null){
@@ -216,7 +216,7 @@ class Permission{
 	 *
 	 * @return Permission
 	 *
-	 * @throws \Throwable
+	 * @throws \Exception
 	 */
 	public static function loadPermission($name, array $data, $default = self::DEFAULT_OP, &$output = []){
 		$desc = null;

@@ -31,7 +31,7 @@ abstract class UPnP{
 		if(Utils::$online === false){
 			return false;
 		}
-		if(Utils::getOS() != "win" or !class_exists("COM", false)){
+		if(Utils::getOS() != "win" or !class_exists("COM")){
 			return false;
 		}
 		$port = (int) $port;

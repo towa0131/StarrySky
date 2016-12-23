@@ -30,8 +30,4 @@ class StoneSword extends Tool{
 	public function isSword(){
 		return Tool::TIER_STONE;
 	}
-
-	public function getAttackDamage(){
-		return 6;
-	}
 }

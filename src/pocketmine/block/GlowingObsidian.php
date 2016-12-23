@@ -22,7 +22,7 @@
 namespace pocketmine\block;
 
 
-class GlowingObsidian extends Solid implements SolidLight{
+class GlowingObsidian extends Transparent{
 
 	protected $id = self::GLOWING_OBSIDIAN;
 
@@ -30,7 +30,7 @@ class GlowingObsidian extends Solid implements SolidLight{
 		$this->meta = $meta;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Glowing Obsidian";
 	}
 

@@ -32,7 +32,7 @@ class Coal extends Solid{
 
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 5;
 	}
 
@@ -40,20 +40,12 @@ class Coal extends Solid{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getBurnChance() : int{
-		return 5;
-	}
-
-	public function getBurnAbility() : int{
-		return 5;
-	}
-
-	public function getName() : string{
+	public function getName(){
 		return "Coal Block";
 	}
 
-	public function getDrops(Item $item) : array {
-		if($item->isPickaxe() >= 1){
+	public function getDrops(Item $item){
+		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::COAL_BLOCK, 0, 1],
 			];

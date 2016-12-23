@@ -34,7 +34,7 @@ class SnowLayer extends Flowable{
 		$this->meta = $meta;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Snow Layer";
 	}
 
@@ -42,7 +42,7 @@ class SnowLayer extends Flowable{
 		return true;
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 0.1;
 	}
 
@@ -74,7 +74,7 @@ class SnowLayer extends Flowable{
 		return false;
 	}
 
-	public function getDrops(Item $item) : array {
+	public function getDrops(Item $item){
 		if($item->isShovel() !== false){
 			return [
 				[Item::SNOWBALL, 0, 1],

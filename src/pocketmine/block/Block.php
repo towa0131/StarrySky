@@ -25,9 +25,6 @@
 namespace pocketmine\block;
 
 use pocketmine\entity\Entity;
-
-
-use pocketmine\event\block\BlockBurnEvent;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
@@ -40,8 +37,7 @@ use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 
-
-class Block extends Position implements BlockIds, Metadatable{	
+class Block extends Position implements BlockIds, Metadatable{
 
 	/** @var \SplFixedArray */
 	public static $list = null;
@@ -97,10 +93,13 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::GLASS] = Glass::class;
 			self::$list[self::LAPIS_ORE] = LapisOre::class;
 			self::$list[self::LAPIS_BLOCK] = Lapis::class;
+			self::$list[self::ACTIVATOR_RAIL] = ActivatorRail::class;
+			self::$list[self::COCOA_BLOCK] = CocoaBlock::class;
 			self::$list[self::SANDSTONE] = Sandstone::class;
-			self::$list[self::RED_SANDSTONE] = RedSandstone::class;
-			self::$list[self::RED_SANDSTONE_STAIRS] = RedSandstoneStairs::class;
+			self::$list[self::NOTE_BLOCK] = NoteBlock::class;
 			self::$list[self::BED_BLOCK] = Bed::class;
+			self::$list[self::POWERED_RAIL] = PoweredRail::class;
+			self::$list[self::DETECTOR_RAIL] = DetectorRail::class;
 			self::$list[self::COBWEB] = Cobweb::class;
 			self::$list[self::TALL_GRASS] = TallGrass::class;
 			self::$list[self::DEAD_BUSH] = DeadBush::class;
@@ -113,8 +112,6 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::IRON_BLOCK] = Iron::class;
 			self::$list[self::DOUBLE_SLAB] = DoubleSlab::class;
 			self::$list[self::SLAB] = Slab::class;
-			self::$list[self::RED_SANDSTONE_SLAB] = RedSandstoneSlab::class;
-			self::$list[self::DOUBLE_RED_SANDSTONE_SLAB] = DoubleRedSandstoneSlab::class;
 			self::$list[self::BRICKS_BLOCK] = Bricks::class;
 			self::$list[self::TNT] = TNT::class;
 			self::$list[self::BOOKSHELF] = Bookshelf::class;
@@ -141,14 +138,20 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::ACACIA_DOOR_BLOCK] = AcaciaDoor::class;
 			self::$list[self::DARK_OAK_DOOR_BLOCK] = DarkOakDoor::class;
 			self::$list[self::LADDER] = Ladder::class;
+			self::$list[self::RAIL] = Rail::class;
 
 			self::$list[self::COBBLESTONE_STAIRS] = CobblestoneStairs::class;
 			self::$list[self::WALL_SIGN] = WallSign::class;
-
+			self::$list[self::LEVER] = Lever::class;
+			self::$list[self::STONE_PRESSURE_PLATE] = StonePressurePlate::class;
 			self::$list[self::IRON_DOOR_BLOCK] = IronDoor::class;
+			self::$list[self::WOODEN_PRESSURE_PLATE] = WoodenPressurePlate::class;
 			self::$list[self::REDSTONE_ORE] = RedstoneOre::class;
 			self::$list[self::GLOWING_REDSTONE_ORE] = GlowingRedstoneOre::class;
 
+			self::$list[self::REDSTONE_TORCH] = RedstoneTorch::class;
+			self::$list[self::LIT_REDSTONE_TORCH] = LitRedstoneTorch::class;
+			self::$list[self::STONE_BUTTON] = StoneButton::class;
 			self::$list[self::SNOW_LAYER] = SnowLayer::class;
 			self::$list[self::ICE] = Ice::class;
 			self::$list[self::SNOW_BLOCK] = Snow::class;
@@ -166,13 +169,8 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::CAKE_BLOCK] = Cake::class;
 
 			self::$list[self::TRAPDOOR] = Trapdoor::class;
-			self::$list[self::IRON_TRAPDOOR] = IronTrapdoor::class;
 
-			self::$list[self::MONSTER_EGG_BLOCK] = MonsterEggBlock::class;
 			self::$list[self::STONE_BRICKS] = StoneBricks::class;
-			
-			self::$list[self::BROWN_MUSHROOM_BLOCK] = BrownMushroomBlock::class;
-			self::$list[self::RED_MUSHROOM_BLOCK] = RedMushroomBlock::class;
 
 			self::$list[self::IRON_BARS] = IronBars::class;
 			self::$list[self::GLASS_PANE] = GlassPane::class;
@@ -187,31 +185,36 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::MYCELIUM] = Mycelium::class;
 			self::$list[self::WATER_LILY] = WaterLily::class;
 			self::$list[self::NETHER_BRICKS] = NetherBrick::class;
-
-			self::$list[self::PORTAL] = Portal::class;
+			self::$list[self::NETHER_BRICK_FENCE] = NetherBrickFence::class;
 			self::$list[self::NETHER_BRICKS_STAIRS] = NetherBrickStairs::class;
-			self::$list[self::NETHER_WART_BLOCK] = NetherWart::class;
-			self::$list[self::ENCHANTING_TABLE] = EnchantingTable::class;
 
+			self::$list[self::ENCHANTING_TABLE] = EnchantingTable::class;
 			self::$list[self::BREWING_STAND_BLOCK] = BrewingStand::class;
 			self::$list[self::END_PORTAL_FRAME] = EndPortalFrame::class;
 			self::$list[self::END_STONE] = EndStone::class;
+			self::$list[self::REDSTONE_LAMP] = RedstoneLamp::class;
+			self::$list[self::LIT_REDSTONE_LAMP] = LitRedstoneLamp::class;
 			self::$list[self::SANDSTONE_STAIRS] = SandstoneStairs::class;
 			self::$list[self::EMERALD_ORE] = EmeraldOre::class;
-
+			self::$list[self::TRIPWIRE_HOOK] = TripwireHook::class;
+			self::$list[self::TRIPWIRE] = Tripwire::class;
 			self::$list[self::EMERALD_BLOCK] = Emerald::class;
 			self::$list[self::SPRUCE_WOOD_STAIRS] = SpruceWoodStairs::class;
 			self::$list[self::BIRCH_WOOD_STAIRS] = BirchWoodStairs::class;
 			self::$list[self::JUNGLE_WOOD_STAIRS] = JungleWoodStairs::class;
-
 			self::$list[self::BEACON_BLOCK] = BeaconBlock::class;
 			self::$list[self::STONE_WALL] = StoneWall::class;
 			self::$list[self::FLOWER_POT_BLOCK] = FlowerPot::class;
 			self::$list[self::CARROT_BLOCK] = Carrot::class;
 			self::$list[self::POTATO_BLOCK] = Potato::class;
+			self::$list[self::WOODEN_BUTTON] = WoodenButton::class;
+			self::$list[self::MOB_HEAD_BLOCK] = MobHead::class;
 			self::$list[self::ANVIL] = Anvil::class;
-
 			self::$list[self::TRAPPED_CHEST] = TrappedChest::class;
+			self::$list[self::WEIGHTED_PRESSURE_PLATE_LIGHT] = WeightedPressurePlateLight::class;
+			self::$list[self::WEIGHTED_PRESSURE_PLATE_HEAVY] = WeightedPressurePlateHeavy::class;
+
+			self::$list[self::DAYLIGHT_SENSOR] = DaylightSensor::class;
 			self::$list[self::REDSTONE_BLOCK] = Redstone::class;
 
 			self::$list[self::QUARTZ_BLOCK] = Quartz::class;
@@ -225,19 +228,19 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::ACACIA_WOOD_STAIRS] = AcaciaWoodStairs::class;
 			self::$list[self::DARK_OAK_WOOD_STAIRS] = DarkOakWoodStairs::class;
 
-			self::$list[self::SLIME_BLOCK] = SlimeBlock::class;
-			self::$list[self::PRISMARINE_BLOCK] = PrismarineBlock::class;
-			self::$list[self::SEA_LANTERN_BLOCK] = SeaLanternBlock::class;
+			self::$list[self::IRON_TRAPDOOR] = IronTrapdoor::class;
 			self::$list[self::HAY_BALE] = HayBale::class;
 			self::$list[self::CARPET] = Carpet::class;
 			self::$list[self::HARDENED_CLAY] = HardenedClay::class;
-			self::$list[self::COAL_BLOCK] = Coal::class;
 
+			self::$list[self::COAL_BLOCK] = Coal::class;
 			self::$list[self::PACKED_ICE] = PackedIce::class;
 			self::$list[self::DOUBLE_PLANT] = DoublePlant::class;
 
 			self::$list[self::FENCE_GATE_SPRUCE] = FenceGateSpruce::class;
 			self::$list[self::FENCE_GATE_BIRCH] = FenceGateBirch::class;
+			self::$list[self::PRISMARINE_BLOCK] = PrismarineBlock::class;
+			self::$list[self::SEA_LANTERN_BLOCK] = SeaLanternBlock::class;
 			self::$list[self::FENCE_GATE_JUNGLE] = FenceGateJungle::class;
 			self::$list[self::FENCE_GATE_DARK_OAK] = FenceGateDarkOak::class;
 			self::$list[self::FENCE_GATE_ACACIA] = FenceGateAcacia::class;
@@ -248,45 +251,6 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::BEETROOT_BLOCK] = Beetroot::class;
 			self::$list[self::STONECUTTER] = Stonecutter::class;
 			self::$list[self::GLOWING_OBSIDIAN] = GlowingObsidian::class;
-			self::$list[self::NETHER_REACTOR] = NetherReactor::class;
-
-			self::$list[self::NETHER_BRICK_FENCE] = NetherBrickFence::class;
-			self::$list[self::POWERED_RAIL] = PoweredRail::class;
-			self::$list[self::RAIL] = Rail::class;
-
-			self::$list[self::WOODEN_PRESSURE_PLATE] = WoodenPressurePlate::class;
-			self::$list[self::STONE_PRESSURE_PLATE] = StonePressurePlate::class;
-			self::$list[self::LIGHT_WEIGHTED_PRESSURE_PLATE] = LightWeightedPressurePlate::class;
-			self::$list[self::HEAVY_WEIGHTED_PRESSURE_PLATE] = HeavyWeightedPressurePlate::class;
-			self::$list[self::REDSTONE_WIRE] = RedstoneWire::class;
-			self::$list[self::ACTIVE_REDSTONE_LAMP] = ActiveRedstoneLamp::class;
-			self::$list[self::INACTIVE_REDSTONE_LAMP] = InactiveRedstoneLamp::class;
-			self::$list[self::REDSTONE_TORCH] = RedstoneTorch::class;
-			self::$list[self::UNLIT_REDSTONE_TORCH] = UnlitRedstoneTorch::class;
-			self::$list[self::WOODEN_BUTTON] = WoodenButton::class;
-			self::$list[self::STONE_BUTTON] = StoneButton::class;
-			self::$list[self::LEVER] = Lever::class;
-			self::$list[self::COMPARATOR_BLOCK] = ComparatorBlock::class;
-			self::$list[self::POWERED_COMPARATOR_BLOCK] = PoweredComparatorBlock::class;
-			self::$list[self::DAYLIGHT_SENSOR] = DaylightDetector::class;
-			self::$list[self::DAYLIGHT_SENSOR_INVERTED] = DaylightDetectorInverted::class;
-			self::$list[self::NOTEBLOCK] = Noteblock::class;
-			self::$list[self::SKULL_BLOCK] = SkullBlock::class;
-			self::$list[self::NETHER_QUARTZ_ORE] = NetherQuartzOre::class;
-			self::$list[self::ACTIVATOR_RAIL] = ActivatorRail::class;
-			self::$list[self::COCOA_BLOCK] = CocoaBlock::class;
-			self::$list[self::DETECTOR_RAIL] = DetectorRail::class;
-			self::$list[self::TRIPWIRE] = Tripwire::class;
-			self::$list[self::TRIPWIRE_HOOK] = TripwireHook::class;
-			self::$list[self::ITEM_FRAME_BLOCK] = ItemFrame::class;
-			self::$list[self::DISPENSER] = Dispenser::class;
-			self::$list[self::DROPPER] = Dropper::class;
-			self::$list[self::POWERED_REPEATER_BLOCK] = PoweredRepeater::class;
-			self::$list[self::UNPOWERED_REPEATER_BLOCK] = UnpoweredRepeater::class;
-			self::$list[self::CAULDRON_BLOCK] = Cauldron::class;
-			self::$list[self::INVISIBLE_BEDROCK] = InvisibleBedrock::class;
-			self::$list[self::HOPPER_BLOCK] = Hopper::class;
-			self::$list[self::END_ROD] = EndRod::class;
 
 			foreach(self::$list as $id => $class){
 				if($class !== null){
@@ -309,8 +273,6 @@ class Block extends Position implements BlockIds, Metadatable{
 							}else{
 								self::$lightFilter[$id] = 1;
 							}
-						}elseif($block instanceof SolidLight){
-							self::$lightFilter[$id] = 1;
 						}else{
 							self::$lightFilter[$id] = 15;
 						}
@@ -335,10 +297,6 @@ class Block extends Position implements BlockIds, Metadatable{
 	 * @return Block
 	 */
 	public static function get($id, $meta = 0, Position $pos = null){
-		if($id > 0xff){
-			trigger_error("BlockID cannot be higher than 255, defaulting to 0", E_USER_NOTICE);
-			$id = 0;
-		}
 		try{
 			$block = self::$list[$id];
 			if($block !== null){
@@ -398,10 +356,6 @@ class Block extends Position implements BlockIds, Metadatable{
 		return true;
 	}
 
-	public function tickRate() : int{
-		return 10;
-	}
-
 	/**
 	 * Do the actions needed so the block is broken with the Item
 	 *
@@ -453,44 +407,6 @@ class Block extends Position implements BlockIds, Metadatable{
 	/**
 	 * @return int
 	 */
-	public function getBurnChance() : int{
-		return 0;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getBurnAbility() : int{
-		return 0;
-	}
-
-	public function isTopFacingSurfaceSolid(){
-		if($this->isSolid()){
-			return true;
-		}else{
-			if($this instanceof Stair and ($this->getDamage() &4) == 4){
-				return true;
-			}elseif($this instanceof Slab and ($this->getDamage() & 8) == 8){
-				return true;
-			}elseif($this instanceof SnowLayer and ($this->getDamage() & 7) == 7){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public function canNeighborBurn(){
-		for($face = 0; $face < 5; $face++){
-			if($this->getSide($face)->getBurnChance() > 0){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @return int
-	 */
 	public function getToolType(){
 		return Tool::TYPE_NONE;
 	}
@@ -516,10 +432,6 @@ class Block extends Position implements BlockIds, Metadatable{
 	 */
 	public function canBePlaced(){
 		return true;
-	}
-
-	public function isPlaceable(){
-		return $this->canBePlaced();
 	}
 
 	/**
@@ -556,19 +468,7 @@ class Block extends Position implements BlockIds, Metadatable{
 	 *
 	 * @return bool
 	 */
-	public function canBeActivated() : bool{
-		return false;
-	}
-
-	public function activate(){
-		return false;
-	}
-
-	public function deactivate(){
-		return false;
-	}
-
-	public function isActivated(Block $from = null){
+	public function canBeActivated(){
 		return false;
 	}
 
@@ -583,7 +483,7 @@ class Block extends Position implements BlockIds, Metadatable{
 	/**
 	 * @return string
 	 */
-	public function getName() : string{
+	public function getName(){
 		return "Unknown";
 	}
 
@@ -632,7 +532,7 @@ class Block extends Position implements BlockIds, Metadatable{
 	 *
 	 * @return array
 	 */
-	public function getDrops(Item $item) : array{
+	public function getDrops(Item $item){
 		if(!isset(self::$list[$this->getId()])){ //Unknown blocks
 			return [];
 		}else{

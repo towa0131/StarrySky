@@ -1726,9 +1726,9 @@ class Server{
 
 			$lang = $this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE);
 			if(file_exists($this->filePath . "src/pocketmine/resources/genisys_$lang.yml")){
-				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/genisys_$lang.yml");
+				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/starrysky_$lang.yml");
 			}else{
-				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/genisys_eng.yml");
+				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/starrysky_eng.yml");
 			}
 
 			if(!file_exists($this->dataPath . "starrysky.yml")){

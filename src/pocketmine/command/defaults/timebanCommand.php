@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  *  ____            _        _   __  __ _                  __  __ ____
@@ -18,14 +17,24 @@
  *
  *
 */
-
-namespace pocketmine\level\sound;
-
-use pocketmine\math\Vector3;
-use pocketmine\network\protocol\LevelEventPacket;
-
-class VillagerIdleSound extends GenericSound{
-	public function __construct(Vector3 $pos, $pitch = 0){
-		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_VILLAGER_IDLE, $pitch);
+namespace pocketmine\command\defaults;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use pocketmine\event\TranslationContainer;
+use pocketmine\level\Level;
+use pocketmine\Player;
+use pocketmine\utils\TextFormat;
+class TimebanCommand extends VanillaCommand{
+	public function __construct($name){
+		parent::__construct(
+			$name,
+			"%pocketmine.command.timeban.description",
+			"%pocketmine.command.timeban.usage"
+		);
+		$this->setPermission("pocketmine.command.timeban.use");
+	}
+	public function execute(CommandSender $sender, $currentAlias, array $args){
+	  //I will be ended this command soon.
+		return true;
 	}
 }

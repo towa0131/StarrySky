@@ -243,7 +243,7 @@ class PluginManager{
 							foreach($description->getCompatibleGeniApis() as $version){
 								//Format: majorVersion.minorVersion.patch
 								$version = array_map("intval", explode(".", $version));
-								$apiVersion = array_map("intval", explode(".", $this->server->getElyApiVersion()));
+								$apiVersion = array_map("intval", explode(".", $this->server->getStarrySkyApiVersion()));
 								//Completely different API version
 								if($version[0] > $apiVersion[0]){
 									continue;

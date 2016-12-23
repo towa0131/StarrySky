@@ -273,7 +273,7 @@ class Normal2 extends Normal{
 						if(($biome->getId() == Biome::ICE_PLAINS or $biome->getId() == Biome::TAIGA) and $geny == $this->seaHeight){
 							$chunk->setBlockId($genx, $geny, $genz, Block::ICE);
 						}else{
-							$chunk->setBlockId($genx, $geny, $genz, Block::WATER);
+							$chunk->setBlockId($genx, $geny, $genz, Block::STILL_WATER);
 						}
 					}else{
 						$chunk->setBlockId($genx, $geny, $genz, Block::STONE);

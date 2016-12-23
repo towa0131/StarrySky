@@ -218,7 +218,7 @@ class MainLogger extends \AttachableThreadedLogger{
 			}
 		}
 
-		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] " . $color .  TextFormat::WHITE . "[" . TextFormat::YELLOW . $threadName . TextFormat::GREEN ."-". TextFormat::WHITE . $prefix . TextFormat::WHITE . "]:" . " " . $message . TextFormat::RESET);
+		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color .  TextFormat::WHITE . "[" . TextFormat::YELLOW . $threadName . TextFormat::GREEN ."-". TextFormat::WHITE . $prefix . TextFormat::WHITE . "]:" . " " . TextFormat::RESET . $color . $message . TextFormat::RESET);
 		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s") . "] ". TextFormat::RESET . $color ."<".$prefix . ">" . " " . $message . TextFormat::RESET);
 		$cleanMessage = TextFormat::clean($message);
 

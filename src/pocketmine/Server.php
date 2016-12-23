@@ -179,8 +179,6 @@ use pocketmine\utils\Utils;
 use pocketmine\utils\UUID;
 use pocketmine\utils\VersionString;
 
-use synapse\Synapse;
-
 /**
  * The class that manages everything
  */
@@ -381,16 +379,12 @@ class Server{
 	public $allowSplashPotion = true;
 	public $fireSpread = false;
 	public $advancedCommandSelector = false;
-	public $synapseConfig = [];
 	public $enchantingTableEnabled = true;
 	public $countBookshelf = false;
 	public $allowInventoryCheats = false;
 
 	/** @var CraftingDataPacket */
 	private $recipeList = null;
-
-	/** @var Synapse */
-	private $synapse = null;
 
 	/**
 	 * @return string
@@ -1646,15 +1640,6 @@ class Server{
 		$this->allowSplashPotion = $this->getAdvancedProperty("server.allow-splash-potion", true);
 		$this->fireSpread = $this->getAdvancedProperty("level.fire-spread", false);
 		$this->advancedCommandSelector = $this->getAdvancedProperty("server.advanced-command-selector", false);
-		$this->synapseConfig = [
-			"enabled" => $this->getAdvancedProperty("synapse.enabled", false),
-			"server-ip" => $this->getAdvancedProperty("synapse.server-ip", "127.0.0.1"),
-			"server-port" => $this->getAdvancedProperty("synapse.server-port", 10305),
-			"isMainServer" => $this->getAdvancedProperty("synapse.is-main-server", true),
-			"password" => $this->getAdvancedProperty("synapse.server-password", "123456"),
-			"description" => $this->getAdvancedProperty("synapse.description", "A Synapse client"),
-			"disable-rak" => $this->getAdvancedProperty("synapse.disable-rak", false),
-		];
 		$this->anvilEnabled = $this->getAdvancedProperty("enchantment.enable-anvil", true);
 		$this->enchantingTableEnabled = $this->getAdvancedProperty("enchantment.enable-enchanting-table", true);
 		$this->countBookshelf = $this->getAdvancedProperty("enchantment.count-bookshelf", false);
@@ -1936,11 +1921,6 @@ class Server{
 
 			$this->queryRegenerateTask = new QueryRegenerateEvent($this, 5);
 
-			if(!$this->synapseConfig["enabled"] or ($this->synapseConfig["enabled"] and !$this->synapseConfig["disable-rak"])){
-				$this->network->registerInterface(new RakLibInterface($this));
-			}else{
-				$this->logger->notice("RakLib has been disabled by synapse.disable-rak option");
-			}
 
 			$this->pluginManager->loadPlugins($this->pluginPath);
 
@@ -2041,17 +2021,6 @@ class Server{
 		}
 	}
 
-	/**
-	 * @return Synapse
-	 */
-	public function getSynapse(){
-		$plugin = $this->pluginManager->getPlugin('SynapsePM');
-		if ($plugin === null or $plugin->isDisabled()) {
- 			return null;
- 		}else {
- 			return $plugin->getSynapse();
- 		}
-	}
 
 	/**
 	 * @param string        $message
@@ -2398,10 +2367,6 @@ class Server{
 				$this->network->unregisterInterface($interface);
 			}
 
-			if($this->isSynapseEnabled()){
-				$this->getLogger()->debug("Stopping Synapse client");
-				$this->synapse->shutdown();
-			}
 
 			//$this->memoryManager->doObjectCleanup();
 

@@ -19,12 +19,21 @@
  *
 */
 
-namespace pocketmine\level\particle;
+namespace pocketmine\network\protocol;
 
-use pocketmine\math\Vector3;
+#include <rules/DataPacket.h>
 
-class LargeExplodeParticle extends GenericParticle{
-	public function __construct(Vector3 $pos){
-		parent::__construct($pos, Particle::TYPE_LARGE_EXPLODE);
+
+class PlayerFallPacket extends DataPacket{
+	const NETWORK_ID = Info::PLAYER_FALL_PACKET;
+
+	public $unknown; //betting this is fall distance, but let's make sure first
+
+	public function decode(){
+		$this->unknown = $this->getLFloat();
+	}
+
+	public function encode(){
+
 	}
 }

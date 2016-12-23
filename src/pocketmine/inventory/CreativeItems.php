@@ -8,15 +8,6 @@
  * | |  _  |  __|  | |\   | | | \___  \   \  /   \___  \
  * | |_| | | |___  | | \  | | |  ___| |   / /     ___| |
  * \_____/ |_____| |_|  \_| |_| /_____/  /_/     /_____/
- *     _____    _                                   _____   _
- *    / ___ \ _| |_   ___    _  __ _  __ _      __ / ___ \ | |   __      __
- *   | |___\_|_  __| / _ \  | |/ _| |/ _| \    / /| |___\_|| | __\ \    / /
- *    \___  \  | |  / / \ | | / / | / /  \ \  / /  \___  \ | |/ / \ \  / /
- *   | \___\ | | \_ | \_| |_|  /  |  /    \ \/ /  | \___\ || / /   \ \/ /
- *    \_____/   \__| \_____/|_|   |_|      \  /    \_____/ | |\ \   \  /
- *                                         / /             |_| \_\  / /
- *                                        / /                      / /
- *                                       /_/                      /_/
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -387,16 +378,9 @@ class CreativeItems{
 			["id" => Item::SPAWN_EGG, "meta" => 17], //Squid
 			["id" => Item::SPAWN_EGG, "meta" => 40], //Cave Spider
 			["id" => Item::SPAWN_EGG, "meta" => 45], //Witch
-			["id" => Item::SPAWN_EGG, "meta" => 49], //Guardian
-			["id" => Item::SPAWN_EGG, "meta" => 50], //Elder Guardian
 			["id" => Item::SPAWN_EGG, "meta" => 42], //Magma Cube
 			["id" => Item::SPAWN_EGG, "meta" => 41], //Ghast
 			["id" => Item::SPAWN_EGG, "meta" => 43], //Blaze
-			["id" => Item::SPAWN_EGG, "meta" => 53], //Ender Dragon
-			["id" => Item::SPAWN_EGG, "meta" => 55], //Endermite
-			["id" => Item::SPAWN_EGG, "meta" => 20], //IronGolem
-			["id" => Item::SPAWN_EGG, "meta" => 21], //SnowGolem
-			["id" => Item::SPAWN_EGG, "meta" => 52], //Wither
 			["id" => Item::FIRE_CHARGE],
 			["id" => Item::WOODEN_SWORD],
 			["id" => Item::WOODEN_HOE],
@@ -519,7 +503,6 @@ class CreativeItems{
 			["id" => Item::ARROW, "meta" => 34],
 			["id" => Item::ARROW, "meta" => 35],
 			["id" => Item::ARROW, "meta" => 36],
-			["id" => Item::ARROW, "meta" => 37],
 			["id" => Item::SEEDS],
 			["id" => Item::PUMPKIN_SEEDS],
 			["id" => Item::MELON_SEEDS],

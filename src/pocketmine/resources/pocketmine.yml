@@ -30,15 +30,15 @@ settings:
 memory:
  #Global soft memory limit in megabytes. Set to 0 to disable
  #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
- global-limit: 1200
+ global-limit: 0
 
  #Main thread soft memory limit in megabytes. Set to 0 to disable
  #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
- main-limit: 1200
+ main-limit: 0
 
  #Main thread hard memory limit in megabytes. Set to 0 to disable
  #This will stop the server when the limit is surpassed
- main-hard-limit: 0
+ main-hard-limit: 1024
 
  #Period in ticks to check memory (default 1 second)
  check-rate: 20
@@ -80,7 +80,7 @@ network:
  #Set to 0 to compress everything, -1 to disable.
  batch-threshold: 256
  #Compression level used when sending batched packets. Higher = Uses More CPU, Less = More Bandwidth Usage
- compression-level: 1
+ compression-level: 2
  #Use AsyncTasks for compression. Adds half/one tick delay, less CPU load on main thread
  async-compression: true
  #Experimental, only for Windows. Tries to use UPnP to automatically port forward
@@ -91,6 +91,10 @@ debug:
  level: 1
  #Enables /status, /gc
  commands: true
+
+player:
+ #Choose whether to enable player data saving.
+ save-player-data: true
 
 level-settings:
  #The default format that levels will use when created
@@ -115,21 +119,21 @@ chunk-sending:
  spawn-threshold: 28
  #Save a serialized copy of the chunk in memory for faster sending
  #Useful in mostly-static worlds where lots of players join at the same time
- cache-chunks: false
+ cache-chunks: true
 
 chunk-ticking:
  #Max amount of chunks processed each tick
- per-tick: 2
+ per-tick: 16
  #Radius of chunks around a player to tick
- tick-radius: 1
+ tick-radius: 3
  light-updates: false
  clear-tick-list: true
 
 chunk-generation:
  #Max. amount of chunks in the waiting queue to be generated
- queue-size: 1
+ queue-size: 2
  #Max. amount of chunks in the waiting queue to be populated
- population-queue-size: 1
+ population-queue-size: 2
 
 ticks-per:
  animal-spawns: 400

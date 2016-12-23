@@ -2,22 +2,19 @@
 
 /*
  *
- *  ____          
- * |  __|_              _
- * | |__| |      _    _(_)_ __   ___
- * |  __| |_   _| |  | | | '_ \ / _ \
- * | |__| | | | | |/\| | | | | | (_) |
- * |____|_|\ \/ \__/\__/_|_| |_|\___ |
- *         _|  /                 __| |
- *        |___/                 |____/
- * 
+ *  ____            _        _   __  __ _                  __  __ ____  
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * @author H4PM Team
- * @link http://www.github.net/H4PM  
+ * @author PocketMine Team
+ * @link http://www.pocketmine.net/
  * 
  *
 */
@@ -25,14 +22,14 @@
 namespace pocketmine\entity;
 
 
-use pocketmine\level\format\FullChunk;
+use pocketmine\level\format\Chunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\Network;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
-class BlueWitherSkull extends Projectile{
-	const NETWORK_ID = 89;
+class DragonFireBall extends Projectile{
+	const NETWORK_ID = 79;
 
 	public $width = 0.25;
 	public $length = 0.25;
@@ -41,7 +38,7 @@ class BlueWitherSkull extends Projectile{
 	protected $gravity = 0.03;
 	protected $drag = 0.01;
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
+	public function __construct(Chunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 
@@ -66,7 +63,7 @@ class BlueWitherSkull extends Projectile{
 
 	public function spawnTo(Player $player){
 		$pk = new AddEntityPacket();
-		$pk->type = BlueWitherSkull::NETWORK_ID;
+		$pk->type = DragonFireBall::NETWORK_ID;
 		$pk->eid = $this->getId();
 		$pk->x = $this->x;
 		$pk->y = $this->y;

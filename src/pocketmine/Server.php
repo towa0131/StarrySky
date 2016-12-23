@@ -3,7 +3,7 @@
 /*
  *
  *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \G
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
  * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
  * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
@@ -31,31 +31,27 @@ use pocketmine\entity\Arrow;
 use pocketmine\entity\Attribute;
 use pocketmine\entity\Bat;
 use pocketmine\entity\Blaze;
-use pocketmine\entity\BlazeFireball;
-use pocketmine\entity\BlueWitherSkull;
 use pocketmine\entity\Boat;
-use pocketmine\entity\Camera;
 use pocketmine\entity\CaveSpider;
 use pocketmine\entity\Chicken;
 use pocketmine\entity\Cow;
 use pocketmine\entity\Creeper;
 use pocketmine\entity\Effect;
-use pocketmine\entity\Egg;
-use pocketmine\entity\ElderGuardian;
-use pocketmine\entity\Enderman;
+use pocketmine\entity\EnderCrystal;
 use pocketmine\entity\EnderPearl;
+use pocketmine\entity\Dragon;
+use pocketmine\entity\DragonFireBall;
+use pocketmine\entity\Egg;
+use pocketmine\entity\Enderman;
 use pocketmine\entity\Entity;
 use pocketmine\entity\FallingSand;
 use pocketmine\entity\FishingHook;
 use pocketmine\entity\Ghast;
-use pocketmine\entity\GhastFireball;
-use pocketmine\entity\Guardian;
 use pocketmine\entity\Human;
 use pocketmine\entity\Husk;
 use pocketmine\entity\IronGolem;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\entity\LavaSlime;
-use pocketmine\entity\LeashKnot;
 use pocketmine\entity\Lightning;
 use pocketmine\entity\Minecart;
 use pocketmine\entity\MinecartChest;
@@ -67,6 +63,7 @@ use pocketmine\entity\Painting;
 use pocketmine\entity\Pig;
 use pocketmine\entity\PigZombie;
 use pocketmine\entity\PrimedTNT;
+use pocketmine\entity\PolarBear;
 use pocketmine\entity\Rabbit;
 use pocketmine\entity\Sheep;
 use pocketmine\entity\Silverfish;
@@ -81,8 +78,8 @@ use pocketmine\entity\ThrownExpBottle;
 use pocketmine\entity\ThrownPotion;
 use pocketmine\entity\Villager;
 use pocketmine\entity\Witch;
-use pocketmine\entity\Wither;
-use pocketmine\entity\WitherSkeleton;
+use pocketmine\entity\Shulker;
+use pocketmine\entity\ShulkerBullet;
 use pocketmine\entity\Wolf;
 use pocketmine\entity\XPOrb;
 use pocketmine\entity\Zombie;
@@ -347,12 +344,8 @@ class Server{
 	public $netherLevel = null;
 	public $weatherRandomDurationMin = 6000;
 	public $weatherRandomDurationMax = 12000;
-	public $hungerHealth = 10;
 	public $lightningTime = 200;
 	public $lightningFire = false;
-	public $expCache = [];
-	public $expWriteAhead = 200;
-	public $hungerTimer = 80;
 	public $version;
 	public $allowSnowGolem;
 	public $allowIronGolem;
@@ -369,8 +362,6 @@ class Server{
 	public $playerLogoutMsg = "";
 	public $antiFly = false;
 	public $asyncChunkRequest = true;
-	public $recipesFromJson = false;
-	public $creativeItemsFromJson = false;
 	public $checkMovement = false;
 	public $keepExperience = false;
 	public $limitedCreative = true;
@@ -385,7 +376,6 @@ class Server{
 
 	/** @var CraftingDataPacket */
 	private $recipeList = null;
-
 	/**
 	 * @return string
 	 */
@@ -463,6 +453,7 @@ class Server{
 	public function getApiVersion(){
 		return \pocketmine\API_VERSION;
 	}
+
 
 	/**
 	 * @return string
@@ -821,6 +812,10 @@ class Server{
 		$this->generateRecipeList();
 	}
 
+	public function shouldSavePlayerData() : bool{
+		return (bool) $this->getProperty("player.save-player-data", true);
+	}
+
 	/**
 	 * @param string $name
 	 *
@@ -845,18 +840,20 @@ class Server{
 	public function getOfflinePlayerData($name){
 		$name = strtolower($name);
 		$path = $this->getDataPath() . "players/";
-		if(file_exists($path . "$name.dat")){
-			try{
-				$nbt = new NBT(NBT::BIG_ENDIAN);
-				$nbt->readCompressed(file_get_contents($path . "$name.dat"));
+		if($this->shouldSavePlayerData()){
+			if(file_exists($path . "$name.dat")){
+				try{
+					$nbt = new NBT(NBT::BIG_ENDIAN);
+					$nbt->readCompressed(file_get_contents($path . "$name.dat"));
 
-				return $nbt->getData();
-			}catch(\Throwable $e){ //zlib decode error / corrupt data
-				rename($path . "$name.dat", $path . "$name.dat.bak");
-				$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerCorrupted", [$name]));
+					return $nbt->getData();
+				}catch(\Throwable $e){ //zlib decode error / corrupt data
+					rename($path . "$name.dat", $path . "$name.dat.bak");
+					$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerCorrupted", [$name]));
+				}
+			}else{
+				$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerNotFound", [$name]));
 			}
-		}else{
-			$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerNotFound", [$name]));
 		}
 		$spawn = $this->getDefaultLevel()->getSafeSpawn();
 		$nbt = new CompoundTag("", [
@@ -891,11 +888,8 @@ class Server{
 			new ByteTag("OnGround", 1),
 			new ByteTag("Invulnerable", 0),
 			new StringTag("NameTag", $name),
-			new ShortTag("Hunger", 20),
 			new ShortTag("Health", 20),
 			new ShortTag("MaxHealth", 20),
-			new LongTag("Experience", 0),
-			new LongTag("ExpLevel", 0),
 		]);
 		$nbt->Pos->setTagType(NBT::TAG_Double);
 		$nbt->Inventory->setTagType(NBT::TAG_Compound);
@@ -964,18 +958,18 @@ class Server{
 	 * @param bool     $async
 	 */
 	public function saveOfflinePlayerData($name, CompoundTag $nbtTag, $async = false){
-		$nbt = new NBT(NBT::BIG_ENDIAN);
-		try{
-			$nbt->setData($nbtTag);
+		if($this->shouldSavePlayerData()){
+			$nbt = new NBT(NBT::BIG_ENDIAN);
+			try{
+				$nbt->setData($nbtTag);
 
-			if($async){
-				$this->getScheduler()->scheduleAsyncTask(new FileWriteTask($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed()));
-			}else{
-				file_put_contents($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed());
-			}
-		}catch(\Throwable $e){
-			$this->logger->critical($this->getLanguage()->translateString("pocketmine.data.saveError", [$name, $e->getMessage()]));
-			if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
+				if($async){
+					$this->getScheduler()->scheduleAsyncTask(new FileWriteTask($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed()));
+				}else{
+					file_put_contents($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed());
+				}
+			}catch(\Throwable $e){
+				$this->logger->critical($this->getLanguage()->translateString("pocketmine.data.saveError", [$name, $e->getMessage()]));
 				$this->logger->logException($e);
 			}
 		}
@@ -1560,15 +1554,6 @@ class Server{
 		}, $microseconds);
 	}
 
-	public function getExpectedExperience($level){
-		if(isset($this->expCache[$level])) return $this->expCache[$level];
-		$levelSquared = $level ** 2;
-		if($level < 16) $this->expCache[$level] = $levelSquared + 6 * $level;
-		elseif($level < 31) $this->expCache[$level] = 2.5 * $levelSquared - 40.5 * $level + 360;
-		else $this->expCache[$level] = 4.5 * $levelSquared - 162.5 * $level + 2220;
-		return $this->expCache[$level];
-	}
-
 	public function about(){
 		$string = "§e
        _____    _                                   _____   _
@@ -1585,7 +1570,7 @@ class Server{
 					§fCODENAME: §6" . \pocketmine\CODENAME . "
 	    §fSource code: §dhttps://github.com/StarrySky-PE/StarrySky
 	";
-
+	
 		$this->getLogger()->info($string);
 	}
 
@@ -1603,11 +1588,8 @@ class Server{
 		$this->netherName = $this->getAdvancedProperty("nether.level-name", "nether");
 		$this->weatherRandomDurationMin = $this->getAdvancedProperty("level.weather-random-duration-min", 6000);
 		$this->weatherRandomDurationMax = $this->getAdvancedProperty("level.weather-random-duration-max", 12000);
-		$this->hungerHealth = $this->getAdvancedProperty("player.hunger-health", 10);
 		$this->lightningTime = $this->getAdvancedProperty("level.lightning-time", 200);
 		$this->lightningFire = $this->getAdvancedProperty("level.lightning-fire", false);
-		$this->expWriteAhead = $this->getAdvancedProperty("server.experience-cache", 200);
-		$this->hungerTimer = $this->getAdvancedProperty("player.hunger-timer", 80);
 		$this->allowSnowGolem = $this->getAdvancedProperty("server.allow-snow-golem", false);
 		$this->allowIronGolem = $this->getAdvancedProperty("server.allow-iron-golem", false);
 		$this->autoClearInv = $this->getAdvancedProperty("player.auto-clear-inventory", true);
@@ -1631,8 +1613,6 @@ class Server{
 		$this->getLogger()->setWrite(!$this->getAdvancedProperty("server.disable-log", false));
 		$this->antiFly = $this->getAdvancedProperty("server.anti-fly", true);
 		$this->asyncChunkRequest = $this->getAdvancedProperty("server.async-chunk-request", true);
-		$this->recipesFromJson = $this->getAdvancedProperty("server.recipes-from-json", false);
-		$this->creativeItemsFromJson = $this->getAdvancedProperty("server.creative-items-from-json", false);
 		$this->checkMovement = $this->getAdvancedProperty("server.check-movement", true);
 		$this->limitedCreative = $this->getAdvancedProperty("server.limited-creative", true);
 		$this->chunkRadius = $this->getAdvancedProperty("player.chunk-radius", -1);
@@ -1671,12 +1651,6 @@ class Server{
 
 	public function updateDServerInfo(){
 		$this->scheduler->scheduleAsyncTask(new DServerTask($this->dserverConfig["serverList"], $this->dserverConfig["retryTimes"]));
-	}
-
-	public function generateExpCache($level){
-		for($i = 0; $i <= $level; $i++){
-			$this->getExpectedExperience($i);
-		}
 	}
 
 	public function getBuild(){
@@ -1728,7 +1702,7 @@ class Server{
 
 			$this->about();
 
-			$this->logger->info("Loading Server...");
+			$this->logger->info("Loading properties and configuration...");
 			if(!file_exists($this->dataPath . "pocketmine.yml")){
 				$content = file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
 				@file_put_contents($this->dataPath . "pocketmine.yml", $content);
@@ -1751,10 +1725,10 @@ class Server{
 			}
 
 			$lang = $this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE);
-			if(file_exists($this->filePath . "src/pocketmine/resources/starrysky_$lang.yml")){
-				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/starrysky_$lang.yml");
+			if(file_exists($this->filePath . "src/pocketmine/resources/genisys_$lang.yml")){
+				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/genisys_$lang.yml");
 			}else{
-				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/starrysky_eng.yml");
+				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/genisys_eng.yml");
 			}
 
 			if(!file_exists($this->dataPath . "starrysky.yml")){
@@ -1767,12 +1741,8 @@ class Server{
 
 			$this->loadAdvancedConfig();
 
-			if($this->expWriteAhead > 0){
-				$this->generateExpCache($this->expWriteAhead);
-			}
-
 			$this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
-				"motd" => "StarrySky Server",
+				"motd" => "Minecraft: PE Server",
 				"server-port" => 19132,
 				"white-list" => false,
 				"announce-player-achievements" => true,
@@ -1799,7 +1769,7 @@ class Server{
 
 			$onlineMode = $this->getConfigBoolean("online-mode", false);
 			if(!extension_loaded("openssl")){
-				$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please update your PHP binaries at itxtech.org/download, or recompile PHP with the OpenSSL extension.");
+				$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please update your PHP binaries at itxtech.org/genisys/get/, or recompile PHP with the OpenSSL extension.");
 				$this->setConfigBool("online-mode", false);
 			}elseif(!$onlineMode){
 				$this->logger->warning("SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
@@ -1901,13 +1871,13 @@ class Server{
 			InventoryType::init();
 			Block::init();
 			Enchantment::init();
-			Item::init($this->creativeItemsFromJson);
+			Item::init();
 			Biome::init();
 			Effect::init();
 			Attribute::init();
 			EnchantmentLevelTable::init();
 			Color::init();
-			$this->craftingManager = new CraftingManager($this->recipesFromJson);
+			$this->craftingManager = new CraftingManager();
 
 			$this->pluginManager = new PluginManager($this, $this->commandMap);
 			$this->pluginManager->subscribeToPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE, $this->consoleSender);
@@ -1921,6 +1891,7 @@ class Server{
 
 			$this->queryRegenerateTask = new QueryRegenerateEvent($this, 5);
 
+			$this->network->registerInterface(new RakLibInterface($this));
 
 			$this->pluginManager->loadPlugins($this->pluginPath);
 
@@ -2009,7 +1980,7 @@ class Server{
 			]), $this->dserverConfig["timer"]);
 
 			if($cfgVer > $advVer){
-				$this->logger->notice("Your starrysky.yml needs update");
+				$this->logger->notice("Your genisys.yml needs update");
 				$this->logger->notice("Current Version: $advVer   Latest Version: $cfgVer");
 			}
 
@@ -2021,6 +1992,17 @@ class Server{
 		}
 	}
 
+	/**
+	 * @deprecated Use SynapsePM plugin instead
+	 * @return Synapse|null
+	 */
+	public function getSynapse(){
+		$plugin = $this->pluginManager->getPlugin('SynapsePM');
+		if ($plugin === null or $plugin->isDisabled()) {
+			return null;
+		}
+		return $plugin->getSynapse();
+	}
 
 	/**
 	 * @param string        $message
@@ -2241,16 +2223,12 @@ class Server{
 	 * @throws \Throwable
 	 */
 	public function dispatchCommand(CommandSender $sender, $commandLine){
-		if(!($sender instanceof CommandSender)){
-			throw new ServerException("CommandSender is not valid");
-		}
-
 		if($this->commandMap->dispatch($sender, $commandLine)){
 			return true;
 		}
 
 
-		$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.notFound"));
+		$sender->sendMessage(new TranslationContainer(TextFormat::GOLD . "%commands.generic.notFound"));
 
 		return false;
 	}
@@ -2366,7 +2344,6 @@ class Server{
 				$interface->shutdown();
 				$this->network->unregisterInterface($interface);
 			}
-
 
 			//$this->memoryManager->doObjectCleanup();
 
@@ -2926,28 +2903,24 @@ class Server{
 		Entity::registerEntity(Arrow::class);
 		Entity::registerEntity(Bat::class);
 		Entity::registerEntity(Blaze::class);
-		Entity::registerEntity(BlazeFireball::class);
-		Entity::registerEntity(BlueWitherSkull::class);
 		Entity::registerEntity(Boat::class);
-		Entity::registerEntity(Camera::class);
 		Entity::registerEntity(CaveSpider::class);
 		Entity::registerEntity(Chicken::class);
 		Entity::registerEntity(Cow::class);
 		Entity::registerEntity(Creeper::class);
 		Entity::registerEntity(DroppedItem::class);
+		Entity::registerEntity(Dragon::class);
+		Entity::registerEntity(DragonFireBall::class);
 		Entity::registerEntity(Egg::class);
 		Entity::registerEntity(Enderman::class);
+		Entity::registerEntity(EnderCrystal::class);
 		Entity::registerEntity(EnderPearl::class);
 		Entity::registerEntity(FallingSand::class);
 		Entity::registerEntity(FishingHook::class);
 		Entity::registerEntity(Ghast::class);
-		Entity::registerEntity(GhastFireball::class);
-		Entity::registerEntity(Guardian::class);
-		Entity::registerEntity(ElderGuardian::class);
 		Entity::registerEntity(Husk::class);
 		Entity::registerEntity(IronGolem::class);
 		Entity::registerEntity(LavaSlime::class); //Magma Cube
-		Entity::registerEntity(LeashKnot::class);
 		Entity::registerEntity(Lightning::class);
 		Entity::registerEntity(Minecart::class);
 		Entity::registerEntity(MinecartChest::class);
@@ -2959,8 +2932,11 @@ class Server{
 		Entity::registerEntity(Pig::class);
 		Entity::registerEntity(PigZombie::class);
 		Entity::registerEntity(PrimedTNT::class);
+		Entity::registerEntity(PolarBear::class);
 		Entity::registerEntity(Rabbit::class);
 		Entity::registerEntity(Sheep::class);
+		Entity::registerEntity(Shulker::class);
+		Entity::registerEntity(ShulkerBullet::class);
 		Entity::registerEntity(Silverfish::class);
 		Entity::registerEntity(Skeleton::class);
 		Entity::registerEntity(Slime::class);
@@ -2973,8 +2949,6 @@ class Server{
 		Entity::registerEntity(ThrownPotion::class);
 		Entity::registerEntity(Villager::class);
 		Entity::registerEntity(Witch::class);
-		Entity::registerEntity(Wither::class);
-		Entity::registerEntity(WitherSkeleton::class);
 		Entity::registerEntity(Wolf::class);
 		Entity::registerEntity(XPOrb::class);
 		Entity::registerEntity(Zombie::class);

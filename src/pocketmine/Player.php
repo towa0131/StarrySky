@@ -3177,7 +3177,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$packet->message = TextFormat::clean($packet->message, $this->removeFormat);
 					foreach(explode("\n", $packet->message) as $message){
 						if(trim($message) != "" and strlen($message) <= 255 and $this->messageCounter-- > 0){
-							if(substr($message, 0, 1) === "/"){ //Command (./ = fast hack for old plugins post 0.16)
+							if(substr($message, 0, 2) === "./"){ //Command (./ = fast hack for old plugins post 0.16)
  								$message = substr($message, 1);
  							}
 							$ev = new PlayerCommandPreprocessEvent($this, $message);

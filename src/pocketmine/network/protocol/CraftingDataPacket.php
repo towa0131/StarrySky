@@ -111,6 +111,8 @@ class CraftingDataPacket extends DataPacket{
 			return self::writeShapelessRecipe($entry, $stream);
 		}elseif($entry instanceof ShapedRecipe){
 			return self::writeShapedRecipe($entry, $stream);
+		}elseif($entry instanceof FurnaceRecipe){
+			return self::writeFurnaceRecipe($entry, $stream);
 		}
 		//TODO: add MultiRecipe
 

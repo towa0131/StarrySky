@@ -1,30 +1,9 @@
 <?php
 
-/*
- *
- *  ____          
- * |  __|_              _
- * | |__| |      _    _(_)_ __   ___
- * |  __| |_   _| |  | | | '_ \ / _ \
- * | |__| | | | | |/\| | | | | | (_) |
- * |____|_|\ \/ \__/\__/_|_| |_|\___ |
- *         _|  /                 __| |
- *        |___/                 |____/
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * @author H4PM Team
- * @link http://www.github.net/H4PM  
- * 
- *
-*/
 namespace pocketmine\entity;
 
-
-use pocketmine\level\format\FullChunk;
+use pocketmine\entity\{Entity, Projectile};
+use pocketmine\level\format\Chunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\Network;
 use pocketmine\network\protocol\AddEntityPacket;
@@ -39,8 +18,9 @@ class EnderPearl extends Projectile{
 
 	protected $gravity = 0.03;
 	protected $drag = 0.01;
+	protected $player;
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
+	public function __construct(Chunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 
@@ -63,9 +43,25 @@ class EnderPearl extends Projectile{
 		return $hasUpdate;
 	}
 
+	/** @return Player */
+	public function getSpawner(){
+		return $this->player;
+	}
+
+	public function setSpawner(Player $player){
+		$this->player = $player;
+	}
+
+	public function close(){
+		if ($this->getSpawner() instanceof Player) {
+			$this->getSpawner()->teleport($this);
+		}
+		parent::close();
+	}
+
 	public function spawnTo(Player $player){
 		$pk = new AddEntityPacket();
-		$pk->type = EnderPearl::NETWORK_ID;
+		$pk->type = self::NETWORK_ID;
 		$pk->eid = $this->getId();
 		$pk->x = $this->x;
 		$pk->y = $this->y;

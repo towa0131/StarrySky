@@ -33,8 +33,6 @@ class Blaze extends Monster{
 	public $width = 0.3;
 	public $length = 0.9;
 	public $height = 1.8;
-
-	public $dropExp = [10, 10];
 	
 	public function getName() : string{
 		return "Blaze";
@@ -59,7 +57,6 @@ class Blaze extends Monster{
 
 	public function getDrops(){
 		$cause = $this->lastDamageCause;
-		//Only drop when kill by player or dog(No add now.)
 		if($cause instanceof EntityDamageByEntityEvent and $cause->getDamager() instanceof Player){
 			$lootingL = $cause->getDamager()->getItemInHand()->getEnchantmentLevel(Enchantment::TYPE_WEAPON_LOOTING);
 			$drops = array(ItemItem::get(ItemItem::BLAZE_ROD, 0, mt_rand(0, 1 + $lootingL)));

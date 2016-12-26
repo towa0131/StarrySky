@@ -31,8 +31,6 @@ class CaveSpider extends Monster{
 	public $length = 1;
 	public $height = 0.5;
 
-	public $dropExp = [5, 5];
-
 	public function getName() : string{
 		return "Cave Spider";
 	}

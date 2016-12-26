@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -23,6 +23,7 @@
  * Various Utilities used around the code
  */
 namespace pocketmine\utils;
+
 use pocketmine\ThreadManager;
 
 /**
@@ -84,7 +85,7 @@ class Utils{
 			if(file_exists("/etc/machine-id")){
 				$machine .= file_get_contents("/etc/machine-id");
 			}else{
-				@exec("ifconfig", $mac);
+				@exec("ifconfig 2>/dev/null", $mac);
 				$mac = implode("\n", $mac);
 				if(preg_match_all("#HWaddr[ \t]{1,}([0-9a-f:]{17})#", $mac, $matches)){
 					foreach($matches[1] as $i => $v){
@@ -131,9 +132,9 @@ class Utils{
 		}elseif(Utils::$ip !== false and $force !== true){
 			return Utils::$ip;
 		}
-		$ip = trim(strip_tags(Utils::getURL("https://api.ipify.org")));
-		if($ip){
-			Utils::$ip = $ip;
+		$ip = trim(strip_tags(Utils::getURL("http://checkip.dyndns.org/")));
+		if(preg_match('#Current IP Address\: ([0-9a-fA-F\:\.]*)#', $ip, $matches) > 0){
+			Utils::$ip = $matches[1];
 		}else{
 			$ip = Utils::getURL("http://www.checkip.org/");
 			if(preg_match('#">([0-9a-fA-F\:\.]*)</span>#', $ip, $matches) > 0){
@@ -167,6 +168,8 @@ class Utils{
 	 * BSD => bsd
 	 * Other => other
 	 *
+	 * @param bool $recalculate
+	 *
 	 * @return string
 	 */
 	public static function getOS($recalculate = false){
@@ -192,7 +195,7 @@ class Utils{
 				self::$os = "other";
 			}
 		}
-		
+
 		return self::$os;
 	}
 
@@ -348,9 +351,9 @@ class Utils{
 	 */
 	public static function getRandomBytes($length = 16, $secure = true, $raw = true, $startEntropy = "", &$rounds = 0, &$drop = 0){
 		$raw_output = random_bytes($length);
-		if ($raw) {
+		if($raw){
 			return $raw_output;
-		} else {
+		}else{
 			return bin2hex($raw_output);
 		}
 	}
@@ -370,8 +373,8 @@ class Utils{
 	/**
 	 * GETs an URL using cURL
 	 *
-	 * @param     $page
-	 * @param int $timeout default 10
+	 * @param       $page
+	 * @param int   $timeout default 10
 	 * @param array $extraHeaders
 	 *
 	 * @return bool|mixed
@@ -404,7 +407,7 @@ class Utils{
 	 * @param              $page
 	 * @param array|string $args
 	 * @param int          $timeout
-	 * @param array $extraHeaders
+	 * @param array        $extraHeaders
 	 *
 	 * @return bool|mixed
 	 */
@@ -450,5 +453,4 @@ class Utils{
 		}
 		return $hash;
 	}
-
 }

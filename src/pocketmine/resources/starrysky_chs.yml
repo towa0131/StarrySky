@@ -2,7 +2,7 @@
 
 #配置文件版本
 config:
- version: 1
+ version: 3
  
 level:
  #?置是否??天气
@@ -94,19 +94,6 @@ redstone:
  #?置脉冲?率, 默?: 1s
  pulse-frequency: 1
 
-synapse:
- #如果?想使用 Synapse API 或?接到一个synapse服?器,?将enabled置?true
- enabled: false
- server-ip: 127.0.0.1
- server-port: 10305
- #?置?服?器是否?接待大?服?器或主服?器
- is-main-server: true
- server-password: 16bitlongkey
- #?置?服?器唯一的??符
- description: "A Synapse client"
- #?用Disable RakLib?置玩家?能通?接待大?服?器或主服?器加入游?
- disable-rak: false
- 
 dserver:
  #多服??一人数
  enable: false
@@ -136,3 +123,7 @@ dserver:
 inventory:
  #Set this to true if you have problems with anvils. Will process inventory transactions in a vanilla fashion with no anti-cheats or verification.
  allow-cheats: false
+
+starrysky:
+ #Whether Admin will notify the server when logging in
+ adminjoin: true

@@ -95,20 +95,6 @@ redstone:
  #?anh s? t? l? ho?t ??ng, m?c ??nh: 1 giay
  pulse-frequency: 1
 
-synapse:
- #N?u mu?n kich ho?t API c?a Synapse ho?c k?t n?i vao server Synapse, kich ho?t ch? n?? nay
- enabled: false
- server-ip: 127.0.0.1
- server-port: 10305
- #N?u Client nay la server chinh ho?c sv lobby
- is-main-server: true
- #M?t kh?u Synapse (co th? tham kh?o ? server.properties t?i Synapse)
- server-password: 16bitlongkey
- #Mo t? v? h? th?ng Synapse c?a b?n
- description: "A Synapse client"
- #H?y RakLib t?c la ch? co th? vao Synapse ma khong vao server nay (m?c ??nh la false)
- disable-rak: false
-
 dserver:
  #T?t c? cac server g?p vao. B?t/t?t ?? ho?t ??ng (true/false)
  enable: false
@@ -138,3 +124,7 @@ dserver:
 inventory:
  #Set this to true if you have problems with anvils. Will process inventory transactions in a vanilla fashion with no anti-cheats or verification.
  allow-cheats: false
+
+starrysky:
+ #Du qu?n ?? m?t thong ?i?p t?i cac may ch? t?i th?i ?i?m ??ng nh?p
+ adminjoin: true

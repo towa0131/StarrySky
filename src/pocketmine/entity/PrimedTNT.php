@@ -21,15 +21,10 @@
 
 namespace pocketmine\entity;
 
-
 use pocketmine\event\entity\EntityDamageEvent;
-
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Explosion;
-use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
@@ -46,13 +41,6 @@ class PrimedTNT extends Entity implements Explosive{
 	protected $fuse;
 
 	public $canCollide = false;
-
-	private $dropItem = true;
-
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, bool $dropItem = true){
-		parent::__construct($chunk, $nbt);
-		$this->dropItem = $dropItem;
-	}
 
 
 	public function attack($damage, EntityDamageEvent $source){
@@ -131,10 +119,10 @@ class PrimedTNT extends Entity implements Explosive{
 	}
 
 	public function explode(){
-		$this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 4, $this->dropItem));
+		$this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 4));
 
 		if(!$ev->isCancelled()){
-			$explosion = new Explosion($this, $ev->getForce(), $this, $ev->dropItem());
+			$explosion = new Explosion($this, $ev->getForce(), $this);
 			if($ev->isBlockBreaking()){
 				$explosion->explodeA();
 			}

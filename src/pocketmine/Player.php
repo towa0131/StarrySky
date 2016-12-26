@@ -2024,13 +2024,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					break;
 				}
 
-				if($this->getServer()->getProperty("function.SteveKick", false)){
-					if($this->iusername === "steve"){
-						$this->close("", "disconnectionScreen.invalidName");
-						break;
-					}
-				}
-
 				if(strlen($packet->skin) !== 64 * 32 * 4 and strlen($packet->skin) !== 64 * 64 * 4){
 					$this->close("", "disconnectionScreen.invalidSkin");
 					break;
@@ -2084,8 +2077,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case ProtocolInfo::ADVENTURE_SETTINGS_PACKET:
 				//TODO: player abilities, check for other changes
 				if($packet->isFlying and !$this->allowFlight){
-					$this->kick("Flying is not enabled on this server");
-					break;
+						$this->kick("Flying is not enabled on this server");
+						break;
 				}else{
 					$this->server->getPluginManager()->callEvent($ev = new PlayerToggleFlightEvent($this, $packet->isFlying));
 					if($ev->isCancelled()){

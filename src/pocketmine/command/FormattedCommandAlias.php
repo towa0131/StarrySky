@@ -23,7 +23,6 @@ namespace pocketmine\command;
 
 use pocketmine\event\TranslationContainer;
 use pocketmine\Server;
-use pocketmine\utils\MainLogger;
 use pocketmine\utils\TextFormat;
 
 class FormattedCommandAlias extends Command{
@@ -51,10 +50,7 @@ class FormattedCommandAlias extends Command{
 					$sender->sendMessage(TextFormat::RED . $e->getMessage());
 				}else{
 					$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.exception"));
-					$logger = $sender->getServer()->getLogger();
-					if($logger instanceof MainLogger){
-						$logger->logException($e);
-					}
+					$sender->getServer()->getLogger()->logException($e);
 				}
 
 				return false;

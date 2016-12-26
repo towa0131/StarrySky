@@ -21,16 +21,11 @@
 
 namespace pocketmine\entity;
 
-use pocketmine\block\Anvil;
 use pocketmine\block\Block;
 use pocketmine\block\Liquid;
-use pocketmine\block\SnowLayer;
 use pocketmine\event\entity\EntityBlockChangeEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-
 use pocketmine\item\Item as ItemItem;
-use pocketmine\level\sound\AnvilFallSound;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\IntTag;
@@ -40,7 +35,7 @@ use pocketmine\Player;
 class FallingSand extends Entity{
 	const NETWORK_ID = 66;
 
-	const DATA_BLOCK_INFO = 20;
+	const DATA_BLOCK_INFO = 2;
 
 	public $width = 0.98;
 	public $length = 0.98;
@@ -99,8 +94,6 @@ class FallingSand extends Entity{
 
 		$this->lastUpdate = $currentTick;
 
-		$height = $this->fallDistance;
-
 		$hasUpdate = $this->entityBaseTick($tickDiff);
 
 		if($this->isAlive()){
@@ -109,6 +102,7 @@ class FallingSand extends Entity{
 			if($this->ticksLived === 1){
 				$block = $this->level->getBlock($pos);
 				if($block->getId() !== $this->blockId){
+					$this->kill();
 					return true;
 				}
 				$this->level->setBlock($pos, Block::get(0), true);
@@ -124,7 +118,7 @@ class FallingSand extends Entity{
 			$this->motionY *= 1 - $this->drag;
 			$this->motionZ *= $friction;
 
-			$pos = (new Vector3($this->x - 0.5, $this->y, $this->z - 0.5))->round();
+			$pos = (new Vector3($this->x - 0.5, $this->y, $this->z - 0.5))->floor();
 
 			if($this->onGround){
 				$this->kill();
@@ -132,32 +126,9 @@ class FallingSand extends Entity{
 				if($block->getId() > 0 and !$block->isSolid() and !($block instanceof Liquid)){
 					$this->getLevel()->dropItem($this, ItemItem::get($this->getBlock(), $this->getDamage(), 1));
 				}else{
-					if($block instanceof SnowLayer){
-						$oldDamage = $block->getDamage();
-						$this->server->getPluginManager()->callEvent($ev = new EntityBlockChangeEvent($this, $block, Block::get($this->getBlock(), $this->getDamage() + $oldDamage)));
-					}else{
-						$this->server->getPluginManager()->callEvent($ev = new EntityBlockChangeEvent($this, $block, Block::get($this->getBlock(), $this->getDamage())));
-					}
-
+					$this->server->getPluginManager()->callEvent($ev = new EntityBlockChangeEvent($this, $block, Block::get($this->getBlock(), $this->getDamage())));
 					if(!$ev->isCancelled()){
 						$this->getLevel()->setBlock($pos, $ev->getTo(), true);
-						if($ev->getTo() instanceof Anvil){
-							$sound = new AnvilFallSound($this);
-							$this->getLevel()->addSound($sound);
-							foreach($this->level->getNearbyEntities($this->boundingBox->grow(0.1, 0.1, 0.1), $this) as $entity){
-								$entity->scheduleUpdate();
-								if(!$entity->isAlive()){
-									continue;
-								}
-								if($entity instanceof Living){
-									$damage = ($height - 1) * 2;
-									if($damage > 40) $damage = 40;
-									$ev = new EntityDamageByEntityEvent($this, $entity, EntityDamageByEntityEvent::CAUSE_FALL, $damage, 0.1);
-									$entity->attack($damage, $ev);
-								}
-							}
-
-						}
 					}
 				}
 				$hasUpdate = true;

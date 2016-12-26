@@ -86,19 +86,12 @@ class SimpleCommandMap implements CommandMap{
 	 * @var Command[]
 	 */
 	protected $knownCommands = [];
-	
-	/**
-	 * @var bool[]
-	 */
-	protected $commandConfig = [];
 
 	/** @var Server */
 	private $server;
 
 	public function __construct(Server $server){
 		$this->server = $server;
-		/** @var bool[] */
-		$this->commandConfig = $this->server->getProperty("commands");
 		$this->setDefaultCommands();
 	}
 
@@ -169,16 +162,11 @@ class SimpleCommandMap implements CommandMap{
 		}
 	}
 
-	public function register($fallbackPrefix, Command $command, $label = null, $overrideConfig = false){
+	public function register($fallbackPrefix, Command $command, $label = null){
 		if($label === null){
 			$label = $command->getName();
 		}
 		$label = strtolower(trim($label));
-		
-		//Check if command was disabled in config and for override
-		if(!(($this->commandConfig[$label] ?? $this->commandConfig["default"] ?? true) or $overrideConfig)){
-			return false;
-		}
 		$fallbackPrefix = strtolower(trim($fallbackPrefix));
 
 		$registered = $this->registerAlias($command, false, $fallbackPrefix, $label);
@@ -219,42 +207,6 @@ class SimpleCommandMap implements CommandMap{
 		return true;
 	}
 
-	private function dispatchAdvanced(CommandSender $sender, Command $command, $label, array $args, $offset = 0){
-		if(isset($args[$offset])){
-			$argsTemp = $args;
-			switch($args[$offset]){
-				case "@a":
-					$p = $this->server->getOnlinePlayers();
-					if(count($p) <= 0){
-						$sender->sendMessage(TextFormat::RED . "No players online"); //TODO: add language
-					}else{
-						foreach($p as $player){
-							$argsTemp[$offset] = $player->getName();
-							$this->dispatchAdvanced($sender, $command, $label, $argsTemp, $offset + 1);
-						}
-					}
-					break;
-				case "@r":
-					$players = $this->server->getOnlinePlayers();
-					if(count($players) > 0){
-						$argsTemp[$offset] = $players[array_rand($players)]->getName();
-						$this->dispatchAdvanced($sender, $command, $label, $argsTemp, $offset + 1);
-					}
-					break;
-				case "@p":
-					if($sender instanceof Player){
-						$argsTemp[$offset] = $sender->getName();
-						$this->dispatchAdvanced($sender, $command, $label, $argsTemp, $offset + 1);
-					}else{
-						$sender->sendMessage(TextFormat::RED . "You must be a player!"); //TODO: add language
-					}
-					break;
-				default:
-					$this->dispatchAdvanced($sender, $command, $label, $argsTemp, $offset + 1);
-			}
-		}else $command->execute($sender, $label, $args);
-	}
-
 	public function dispatch(CommandSender $sender, $commandLine){
 		$args = explode(" ", $commandLine);
 
@@ -271,18 +223,11 @@ class SimpleCommandMap implements CommandMap{
 
 		$target->timings->startTiming();
 		try{
-			if($this->server->advancedCommandSelector){
-				$this->dispatchAdvanced($sender, $target, $sentCommandLabel, $args);
-			}else{
-				$target->execute($sender, $sentCommandLabel, $args);
-			}
+			$target->execute($sender, $sentCommandLabel, $args);
 		}catch(\Throwable $e){
 			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.exception"));
 			$this->server->getLogger()->critical($this->server->getLanguage()->translateString("pocketmine.command.exception", [$commandLine, (string) $target, $e->getMessage()]));
-			$logger = $sender->getServer()->getLogger();
-			if($logger instanceof MainLogger){
-				$logger->logException($e);
-			}
+			$sender->getServer()->getLogger()->logException($e);
 		}
 		$target->timings->stopTiming();
 

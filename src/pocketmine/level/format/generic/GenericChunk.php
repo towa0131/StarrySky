@@ -481,6 +481,11 @@ class GenericChunk implements Chunk{
 							$changed = true;
 							continue; //Fixes tiles allocated in wrong chunks.
 						}
+
+						if(Tile::createTile($nbt["id"], $this, $nbt) === null){
+							$changed = true;
+							continue;
+						}
 					}
 				}
 

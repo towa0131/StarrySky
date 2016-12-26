@@ -2,7 +2,7 @@
 
 #設定ファイルのバージョン
 config:
- version: 1
+ version: 3
 
 level:
  #天候の有効化
@@ -90,19 +90,6 @@ redstone:
  #周波数パルス数 例:1で1秒
  pulse-frequency: 1
 
-synapse:
- #Synapseの有効化
- enabled: false
- server-ip: 127.0.0.1
- server-port: 10305
- #このクライアントがロビー・メインサーバーかどうか
- is-main-server: true
- server-password: 32bitlongkey
- #このクライアントの説明は、このクライアントの識別子です 
- description: "A Synapse client"
- #プレーヤーがSynapseを通して加わることができるだけであるRakLib手段を無効にするかどうか
- disable-rak: false
-
 dserver:
  #統一されるすべてのマルチ・サーバーのカウント
  enable: false
@@ -132,3 +119,7 @@ dserver:
 inventory:
  #もしあなたが金床について問題を抱えてるならオンにする。反不正行為者または確認なしでバニラ・ファッションで在庫取引を処理します。 
  allow-cheats: false
+
+starrysky:
+ #権限者ログイン時にサーバーにお知らせを流すかどうか
+ adminjoin: true

@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  *  ____            _        _   __  __ _                  __  __ ____  
@@ -17,13 +18,15 @@
  * 
  *
 */
+
 namespace pocketmine\utils;
+
 #include <rules/DataPacket.h>
-#ifndef COMPILE
-#endif
+
 use pocketmine\item\Item;
 
 class BinaryStream extends \stdClass{
+
 	public $offset;
 	public $buffer;
 
@@ -59,6 +62,7 @@ class BinaryStream extends \stdClass{
 			$this->offset = strlen($this->buffer);
 			return $str;
 		}
+
 		return $len === 1 ? $this->buffer{$this->offset++} : substr($this->buffer, ($this->offset += $len) - $len, $len);
 	}
 
@@ -146,6 +150,7 @@ class BinaryStream extends \stdClass{
 		$this->buffer .= Binary::writeLFloat($v);
 	}
 
+
 	public function getTriad(){
 		return Binary::readTriad($this->get(3));
 	}
@@ -153,6 +158,7 @@ class BinaryStream extends \stdClass{
 	public function putTriad($v){
 		$this->buffer .= Binary::writeTriad($v);
 	}
+
 
 	public function getLTriad(){
 		return Binary::readLTriad($this->get(3));
@@ -175,6 +181,7 @@ class BinaryStream extends \stdClass{
 		for($i = 1; $i <= $len and !$this->feof(); ++$i){
 			$data[] = $this->get($this->getTriad());
 		}
+
 		return $data;
 	}
 
@@ -209,6 +216,7 @@ class BinaryStream extends \stdClass{
 		if($nbtLen > 0){
 			$nbt = $this->get($nbtLen);
 		}
+
 		return Item::get(
 			$id,
 			$data,
@@ -281,13 +289,13 @@ class BinaryStream extends \stdClass{
 
 	public function getBlockCoords(&$x, &$y, &$z){
 		$x = $this->getVarInt();
-		$y = $this->getByte();
+		$y = $this->getUnsignedVarInt();
 		$z = $this->getVarInt();
 	}
 
 	public function putBlockCoords($x, $y, $z){
 		$this->putVarInt($x);
-		$this->putByte($y);
+		$this->putUnsignedVarInt($y);
 		$this->putVarInt($z);
 	}
 	

@@ -2,40 +2,36 @@
 
 /*
  *
- *  _____   _____   __   _   _   _____  __    __  _____
- * /  ___| | ____| |  \ | | | | /  ___/ \ \  / / /  ___/
- * | |     | |__   |   \| | | | | |___   \ \/ /  | |___
- * | |  _  |  __|  | |\   | | | \___  \   \  /   \___  \
- * | |_| | | |___  | | \  | | |  ___| |   / /     ___| |
- * \_____/ |_____| |_|  \_| |_| /_____/  /_/     /_____/
+ *  ____            _        _   __  __ _                  __  __ ____  
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * @author iTX Technologies
- * @link https://itxtech.org
+ * @author PocketMine Team
+ * @link http://www.pocketmine.net/
+ * 
  *
- */
-
+*/
 
 namespace pocketmine\entity;
 
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 use pocketmine\network\protocol\MobEquipmentPacket;
-use pocketmine\item\Item as ItemItem;
+use pocketmine\item\Item as InHandItem;
 
 class Skeleton extends Monster implements ProjectileSource{
 	const NETWORK_ID = 34;
-
-	public $dropExp = [5, 5];
 	
-	public function getName() : string{
+	public function getName(){
 		return "Skeleton";
 	}
-	
 	public function spawnTo(Player $player){
 		$pk = new AddEntityPacket();
 		$pk->eid = $this->getId();
@@ -50,15 +46,13 @@ class Skeleton extends Monster implements ProjectileSource{
 		$pk->pitch = $this->pitch;
 		$pk->metadata = $this->dataProperties;
 		$player->dataPacket($pk);
-
 		parent::spawnTo($player);
 		
 		$pk = new MobEquipmentPacket();
 		$pk->eid = $this->getId();
-		$pk->item = new ItemItem(ItemItem::BOW);
+		$pk->item = new InHandItem(InHandItem::BOW);
 		$pk->slot = 0;
 		$pk->selectedSlot = 0;
-
 		$player->dataPacket($pk);
 	}
 }

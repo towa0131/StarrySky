@@ -1,33 +1,44 @@
 <?php
 
 /*
- *   ____  _            _      _       _     _
- *  |  _ \| |          | |    (_)     | |   | |
- *  | |_) | |_   _  ___| |     _  __ _| |__ | |_
- *  |  _ <| | | | |/ _ \ |    | |/ _` | '_ \| __|
- *  | |_) | | |_| |  __/ |____| | (_| | | | | |_
- *  |____/|_|\__,_|\___|______|_|\__, |_| |_|\__|
- *                                __/ |
- *                               |___/
+ *     _____    _                                   _____   _
+ *    / ___ \ _| |_   ___    _  __ _  __ _      __ / ___ \ | |   __      __
+ *   | |___\_|_  __| / _ \  | |/ _| |/ _| \    / /| |___\_|| | __\ \    / /
+ *    \___  \  | |  / / \ | | / / | / /  \ \  / /  \___  \ | |/ / \ \  / /
+ *   | \___\ | | \_ | \_| |_|  /  |  /    \ \/ /  | \___\ || / /   \ \/ /
+ *    \_____/   \__| \_____/|_|   |_|      \  /    \_____/ | |\ \   \  /
+ *                                         / /             |_| \_\  / /
+ *                                        / /                      / /
+ *                                       /_/                      /_/
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * @author BlueLightJapan Team
+ * @author StarrySky Team
  * 
 */
 
 
 namespace pocketmine\entity;
 use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\network\protocol\BossEventPacket;
 use pocketmine\Player;
 
 class EnderDragon extends Monster{
 	const NETWORK_ID = 53;
 
+
+	public $dropExp = [500, 12,000];
+
+	public function initEntity(){
+		$this->setMaxHealth(200);
+		parent::initEntity();
+	}
+
 	public function getName(){
-		return "EnderDragon";
+		return "Ender Dragon";
 	}
 	
 	public function spawnTo(Player $player){
@@ -44,6 +55,11 @@ class EnderDragon extends Monster{
 		$pk->pitch = $this->pitch;
 		$pk->metadata = $this->dataProperties;
 		$player->dataPacket($pk);
+//Boss Bar
+		$pk2 = new BossEventPacket();
+		$pk2->eid = $this->getId();
+		$pk2->type = 0x00;
+		$player->dataPacket($pk2);
 
 		parent::spawnTo($player);
 	}

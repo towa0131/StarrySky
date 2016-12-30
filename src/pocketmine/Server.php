@@ -148,6 +148,7 @@ use pocketmine\plugin\FolderPluginLoader;
 use pocketmine\scheduler\FileWriteTask;
 use pocketmine\scheduler\ServerScheduler;
 use pocketmine\tile\Chest;
+use pocketmine\tile\Cauldron;
 use pocketmine\tile\EnchantTable;
 use pocketmine\tile\FlowerPot;
 use pocketmine\tile\Furnace;
@@ -1548,7 +1549,8 @@ class Server{
 				"rcon.password" => substr(base64_encode(random_bytes(20)), 3, 10),
 				"auto-save" => true,
 			]);
-
+			$motd =  $this->getConfigString("motd", "Minecraft: PE Server");
+			$this->logger->info("This Server motd §f ".$motd);
 			$lang = $this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE);
 			if(file_exists($this->filePath . "src/pocketmine/resources/starrysky_$lang.yml")){
 				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/starrysky_$lang.yml");
@@ -2651,6 +2653,7 @@ class Server{
 
 	private function registerTiles(){
 		Tile::registerTile(Chest::class);
+		Tile::registerTile(Cauldron::class);
 		Tile::registerTile(EnchantTable::class);
 		Tile::registerTile(FlowerPot::class);
 		Tile::registerTile(Furnace::class);

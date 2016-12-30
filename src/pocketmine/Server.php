@@ -1657,7 +1657,7 @@ class Server{
 			$this->network->setName($this->getMotd());
 
 
-			$this->logger->info(pack("c",0x1B)."[1;46m".pack("c",0x1B)."[1;44m" .$this->getLanguage()->translateString("pocketmine.server.info", [
+			$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
 				$this->getName(),
 				($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
 				$this->getCodename(),

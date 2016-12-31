@@ -149,6 +149,7 @@ use pocketmine\scheduler\FileWriteTask;
 use pocketmine\scheduler\ServerScheduler;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Cauldron;
+use pocketmine\tile\Hopper;
 use pocketmine\tile\EnchantTable;
 use pocketmine\tile\FlowerPot;
 use pocketmine\tile\Furnace;
@@ -2659,5 +2660,6 @@ class Server{
 		Tile::registerTile(Furnace::class);
 		Tile::registerTile(Sign::class);
 		Tile::registerTile(Skull::class);
+		Tile::registerTile(Hopper::class);
 	}
 }

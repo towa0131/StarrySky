@@ -1483,6 +1483,8 @@ class Server{
 		$this->countBookshelf = $this->getAdvancedProperty("enchantment.count-bookshelf", false);
 
 		$this->allowInventoryCheats = $this->getAdvancedProperty("inventory.allow-cheats", false);
+//StarrySky-Option
+		$this->worldbackup = $this->getAdvancedProperty("starrysky.worldbackup", false);
 	}
 
 	public function __construct(\ClassLoader $autoloader, \ThreadedLogger $logger, $filePath, $dataPath, $pluginPath){
@@ -1569,6 +1571,16 @@ class Server{
 			if($cfgVer > $advVer){
 				$this->logger->notice("Your starrysky.yml needs update");
 				$this->logger->notice("Current Version: $advVer   Latest Version: $cfgVer");
+			}
+			if(!$this->getAdvancedProperty("starrysky.worldbackup", false)){
+		$this->logger->warning("World backup is disabled");
+			}else{
+			if(!file_exists($this->dataPath . "plugins/StarrySky-WorldBackup")){
+				mkdir($this->dataPath . "plugins/StarrySky-WorldBackup", 0777);
+			}
+		$filename = date("Y-m-d-H-i")."/";
+		$this->dircopy($this->dataPath."worlds/",$this->dataPath."plugins/StarrySky-WorldBackup/".$filename);
+		$this->logger->info("World Backup is completed.");
 			}
 			$this->loadAdvancedConfig();
 
@@ -1771,7 +1783,27 @@ class Server{
 			$this->exceptionHandler($e);
 		}
 	}
-
+	public function dircopy($dir_name, $new_dir){
+		if (!is_dir($new_dir)) {
+			mkdir($new_dir, 0744, true);
+		}
+ 
+		if (is_dir($dir_name)){
+			if ($dh = opendir($dir_name)) {
+				while (($file = readdir($dh)) !== false) {
+					if ($file == "." || $file == "..") {
+						continue;
+					}
+					if (is_dir($dir_name . "/" . $file)) {
+					$this->dircopy($dir_name . "/" . $file, $new_dir . "/" . $file);
+					}else{	
+						copy($dir_name . "/" . $file, $new_dir . "/" . $file);
+					}
+				}
+				closedir($dh);
+			}
+		}
+	}
 	/**
 	 * @param string        $message
 	 * @param Player[]|null $recipients

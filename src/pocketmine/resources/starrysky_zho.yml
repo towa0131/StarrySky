@@ -2,7 +2,7 @@
 
 #設定?案版本
 config:
- version: 1
+ version: 4
 
 level:
  #設定是否變換天氣
@@ -126,5 +126,5 @@ inventory:
  allow-cheats: false
 
 starrysky:
- #Whether Admin will notify the server when logging in
- adminjoin: true
+ #不管是不是在服務器?動時執行世界的備?
+ worldbackup: false

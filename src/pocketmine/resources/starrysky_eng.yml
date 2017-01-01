@@ -2,7 +2,7 @@
 
 #Config Version
 config:
- version: 3
+ version: 4
 
 level:
  #Set if turn on the weather system
@@ -126,5 +126,5 @@ inventory:
  allow-cheats: false
 
 starrysky:
- #Whether Admin will notify the server when logging in
- adminjoin: true
+ #Whether to back up the world at server startup
+ worldbackup: false

@@ -2,7 +2,7 @@
 
 #配置文件版本
 config:
- version: 3
+ version: 4
  
 level:
  #?置是否??天气
@@ -125,5 +125,5 @@ inventory:
  allow-cheats: false
 
 starrysky:
- #Whether Admin will notify the server when logging in
- adminjoin: true
+ #不管是不是在服?器????行世界的??
+ worldbackup: false

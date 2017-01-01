@@ -2,7 +2,7 @@
 
 #設定ファイルのバージョン
 config:
- version: 3
+ version: 4
 
 level:
  #天候の有効化
@@ -121,5 +121,5 @@ inventory:
  allow-cheats: false
 
 starrysky:
- #権限者ログイン時にサーバーにお知らせを流すかどうか
- adminjoin: true
+ #サーバー起動時にワールドのバックアップを行うかどうか
+ worldbackup: false

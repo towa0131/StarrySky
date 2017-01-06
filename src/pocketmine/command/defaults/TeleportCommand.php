@@ -44,6 +44,8 @@ class TeleportCommand extends VanillaCommand{
 			return true;
 		}
 
+		$args = array_filter($args, function($arg){return strlen($arg) > 0;});
+
 		if(count($args) < 1 or count($args) > 6){
 			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
 
@@ -100,7 +102,7 @@ class TeleportCommand extends VanillaCommand{
 			}
 
 			$x = $this->getRelativeDouble($target->x, $sender, $args[$pos++]);
-			$y = $this->getRelativeDouble($target->y, $sender, $args[$pos++], 0, 128);
+			$y = $this->getRelativeDouble($target->y, $sender, $args[$pos++], 0, 256);
 			$z = $this->getRelativeDouble($target->z, $sender, $args[$pos++]);
 			$yaw = $target->getYaw();
 			$pitch = $target->getPitch();

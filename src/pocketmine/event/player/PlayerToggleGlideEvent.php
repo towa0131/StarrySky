@@ -14,37 +14,29 @@
  * (at your option) any later version.
  *
  * @author PocketMine Team
- * @link http://www.pocketmine.net/
+ * @link   http://www.pocketmine.net/
  *
  *
-*/
+ */
 
-namespace pocketmine\network\protocol;
+namespace pocketmine\event\player;
 
-#include <rules/DataPacket.h>
+use pocketmine\event\Cancellable;
+use pocketmine\Player;
 
+class PlayerToggleGlideEvent extends PlayerEvent implements Cancellable{
+	public static $handlerList = null;
 
-class PlayerInputPacket extends DataPacket{
-	const NETWORK_ID = Info::PLAYER_INPUT_PACKET;
+	/** @var bool */
+	protected $isGliding;
 
-	public $motionX;
-	public $motionY;
-	public $bool1;
-	public $bool2;
-
-	public function getName(){
-		return "PlayerInputPacket";
+	public function __construct(Player $player, $isGliding){
+		$this->player = $player;
+		$this->isGliding = (bool) $isGliding;
 	}
 
-	public function decode(){
-		$this->motionX = $this->getLFloat();
-		$this->motionY = $this->getLFloat();
-		$this->bool1 = $this->getBool();
-		$this->bool2 = $this->getBool();
-	}
-
-	public function encode(){
-
+	public function isGliding(){
+		return $this->isGliding;
 	}
 
 }

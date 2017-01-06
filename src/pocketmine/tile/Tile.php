@@ -41,6 +41,8 @@ abstract class Tile extends Position{
 	const SKULL = "Skull";
 	const BREWING_STAND = "BrewingStand";
 	const ENCHANT_TABLE = "EnchantTable";
+	const CAULDRON = "Cauldron";
+	const HOPPER = "Hopper";
 
 	public static $tileCount = 1;
 
@@ -73,6 +75,7 @@ abstract class Tile extends Position{
 	 *
 	 * @return Tile
 	 */
+
 	public static function createTile($type, Chunk $chunk, CompoundTag $nbt, ...$args){
 		if(isset(self::$knownTiles[$type])){
 			$class = self::$knownTiles[$type];

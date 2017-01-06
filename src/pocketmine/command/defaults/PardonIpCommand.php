@@ -25,7 +25,6 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\TranslationContainer;
 
-
 class PardonIpCommand extends VanillaCommand{
 
 	public function __construct($name){
@@ -51,7 +50,6 @@ class PardonIpCommand extends VanillaCommand{
 		if(preg_match("/^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$/", $args[0])){
 			$sender->getServer()->getIPBans()->remove($args[0]);
 			Command::broadcastCommandMessage($sender, new TranslationContainer("commands.unbanip.success", [$args[0]]));
-			$sender->getServer()->getNetwork()->unblockAddress($args[0]);
 		}else{
 			$sender->sendMessage(new TranslationContainer("commands.unbanip.invalid"));
 		}

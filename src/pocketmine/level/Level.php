@@ -93,6 +93,7 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\LongTag;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\network\protocol\LevelEventPacket;
@@ -1637,7 +1638,6 @@ class Level implements ChunkManager, Metadatable{
 			if($player !== null){
 				//unset($players[$player->getLoaderId()]);
 			}
-
 			$this->addParticle(new DestroyBlockParticle($target->add(0.5), $target), $players);
 		}
 
@@ -2620,6 +2620,10 @@ class Level implements ChunkManager, Metadatable{
 		$spawnZ = $this->provider->getSpawn()->getZ() >> 4;
 
 		return abs($X - $spawnX) <= 1 and abs($Z - $spawnZ) <= 1;
+	}
+
+	public function getSpawn(){
+		return $this->getSpawnLocation();
 	}
 
 	/**

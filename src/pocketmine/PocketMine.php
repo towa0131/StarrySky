@@ -73,7 +73,7 @@ namespace pocketmine {
 	use pocketmine\wizard\Installer;
 	use raklib\RakLib;
 
-	const VERSION = "1.0dev";
+	const VERSION = "1.1dev";
 	const API_VERSION = "2.0.0";
 	const CODENAME = "Meteor Shower";
 	const MINECRAFT_VERSION = "v1.0.0 alpha";

@@ -25,7 +25,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\event\TranslationContainer;
 use pocketmine\Server;
 
-
 class DefaultGamemodeCommand extends VanillaCommand{
 
 	public function __construct($name){
@@ -54,7 +53,7 @@ class DefaultGamemodeCommand extends VanillaCommand{
 			$sender->getServer()->setConfigInt("gamemode", $gameMode);
 			$sender->sendMessage(new TranslationContainer("commands.defaultgamemode.success", [Server::getGamemodeString($gameMode)]));
 		}else{
-			$sender->sendMessage("You entered an unknown gamemode");
+			$sender->sendMessage("Unknown game mode");
 		}
 
 		return true;

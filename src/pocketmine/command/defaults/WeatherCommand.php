@@ -58,14 +58,6 @@ class WeatherCommand extends VanillaCommand{
 				$sender->getLevel()->getWeather()->setWeather($wea, $duration);
 				$sender->sendMessage(new TranslationContainer("pocketmine.command.weather.changed", [$sender->getLevel()->getFolderName()]));
 				return true;
-				/*if(WeatherManager::isRegistered($sender->getLevel())){
-					$sender->getLevel()->getWeather()->setWeather($wea, $duration);
-					$sender->sendMessage(new TranslationContainer("pocketmine.command.weather.changed", [$sender->getLevel()->getFolderName()]));
-					return true;
-				}else{
-					$sender->sendMessage(new TranslationContainer("pocketmine.command.weather.noregistered", [$sender->getLevel()->getFolderName()]));
-					return false;
-				}*/
 			}else{
 				$sender->sendMessage(TextFormat::RED . "%pocketmine.command.weather.invalid");
 				return false;
@@ -90,14 +82,6 @@ class WeatherCommand extends VanillaCommand{
 			$level->getWeather()->setWeather($wea, $duration);
 			$sender->sendMessage(new TranslationContainer("pocketmine.command.weather.changed", [$level->getFolderName()]));
 			return true;
-			/*if(WeatherManager::isRegistered($level)){
-				$level->getWeather()->setWeather($wea, $duration);
-				$sender->sendMessage(new TranslationContainer("pocketmine.command.weather.changed", [$level->getFolderName()]));
-				return true;
-			}else{
-				$sender->sendMessage(new TranslationContainer("pocketmine.command.weather.noregistered", [$level->getFolderName()]));
-				return false;
-			}*/
 		}else{
 			$sender->sendMessage(TextFormat::RED . "%pocketmine.command.weather.invalid");
 			return false;

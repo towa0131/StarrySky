@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  *  ____            _        _   __  __ _                  __  __ ____
@@ -17,24 +18,28 @@
  *
  *
 */
-namespace pocketmine\command\defaults;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\event\TranslationContainer;
-use pocketmine\level\Level;
+
+namespace pocketmine\inventory;
+
+use pocketmine\level\Position;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
-class TimebanCommand extends VanillaCommand{
-	public function __construct($name){
-		parent::__construct(
-			$name,
-			"%pocketmine.command.timeban.description",
-			"%pocketmine.command.timeban.usage"
-		);
-		$this->setPermission("pocketmine.command.timeban.use");
+use pocketmine\tile\Beacon;
+
+class BeaconInventory extends ContainerInventory{
+	public function __construct(Beacon $tile){
+		parent::__construct($tile, InventoryType::get(InventoryType::BEACON));
 	}
-	public function execute(CommandSender $sender, $currentAlias, array $args){
-	  //I will be ended this command soon.
-		return true;
+
+	/**
+	 * @return FakeBlockMenu
+	 */
+	public function getHolder(){
+		return $this->holder;
+	}
+
+	public function onClose(Player $who){
+		parent::onClose($who);
+		$this->getHolder()->getLevel()->dropItem($this->getHolder()->add(0.5, 0.5, 0.5), $this->getItem(0));
+		$this->clear(0);
 	}
 }

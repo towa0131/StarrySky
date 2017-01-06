@@ -51,7 +51,7 @@ class GamemodeCommand extends VanillaCommand{
 			return false;
 		}
 
-		$gameMode = (int) Server::getGamemodeFromString($args[0]);
+		$gameMode = Server::getGamemodeFromString($args[0]);
 
 		if($gameMode === -1){
 			$sender->sendMessage("Unknown game mode");
@@ -73,8 +73,9 @@ class GamemodeCommand extends VanillaCommand{
 			return true;
 		}
 
-		if($target->setGamemode($gameMode) == false){
-			$sender->sendMessage(TextFormat::RED . "Game mode change for " . $target->getName() . " failed!");
+		$target->setGamemode($gameMode);
+		if($gameMode !== $target->getGamemode()){
+			$sender->sendMessage("Game mode change for " . $target->getName() . " failed!");
 		}else{
 			if($target === $sender){
 				Command::broadcastCommandMessage($sender, new TranslationContainer("commands.gamemode.success.self", [Server::getGamemodeString($gameMode)]));

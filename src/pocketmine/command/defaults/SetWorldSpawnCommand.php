@@ -34,8 +34,7 @@ class SetWorldSpawnCommand extends VanillaCommand{
 		parent::__construct(
 			$name,
 			"%pocketmine.command.setworldspawn.description",
-			"%commands.setworldspawn.usage",
-			["setspawn"]
+			"%commands.setworldspawn.usage"
 		);
 		$this->setPermission("pocketmine.command.setworldspawn");
 	}

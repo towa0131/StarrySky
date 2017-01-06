@@ -36,6 +36,7 @@ class InventoryType{
 	const ANVIL = 8;
 	const ENCHANT_TABLE = 9;
 	const BEACON = 10;
+	const HOPPER = 12;
 
 	private static $default = [];
 

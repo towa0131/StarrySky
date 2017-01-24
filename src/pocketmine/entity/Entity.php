@@ -26,6 +26,8 @@ namespace pocketmine\entity;
 
 use pocketmine\block\Block;
 use pocketmine\block\Water;
+use pocketmine\block\SlimeBlock;
+use pocketmine\item\Elytra;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDespawnEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
@@ -104,8 +106,8 @@ abstract class Entity extends Location implements Metadatable{
 	 * 50 (long)
 	 * 51 (long)
 	 * 52 (short) */
-	const DATA_BOUNDING_BOX_WIDTH = 54; //float
-	const DATA_BOUNDING_BOX_HEIGHT = 55; //float
+	const DATA_BOUNDING_BOX_WIDTH = 53; //float
+	const DATA_BOUNDING_BOX_HEIGHT = 54; //float
 	/* 56 (vector3f)
 	 * 57 (byte)
 	 * 58 (float)
@@ -219,6 +221,8 @@ abstract class Entity extends Location implements Metadatable{
 	public $width;
 	public $length;
 
+	public $scale = 1;
+
 	/** @var int */
 	private $health = 20;
 	private $maxHealth = 20;
@@ -326,6 +330,12 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		$this->invulnerable = $this->namedtag["Invulnerable"] > 0 ? true : false;
 
+		if(!isset($this->namedtag->Scale)){
+			$this->namedtag->Scale = new FloatTag("Scale", 1);
+		}
+		$this->scale = $this->namedtag["Scale"];
+		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag["Scale"], false);
+
 		$this->attributeMap = new AttributeMap();
 
 		$this->chunk->addEntity($this);
@@ -338,8 +348,64 @@ abstract class Entity extends Location implements Metadatable{
 
 	}
 
-	public function setSize($size){//Int
- 		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $size);
+	public function setSize($scale){
+		$this->scale = $scale;
+		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $scale);
+
+		$height = $this->getHeight() * $this->scale;
+		$radius = ($this->getWidth() * $this->scale) / 2;
+
+		$this->boundingBox->setBounds($this->x - $radius, $this->y, $this->z - $radius, $this->x + $radius, $this->y + $height, $this->z + $radius);
+	}
+
+	public function setScale($scale){
+		$this->scale = $scale;
+		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $scale);
+
+		$height = $this->getHeight() * $this->scale;
+		$radius = ($this->getWidth() * $this->scale) / 2;
+
+		$this->boundingBox->setBounds($this->x - $radius, $this->y, $this->z - $radius, $this->x + $radius, $this->y + $height, $this->z + $radius);
+	}
+
+	/**
+	 * @return int
+	 */
+
+	public function getScale(){
+		return $this->scale;
+	}
+
+	public function setHeight($height){
+		$this->height = $height;
+	}
+
+	public function getHeight(){
+		if(isset($this->height)){
+			return $this->height;
+		}else{
+			return 1;
+		}
+	}
+
+	public function setWidth($width){
+		$this->width = $width;
+	}
+
+	public function getWidth(){
+		if(isset($this->width)){
+			return $this->width;
+		}else{
+			return 1;
+		}
+	}
+
+	public function setLength($length){
+		$this->length = $length;
+	}
+
+	public function getLength(){
+		return $this->length;
 	}
 
 	/**
@@ -413,6 +479,14 @@ abstract class Entity extends Location implements Metadatable{
 		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, $value);
 	}
 
+	public function isGliding(){
+		return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_FALL_FLYING);
+	}
+
+	public function setGliding($value = true){
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_FALL_FLYING, (bool) $value);
+	}
+
 	public function setUnlink(Entity $entity){
 
 		$pk = new SetEntityLinkPacket();
@@ -429,20 +503,21 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		return true;
 	}
-	public function setLink(Entity $entity){
+
+	public function setLink(Entity $entity){//Player $this Horse $entity
 
 		$pk = new SetEntityLinkPacket();
 		$pk->from = $entity->getId();
 		$pk->to = $this->getId();
 		$pk->type = 2;
 		$this->server->broadcastPacket($this->level->getPlayers(), $pk);
-		if($this instanceof Player){
-			$pk = new SetEntityLinkPacket();
-			$pk->from = $entity->getId();
-			$pk->to = 0;
-			$pk->type = 2;
-			$this->dataPacket($pk);
-		}
+
+		$pk = new SetEntityLinkPacket();
+		$pk->from = $entity->getId();
+		$pk->to = 0;
+		$pk->type = 2;
+		$this->dataPacket($pk);
+
 		return true;
 	}
 
@@ -1161,7 +1236,7 @@ abstract class Entity extends Location implements Metadatable{
 			$this->attack($ev->getFinalDamage(), $ev);
 		}
 */
-		if($this instanceof Player and $this->isSpectator()){
+		if($this instanceof Player){// and $this->isSpectator()){
 			return;
 		}
 		if($fallDistance > 3){
@@ -1176,6 +1251,12 @@ abstract class Entity extends Location implements Metadatable{
 		if($this->getLevel()->getBlock($this->floor()->subtract(0, 1, 0)) instanceof SlimeBlock){
 			$damage = 0;
 		}
+		/*//If player's using Elytra
+		if($this instanceof Player){
+			if($this->getInventory()->getChestplate() instanceof Elytra){
+				$damage = 0;
+			}
+		}*/
 		if($damage > 0){
 			$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FALL, $damage);
 			$this->attack($ev->getFinalDamage(), $ev);
@@ -1562,8 +1643,10 @@ abstract class Entity extends Location implements Metadatable{
 		$this->y = $pos->y;
 		$this->z = $pos->z;
 
-		$radius = $this->width / 2;
-		$this->boundingBox->setBounds($pos->x - $radius, $pos->y, $pos->z - $radius, $pos->x + $radius, $pos->y + $this->height, $pos->z + $radius);
+		$height = $this->getHeight() * $this->scale;
+		$radius = ($this->getWidth() * $this->scale) / 2;
+
+		$this->boundingBox->setBounds($pos->x - $radius, $pos->y, $pos->z - $radius, $pos->x + $radius, $pos->y + $height, $pos->z + $radius);
 
 		$this->checkChunks();
 

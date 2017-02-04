@@ -70,7 +70,7 @@ class InventoryType{
 		//TODO: add the below
 		//6: dispenser
 		//7: dropper
-		//8: hopper
+		static::$default[static::HOPPER] = new InventoryType(5, "Hopper", 8);
 		static::$default[static::BEACON] = new InventoryType(1, "Beacon", 9); //1 INPUT
 	}
 

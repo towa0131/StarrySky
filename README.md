@@ -1,5 +1,5 @@
 ﻿#StarrySky
-## StarrySky Supports 1.0!!
+## StarrySky Supports 1.0.3-beta!!
 ## Language: [English](#ENG) [日本語](#JPN)
 ##English
 <a name="ENG"></a>

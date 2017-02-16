@@ -111,6 +111,7 @@ use pocketmine\network\protocol\RiderJumpPacket;
 use pocketmine\network\protocol\ResourcePackStackPacket;
 use pocketmine\network\protocol\ClientboundMapItemDataPacket;
 use pocketmine\network\protocol\ReceursePackChunkDataPacket;
+use pocketmine\network\protocol\TransferPacket;
 
 class Network{
 
@@ -393,6 +394,7 @@ class Network{
 		$this->registerPacket(ProtocolInfo::START_GAME_PACKET, StartGamePacket::class);
 		$this->registerPacket(ProtocolInfo::TAKE_ITEM_ENTITY_PACKET, TakeItemEntityPacket::class);
 		$this->registerPacket(ProtocolInfo::TEXT_PACKET, TextPacket::class);
+		$this->registerPacket(ProtocolInfo::TRANSFER_PACKET, TransferPacket::class);
 		$this->registerPacket(ProtocolInfo::UPDATE_BLOCK_PACKET, UpdateBlockPacket::class);
 		$this->registerPacket(ProtocolInfo::USE_ITEM_PACKET, UseItemPacket::class);
 	}

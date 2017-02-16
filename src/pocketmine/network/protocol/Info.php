@@ -30,8 +30,8 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol version
 	 */
-	const CURRENT_PROTOCOL = 100;
-	const ACCEPTED_PROTOCOLS = [100];
+	const CURRENT_PROTOCOL = 101;
+	const ACCEPTED_PROTOCOLS = [101];
 
 	const LOGIN_PACKET = 0x01;
 	const PLAY_STATUS_PACKET = 0x02;
@@ -114,5 +114,6 @@ interface Info{
 	const RESOURCE_PACK_DATA_INFO_PACKET = 0x4f;
 	const RESOURCE_PACK_CHUNK_DATA_PACKET = 0x50;
 	const RESOURCE_PACK_CHUNK_REQUEST_PACKET = 0x51;
+	const TRANSFER_PACKET = 0x52;
 
 }

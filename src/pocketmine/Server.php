@@ -1399,7 +1399,7 @@ class Server{
                                           / /                      / /
                                          /_/                      /_/
 
-	§fMineCraft PocketEdition Server Tool[§eStarrySky§f]§aMineCraft version:§b" . \pocketmine\MINECRAFT_VERSION . "
+	§fMinecraft PocketEdition Server Tool[§eStarrySky§f]§aMineCraft version:§b" . \pocketmine\MINECRAFT_VERSION . "
 					§fCODENAME: §6" . \pocketmine\CODENAME . "
 	    §fSource code: §dhttps://github.com/StarrySky-PE/StarrySky
 	";
@@ -1492,7 +1492,6 @@ class Server{
 		self::$sleeper = new \Threaded;
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
-
 		try{
 
 			$this->filePath = $filePath;
@@ -1513,7 +1512,6 @@ class Server{
 			$this->crashPath = $this->dataPath . "crashdumps/";
 
 			$this->console = new CommandReader();
-
 			$version = new VersionString($this->getPocketMineVersion());
 			$this->about();
 			$this->logger->info("Loading pocketmine.yml...");
@@ -1526,8 +1524,8 @@ class Server{
 				@file_put_contents($this->dataPath . "pocketmine.yml", $content);
 			}
 			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
-
-			$this->logger->info("Loading server properties...");
+            $this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
+            $this->logger->info($this->getLanguage()->translateString("pocketmine.load.server.properties", []));
 			$this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
 				"motd" => "Minecraft: PE Server",
 				"server-port" => 19132,
@@ -1553,7 +1551,7 @@ class Server{
 				"auto-save" => true,
 			]);
 			$motd =  $this->getConfigString("motd", "Minecraft: PE Server");
-			$this->logger->info("This Server motd §f ".$motd);
+            $this->logger->info($this->getLanguage()->translateString("pocketmine.server.motd", [$motd]));
 			$lang = $this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE);
 			if(file_exists($this->filePath . "src/pocketmine/resources/starrysky_$lang.yml")){
 				$content = file_get_contents($file = $this->filePath . "src/pocketmine/resources/starrysky_$lang.yml");
@@ -1569,23 +1567,23 @@ class Server{
 			$cfgVer = $this->getAdvancedProperty("config.version", 0, $internelConfig);
 			$advVer = $this->getAdvancedProperty("config.version", 0);
 			if($cfgVer > $advVer){
-				$this->logger->notice("Your starrysky.yml needs update");
-				$this->logger->notice("Current Version: $advVer   Latest Version: $cfgVer");
+                $this->logger->notice($this->getLanguage()->translateString("pocketmine.starryyml.update", []));
+                $this->logger->notice($this->getLanguage()->translateString("pocketmine.starry.update.versions", [$advVer,$cfgVer]));
 			}
 			if(!$this->getAdvancedProperty("starrysky.worldbackup", false)){
-		$this->logger->warning("World backup is disabled");
+                $this->logger->warning($this->getLanguage()->translateString("pocketmine.world.backup", [$motd]));
 			}else{
 			if(!file_exists($this->dataPath . "plugins/StarrySky-WorldBackup")){
 				mkdir($this->dataPath . "plugins/StarrySky-WorldBackup", 0777);
 			}
-		$filename = date("Y-m-d-H-i")."/";
-		$this->dircopy($this->dataPath."worlds/",$this->dataPath."plugins/StarrySky-WorldBackup/".$filename);
-		$this->logger->info("World Backup is completed.");
+			$filename = date("Y-m-d-H-i")."/";
+			$this->dircopy($this->dataPath."worlds/",$this->dataPath."plugins/StarrySky-WorldBackup/".$filename);
+                $this->logger->info($this->getLanguage()->translateString("pocketmine.world.completed", []));
 			}
 			$this->loadAdvancedConfig();
 
 			$this->forceLanguage = $this->getProperty("settings.force-language", false);
-			$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
+			//$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
 			$this->logger->info($this->getLanguage()->translateString("language.selected", [$this->getLanguage()->getName(), $this->getLanguage()->getLang()]));
 
 			$this->memoryManager = new MemoryManager($this);
@@ -1665,18 +1663,18 @@ class Server{
 			define("BOOTUP_RANDOM", random_bytes(16));
 			$this->serverID = Utils::getMachineUniqueId($this->getIp() . $this->getPort());
 
-            $this->logger->debug($this->getLanguage()->translateString("Server.unique.id", [$this->getServerUniqueId()]));
-            $this->logger->debug($this->getLanguage()->translateString("Machine.unique.id", [Utils::getMachineUniqueId()]));
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.server.unique.id", [$this->getServerUniqueId()]));
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.machine.unique.id", [Utils::getMachineUniqueId()]));
 
             switch(Utils::getOS()){
                 case 'win':
-                    $this->logger->debug($this->getLanguage()->translateString("server.os", ["Windows"]));
+                    $this->logger->debug($this->getLanguage()->translateString("pocketmine.server.os", ["Windows"]));
                     break;
                 case 'linux':
-                    $this->logger->debug($this->getLanguage()->translateString("server.os", ["Linux"]));
+                    $this->logger->debug($this->getLanguage()->translateString("pocketmine.server.os", ["Linux"]));
                     break;
                 case 'mac':
-                    $this->logger->debug($this->getLanguage()->translateString("server.os", ["Mux"]));
+                    $this->logger->debug($this->getLanguage()->translateString("pocketmine.server.os", ["Mux"]));
                     break;
                 default:
                     return false;
@@ -2106,37 +2104,38 @@ class Server{
 			}
 
 			if($this->getProperty("network.upnp-forwarding", false) === true){
-				$this->logger->info("[UPnP] Removing port forward...");
+                $this->logger->info($this->getLanguage()->translateString("pocketmine.upnp.port.remove"));
 				UPnP::RemovePortForward($this->getPort());
 			}
 
-			$this->getLogger()->debug("Disabling all plugins");
+			//$this->getLogger()->debug("Disabling all plugins");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.plugin.all.disable"));
 			$this->pluginManager->disablePlugins();
 
 			foreach($this->players as $player){
 				$player->close($player->getLeaveMessage(), $this->getProperty("settings.shutdown-message", "Server closed"));
 			}
 
-			$this->getLogger()->debug("Unloading all levels");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.level.all.unload"));
 			foreach($this->getLevels() as $level){
 				$this->unloadLevel($level, true);
 			}
 
-			$this->getLogger()->debug("Removing event handlers");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.event.handler.remove"));
 			HandlerList::unregisterAll();
 
-			$this->getLogger()->debug("Stopping all tasks");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.task.all.stop"));
 			$this->scheduler->cancelAllTasks();
 			$this->scheduler->mainThreadHeartbeat(PHP_INT_MAX);
 
-			$this->getLogger()->debug("Saving properties");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.properties.save"));
 			$this->properties->save();
 
-			$this->getLogger()->debug("Closing console");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.console.close"));
 			$this->console->shutdown();
 			$this->console->notify();
 
-			$this->getLogger()->debug("Stopping network interfaces");
+            $this->logger->debug($this->getLanguage()->translateString("pocketmine.network.interface"));
 			foreach($this->network->getInterfaces() as $interface){
 				$interface->shutdown();
 				$this->network->unregisterInterface($interface);

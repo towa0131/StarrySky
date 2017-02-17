@@ -28,7 +28,7 @@ class InstallerLang{
 		"es" => "Español",
 		"zh" => "中文",
 		"ru" => "Pyccĸий",
-		"jpn" => "日本語",
+		"ja" => "日本語",
 		"de" => "Deutsch",
 		//"vi" => "Tiếng Việt",
 		"ko" => "한국어",

@@ -27,7 +27,6 @@ Twitter: https://twitter.com/starrysky_pe <br>
 * __[Zlib](http://www.zlib.net/)__:  A Massively Spiffy Yet Delicately Unobtrusive Compression Library
 * __[Source RCON Protocol](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
 * __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__
-<br>
 ##日本語
 <a name="JPN"></a>
 StarrySkyはMinecraft PocketEdition用のサーバーソフトウェアです。<br>
@@ -39,6 +38,7 @@ Twitter: https://twitter.com/starrysky_pe<br>
 ## アップデートノート
 
 2017/2/11
+
 - 1.0.3に対応させました。
 
 ## サードパーティ製のライブラリ/使用しているプロトコル
@@ -53,4 +53,3 @@ Twitter: https://twitter.com/starrysky_pe<br>
 * __[Zlib](http://www.zlib.net/)__: 非常に控えめながらも微妙に控えめな圧縮ライブラリ
 * __[ソース RCON プロトコル](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
 * __[UT3 Query プロトコル](http://wiki.unrealadmin.org/UT3_query_protocol)__
-<br>

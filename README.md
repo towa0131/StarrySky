@@ -1,5 +1,5 @@
 ﻿#StarrySky
-## StarrySky Supports 1.0.3-beta!!
+## StarrySky Supported 1.0.3!!
 ## Language: [English](#ENG) [日本語](#JPN)
 ##English
 <a name="ENG"></a>
@@ -16,6 +16,12 @@ StarrySkyはMineCraft PocketEdition用のサーバーソフトウェアです。
 外部サポート:<br>
 Lobi: https://web.lobi.co/game/minecraftpe/group/3755835a90e1a7a9b429773b9473d2ba9ec4b75e<br>
 Twitter: https://twitter.com/starrysky_pe<br>
+
+## アップデートノート
+
+2017/2/11
+- 1.0.3に対応させました。
+
 ## サードパーティのライブラリ/使用されるプロトコル
 * __[PHP ソケット](http://php.net/manual/en/book.sockets.php)__
 * __[PHP mbstring](http://php.net/manual/en/book.mbstring.php)__

@@ -1,7 +1,7 @@
 ﻿#StarrySky
 ## StarrySky Supported 1.0.3!!
 ## Language: [English](#ENG) [日本語](#JPN)
-##English
+## English
 <a name="ENG"></a>
 StarrySky is server software for Minecraft PocketEdition. <br>
 Based on **[BlueLight](https://github.com/BlueLightJapan/BlueLight)**, We quote **[Elywing](https://github.com/H4PM/Elywing)** code.<br>
@@ -26,8 +26,13 @@ Twitter: https://twitter.com/starrysky_pe <br>
 * __[cURL](http://curl.haxx.se/)__: cURL is a command line tool for transferring data with URL syntax
 * __[Zlib](http://www.zlib.net/)__:  A Massively Spiffy Yet Delicately Unobtrusive Compression Library
 * __[Source RCON Protocol](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
-* __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__
-##日本語
+* __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__<br>
+
+## Developers
+* __[towa0131](https://twitter.com/towa_towa0131)__
+* __[takesi_kaityo](https://twitter.com/takesi_kaityo)__
+
+## 日本語
 <a name="JPN"></a>
 StarrySkyはMinecraft PocketEdition用のサーバーソフトウェアです。<br>
 **[BlueLight](https://github.com/BlueLightJapan/BlueLight)**をベースに、**[Elywing](https://github.com/H4PM/Elywing)**のコードを引用しています。<br>
@@ -52,4 +57,8 @@ Twitter: https://twitter.com/starrysky_pe<br>
 * __[cURL](http://curl.haxx.se/)__: cURLは、URL構文でデータを転送するためのコマンドラインツールです。
 * __[Zlib](http://www.zlib.net/)__: 非常に控えめながらも微妙に控えめな圧縮ライブラリ
 * __[ソース RCON プロトコル](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
-* __[UT3 Query プロトコル](http://wiki.unrealadmin.org/UT3_query_protocol)__
+* __[UT3 Query プロトコル](http://wiki.unrealadmin.org/UT3_query_protocol)__<br>
+
+## 開発者
+* __[towa0131](https://twitter.com/towa_towa0131)__
+* __[takesi_kaityo](https://twitter.com/takesi_kaityo)__

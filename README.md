@@ -11,9 +11,9 @@ Twitter: https://twitter.com/starrysky_pe <br>
 
 ## Update Note
 
-2017/2/11
+2017/2/18
 
-- Update 1.0.3
+- Edit Languages
 
 ## Third-party Libraries/Protocols Used
 * __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__

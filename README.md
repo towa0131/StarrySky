@@ -22,7 +22,7 @@ Twitter: https://twitter.com/starrysky_pe<br>
 2017/2/11
 - 1.0.3に対応させました。
 
-## サードパーティのライブラリ/使用されるプロトコル
+## サードパーティ製のライブラリ/使用しているプロトコル
 * __[PHP ソケット](http://php.net/manual/en/book.sockets.php)__
 * __[PHP mbstring](http://php.net/manual/en/book.mbstring.php)__
 * __[PHP SQLite3](http://php.net/manual/en/book.sqlite3.php)__

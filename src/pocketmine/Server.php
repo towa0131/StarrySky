@@ -1665,9 +1665,23 @@ class Server{
 			define("BOOTUP_RANDOM", random_bytes(16));
 			$this->serverID = Utils::getMachineUniqueId($this->getIp() . $this->getPort());
 
-			$this->getLogger()->debug("Server unique id: " . $this->getServerUniqueId());
-			$this->getLogger()->debug("Machine unique id: " . Utils::getMachineUniqueId());
+            $this->logger->debug($this->getLanguage()->translateString("Server.unique.id", [$this->getServerUniqueId()]));
+            $this->logger->debug($this->getLanguage()->translateString("Machine.unique.id", [Utils::getMachineUniqueId()]));
 
+            switch(Utils::getOS()){
+                case 'win':
+                    $this->logger->debug($this->getLanguage()->translateString("server.os", ["Windows"]));
+                    break;
+                case 'linux':
+                    $this->logger->debug($this->getLanguage()->translateString("server.os", ["Linux"]));
+                    break;
+                case 'mac':
+                    $this->logger->debug($this->getLanguage()->translateString("server.os", ["Mux"]));
+                    break;
+                default:
+                    return false;
+                    break;
+            }
 			$this->network = new Network($this);
 			$this->network->setName($this->getMotd());
 
@@ -1745,7 +1759,7 @@ class Server{
 			if($this->getDefaultLevel() === null){
 				$default = $this->getConfigString("level-name", "world");
 				if(trim($default) == ""){
-					$this->getLogger()->warning("level-name cannot be null, using default");
+                    $this->logger->warning($this->getLanguage()->translateString("level.cant.null"));
 					$default = "world";
 					$this->setConfigString("level-name", "world");
 				}
@@ -2034,7 +2048,7 @@ class Server{
 	}
 
 	public function reload(){
-		$this->logger->info("Saving levels...");
+        $this->logger->info($this->getLanguage()->translateString("level.save"));
 
 		foreach($this->levels as $level){
 			$level->save();
@@ -2044,7 +2058,7 @@ class Server{
 		$this->pluginManager->clearPlugins();
 		$this->commandMap->clearCommands();
 
-		$this->logger->info("Reloading properties...");
+        $this->logger->info($this->getLanguage()->translateString("properties.reload"));
 		$this->properties->reload();
 		$this->maxPlayers = $this->getConfigInt("max-players", 20);
 

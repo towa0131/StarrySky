@@ -2144,7 +2144,7 @@ class Server{
 			gc_collect_cycles();
 		}catch(\Throwable $e){
 			$this->logger->logException($e);
-			$this->logger->emergency("Crashed while crashing, killing process");
+            $this->logger->emergency($this->getLanguage()->translateString("pocketmine.server.crash.crash"));
 			@kill(getmypid());
 		}
 
@@ -2188,7 +2188,7 @@ class Server{
 
 
 		if($this->getProperty("network.upnp-forwarding", false) == true){
-			$this->logger->info("[UPnP] Trying to port forward...");
+            $this->logger->info($this->getLanguage()->translateString("pocketmine.upnp.port.try"));
 			UPnP::PortForward($this->getPort());
 		}
 
@@ -2413,7 +2413,8 @@ class Server{
 	private function checkTickUpdates($currentTick, $tickTime){
 		foreach($this->players as $p){
 			if(!$p->loggedIn and ($tickTime - $p->creationTime) >= 10){
-				$p->close("", "Login timeout");
+                $meesage = $this->getLanguage()->translateString("pocketmine.login.timeout");
+				$p->close("", $meesage);
 			}elseif($this->alwaysTickPlayers){
 				$p->onUpdate($currentTick);
 			}
@@ -2436,7 +2437,8 @@ class Server{
 						if($r > $this->baseTickRate){
 							$level->tickRateCounter = $level->getTickRate();
 						}
-						$this->getLogger()->debug("Raising level \"{$level->getName()}\" tick rate to {$level->getTickRate()} ticks");
+						//$this->getLogger()->debug("Raising level \"{$level->getName()}\" tick rate to {$level->getTickRate()} ticks");
+                        $this->getLogger()->debug($this->getLanguage()->translateString("pocketmine.level.rate.tick",[$level->getName(),$level->getTickRate()]));
 					}elseif($tickMs >= 50){
 						if($level->getTickRate() === $this->baseTickRate){
 							$level->setTickRate(max($this->baseTickRate + 1, min($this->autoTickRateLimit, floor($tickMs / 50))));

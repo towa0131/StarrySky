@@ -80,7 +80,11 @@ class MainLogger extends \AttachableThreadedLogger{
 		return static::$logger;
 	}
 
-	public function emergency($message, $name = "EMERGENCY"){
+    public function original($message, $name){
+        $this->send($message, \LogLevel::ORIGINAL, $name);
+    }
+
+	public function emergency($message, $name =  "EMERGENCY"){
 		$this->send($message, \LogLevel::EMERGENCY, $name, TextFormat::RED);
 	}
 
@@ -109,9 +113,9 @@ class MainLogger extends \AttachableThreadedLogger{
 	}
 
 	public function debug($message, $name = "DEBUG"){
-		//if($this->logDebug === false){
-		//	return;
-		//}
+		if($this->logDebug === false){
+			return;
+		}
 		$this->send($message, \LogLevel::DEBUG, $name, TextFormat::GRAY);
 	}
 
@@ -167,6 +171,9 @@ class MainLogger extends \AttachableThreadedLogger{
 
 	public function log($level, $message){
 		switch($level){
+            case LogLevel::ORIGINAL:
+                $this->original($message);
+                break;
 			case LogLevel::EMERGENCY:
 				$this->emergency($message);
 				break;

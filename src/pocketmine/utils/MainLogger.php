@@ -80,13 +80,6 @@ class MainLogger extends \AttachableThreadedLogger{
 		return static::$logger;
 	}
 
-<<<<<<< HEAD
-=======
-    	public function original($message, $name =  "ORIGINAL"){
-        	$this->send($message, \LogLevel::ORIGINAL, $name, TextFormat::ORANGE);
-    	}
-
->>>>>>> origin/master
 	public function emergency($message, $name =  "EMERGENCY"){
 		$this->send($message, \LogLevel::EMERGENCY, $name, TextFormat::RED);
 	}
@@ -174,14 +167,7 @@ class MainLogger extends \AttachableThreadedLogger{
 
 	public function log($level, $message){
 		switch($level){
-<<<<<<< HEAD
-=======
-            		case LogLevel::ORIGINAL:
-                		$this->original($message);
-                		break;
->>>>>>> origin/master
-			case LogLevel::EMERGENCY:
-				$this->emergency($message);
+	$this->emergency($message);
 				break;
 			case LogLevel::ALERT:
 				$this->alert($message);

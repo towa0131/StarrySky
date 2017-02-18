@@ -450,7 +450,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function setBanned($value){
 		if($value === true){
 			$this->server->getNameBans()->addBan($this->getName(), null, null, null);
-			$this->kick("You have been banned");
+			$this->kick($this->server->getLanguage()->translateString("pocketmine.ban.have"));
 		}else{
 			$this->server->getNameBans()->remove($this->getName());
 		}
@@ -1837,11 +1837,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	protected function processLogin(){
 		if(!$this->server->isWhitelisted(strtolower($this->getName()))){
-			$this->close($this->getLeaveMessage(), "Server is white-listed");
+			$this->close($this->getLeaveMessage(), $this->server->getLanguage()->translateString("pocketmine.server.whitelist"));
 
 			return;
 		}elseif($this->server->getNameBans()->isBanned(strtolower($this->getName())) or $this->server->getIPBans()->isBanned($this->getAddress())){
-			$this->close($this->getLeaveMessage(), "You are banned");
+			$this->close($this->getLeaveMessage(), $this->server->getLanguage()->translateString("pocketmine.baned"));
 
 			return;
 		}
@@ -1992,7 +1992,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->level->getName(),
 			round($this->x, 4),
 			round($this->y, 4),
-			round($this->z, 4)
+			round($this->z, 4),
 		]));
 
 		if($this->isOp()){
@@ -2180,7 +2180,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case ProtocolInfo::ADVENTURE_SETTINGS_PACKET:
 				//TODO: player abilities, check for other changes
 				if($packet->isFlying and !$this->allowFlight){
-					$this->kick("Flying is not enabled on this server");
+					$this->kick($this->server->getLanguage()->translateString("pocketmine.server.fly"));
 					break;
 				}else{
 					$this->server->getPluginManager()->callEvent($ev = new PlayerToggleFlightEvent($this, $packet->isFlying));

@@ -30,8 +30,10 @@ use pocketmine\event\TranslationContainer;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use pocketmine\lang\BaseLang;
+use pocketmine\plugin\Plugin;
 
-abstract class Command{
+abstract class Command {
 	/** @var \stdClass */
 	private static $defaultDataTemplate = null;
 

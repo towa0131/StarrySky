@@ -30,6 +30,8 @@ use pocketmine\command\defaults\DifficultyCommand;
 use pocketmine\command\defaults\DumpMemoryCommand;
 use pocketmine\command\defaults\EffectCommand;
 use pocketmine\command\defaults\EnchantCommand;
+use pocketmine\command\defaults\ExtractPluginCommand;
+use pocketmine\command\defaults\MakePluginCommand;
 use pocketmine\command\defaults\GamemodeCommand;
 use pocketmine\command\defaults\GarbageCollectorCommand;
 use pocketmine\command\defaults\GiveCommand;
@@ -66,8 +68,6 @@ use pocketmine\event\TranslationContainer;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
-use pocketmine\command\defaults\ExtractPluginCommand;
-use pocketmine\command\defaults\MakePluginCommand;
 
 class SimpleCommandMap implements CommandMap{
 
@@ -129,6 +129,13 @@ class SimpleCommandMap implements CommandMap{
 			$this->register("pocketmine", new GarbageCollectorCommand("gc"));
 			$this->register("pocketmine", new DumpMemoryCommand("dumpmemory"));
 		}
+
+		if($this->server->devtools){
+            $this->register("pocketmine", new ExtractPluginCommand("extractplugin"));
+            $this->register("pocketmine", new MakePluginCommand("makeplugin"));
+            $this->register("pocketmine", new ExtractPluginCommand("ex"));
+            $this->register("pocketmine", new MakePluginCommand("mp"));
+        }
 
 	}
 

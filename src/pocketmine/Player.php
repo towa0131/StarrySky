@@ -1992,7 +1992,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->level->getName(),
 			round($this->x, 4),
 			round($this->y, 4),
-			round($this->z, 4)
+			round($this->z, 4),
 		]));
 
 		if($this->isOp()){

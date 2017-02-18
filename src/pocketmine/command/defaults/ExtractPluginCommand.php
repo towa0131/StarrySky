@@ -15,10 +15,14 @@
 */
 namespace pocketmine\command\defaults;
 use pocketmine\command\CommandSender;
+use pocketmine\event\TranslationContainer;
 use pocketmine\plugin\PharPluginLoader;
 use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\MainLogger;
+
 class ExtractPluginCommand extends VanillaCommand{
     public function __construct($name){
         parent::__construct(
@@ -40,12 +44,12 @@ class ExtractPluginCommand extends VanillaCommand{
         }
         $pluginName = trim(implode(" ", $args));
         if($pluginName === "" or !(($plugin = Server::getInstance()->getPluginManager()->getPlugin($pluginName)) instanceof Plugin)){
-            $sender->sendMessage(TextFormat::RED . "%pocketmine.command.extract.plugin.invalid.name.");
+            $sender->sendMessage("%pocketmine.command.extract.plugin.invalid.name");
             return true;
         }
         $description = $plugin->getDescription();
         if(!($plugin->getPluginLoader() instanceof PharPluginLoader)){
-            $sender->sendMessage(TextFormat::RED . "%pocketmine.command.extract.plugin.notphar",[$description->getName()]);
+            $sender->sendMessage(new TranslationContainer("pocketmine.command.extract.plugin.notphar",[$description->getName()]));
             return true;
         }
         $folderPath = Server::getInstance()->getPluginPath().DIRECTORY_SEPARATOR . "DevTools" . DIRECTORY_SEPARATOR . $description->getName()."_v".$description->getVersion()."/";
@@ -64,7 +68,8 @@ class ExtractPluginCommand extends VanillaCommand{
             file_put_contents($folderPath . str_replace($pharPath, "", $path), file_get_contents($path));
         }
         //$sender->sendMessage("[DevTools] Source plugin ".$description->getName() ." v".$description->getVersion()." has been created on ".$folderPath);
-        $sender->sendMessage("%pocketmine.command.extract.plugin.outfile",[$description->getName(),$description->getVersion(),$folderPath]);
+	$extractmsg = new TranslationContainer("pocketmine.command.extract.plugin.outfile",[$description->getName(), $description->getVersion(), $folderPath]);
+        $sender->sendMessage($extractmsg);
         return true;
     }
 }

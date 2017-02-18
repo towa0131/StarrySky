@@ -1400,8 +1400,9 @@ class Server{
                                          /_/                      /_/
 
 	§fMinecraft PocketEdition Server Tool[§eStarrySky§f]§aMineCraft version:§b" . \pocketmine\MINECRAFT_VERSION . "
-					§fCODENAME: §6" . \pocketmine\CODENAME . "
-	    §fSource code: §dhttps://github.com/StarrySky-PE/StarrySky
+		 §fCODENAME: §6" . \pocketmine\CODENAME . "
+	    §fSource code: §3https://github.com/StarrySky-PE/StarrySky
+	    §fOur Twitter: §3https://twotter.com/starrysky_pe
 	";
 	
 		$this->getLogger()->info($string);
@@ -1524,9 +1525,11 @@ class Server{
 				@file_put_contents($this->dataPath . "pocketmine.yml", $content);
 			}
 			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
-            $this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
+
+			$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
             $this->logger->info($this->getLanguage()->translateString("pocketmine.load.server.properties", []));
-			$this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
+
+            $this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
 				"motd" => "Minecraft: PE Server",
 				"server-port" => 19132,
 				"white-list" => false,
@@ -2510,7 +2513,21 @@ class Server{
 			return;
 		}
 
-		$this->network->resetStatistics();
+        $d = Utils::getRealMemoryUsage();
+
+        $u = Utils::getMemoryUsage(true);
+        $usage = sprintf("%g/%g/%g/%g MB @ %d threads", round(($u[0] / 1024) / 1024, 2), round(($d[0] / 1024) / 1024, 2), round(($u[1] / 1024) / 1024, 2), round(($u[2] / 1024) / 1024, 2), Utils::getThreadCount());
+
+        echo "\x1b]0;" . $this->getName() . " " .
+            $this->getPocketMineVersion() .
+            " | オンライン人数 " . count($this->players) . "/" . $this->getMaxPlayers() .
+            " | メモリー " . $usage .
+            " | アップロード率 " . round($this->network->getUpload() / 1024, 2) .
+            " kB/秒 | ダウンロード率 " . round($this->network->getDownload() / 1024, 2) .
+            " kB/秒 | 最大入室可能人数 " . $this->getTicksPerSecondAverage() .
+            " | ロード率 " . $this->getTickUsageAverage() . "%\x07";
+        $this->network->resetStatistics();
+
 	}
 
 	/**
@@ -2520,6 +2537,7 @@ class Server{
 	 *
 	 * TODO: move this to Network
 	 */
+
 	public function handlePacket($address, $port, $payload){
 		try{
 			if(strlen($payload) > 2 and substr($payload, 0, 2) === "\xfe\xfd" and $this->queryHandler instanceof QueryHandler){

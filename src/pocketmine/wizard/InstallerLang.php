@@ -84,7 +84,7 @@ class InstallerLang{
 		return ($this->lang);
 	}
 
-	public function loadLang($langfile, $lang = "en"){
+	public function loadLang($langfile, $lang = jpn){//$lang = "en"
 		$this->texts[$lang] = [];
 		$texts = explode("\n", str_replace(["\r", "\\/\\/"], ["", "//"], file_get_contents($langfile)));
 		foreach($texts as $line){

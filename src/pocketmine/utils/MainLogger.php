@@ -80,13 +80,6 @@ class MainLogger extends \AttachableThreadedLogger{
 		return static::$logger;
 	}
 
-<<<<<<< HEAD
-=======
-    	public function original($message, $name =  "ORIGINAL"){
-        	$this->send($message, \LogLevel::ORIGINAL, $name, TextFormat::ORANGE);
-    	}
-
->>>>>>> origin/master
 	public function emergency($message, $name =  "EMERGENCY"){
 		$this->send($message, \LogLevel::EMERGENCY, $name, TextFormat::RED);
 	}
@@ -174,12 +167,6 @@ class MainLogger extends \AttachableThreadedLogger{
 
 	public function log($level, $message){
 		switch($level){
-<<<<<<< HEAD
-=======
-            		case LogLevel::ORIGINAL:
-                		$this->original($message);
-                		break;
->>>>>>> origin/master
 			case LogLevel::EMERGENCY:
 				$this->emergency($message);
 				break;
@@ -216,11 +203,11 @@ class MainLogger extends \AttachableThreadedLogger{
 
 		$thread = \Thread::getCurrentThread();
 		if($thread === null){
-			$threadName = "StarrySky";
+			$threadName = "";
 		}elseif($thread instanceof Thread or $thread instanceof Worker){
-			$threadName = $thread->getThreadName() . " thread";
+			$threadName = $thread->getThreadName() . "";
 		}else{
-			$threadName = (new \ReflectionClass($thread))->getShortName() . " thread";
+			$threadName = (new \ReflectionClass($thread))->getShortName() . "";
 		}
 
 		if($this->shouldRecordMsg){
@@ -230,8 +217,8 @@ class MainLogger extends \AttachableThreadedLogger{
 				$this->shouldSendMsg .= $color . "|" . $prefix . "|" . trim($message, "\r\n") . "\n";
 			}
 		}
-
-		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color .  TextFormat::WHITE . "[" . TextFormat::YELLOW . $threadName . TextFormat::GREEN ."-". TextFormat::WHITE . $prefix . TextFormat::WHITE . "]:" . " " . TextFormat::RESET . $color . $message . TextFormat::RESET);
+        $message = TextFormat::toANSI(TextFormat::AQUA . date("H:i:s", $now) . TextFormat::DARK_AQUA . "|" . TextFormat::RESET . $color . $prefix . TextFormat::DARK_AQUA ." > " . TextFormat::RESET . $color . $message . TextFormat::RESET);
+		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color .  TextFormat::WHITE . "[" . TextFormat::YELLOW . $threadName . TextFormat::GREEN ."-". TextFormat::WHITE . $prefix . TextFormat::WHITE . "]:" . " " . TextFormat::RESET . $color . $message . TextFormat::RESET);
 		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s") . "] ". TextFormat::RESET . $color ."<".$prefix . ">" . " " . $message . TextFormat::RESET);
 		$cleanMessage = TextFormat::clean($message);
 

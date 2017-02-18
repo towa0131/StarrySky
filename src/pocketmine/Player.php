@@ -2058,14 +2058,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 				if(!in_array($packet->protocol, ProtocolInfo::ACCEPTED_PROTOCOLS)){
 					if($packet->protocol < ProtocolInfo::CURRENT_PROTOCOL){
-						$message = "disconnectionScreen.outdatedClient";
-
+						//$message = "disconnectionScreen.outdatedClient";
+						$message = $this->getLanguage()->translateString("disconnectionScreen.update.mcpe", [\pocketmine\MINECRAFT_VERSION]);
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_CLIENT;
 						$this->directDataPacket($pk);
 					}else{
-						$message = "disconnectionScreen.outdatedServer";
-
+						//$message = "disconnectionScreen.outdatedServer";
+						$message = $this->getLanguage()->translateString("disconnectionScreen.update.server", []);
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_SERVER;
 						$this->directDataPacket($pk);

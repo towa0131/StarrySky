@@ -31,6 +31,10 @@ Twitter: https://twitter.com/starrysky_pe<br>
 
 - LiveBarを追加しました。
 
+## windows向け
+* __[Binファイル 32bit向け](https://github.com/Takesikaityo/PocketMine_Bin_win_x32)__
+* __[Binファイル 64bit向け](https://github.com/Takesikaityo/PocketMine_Bin_win_x64)__
+
 ## サードパーティ製のライブラリ/使用しているプロトコル
 * __[PHP ソケット](http://php.net/manual/en/book.sockets.php)__
 * __[PHP mbstring](http://php.net/manual/en/book.mbstring.php)__

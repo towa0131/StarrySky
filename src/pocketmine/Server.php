@@ -1388,22 +1388,20 @@ class Server{
 		return $result;
 	}
 	public function about(){
-		$string = "§e
-       _____    _                                   _____   _
-      / ___ \ _| |_   ___    _  __ _  __ _      __ / ___ \ | |   __      __
-     | |___\_|_  __| / _ \  | |/ _| |/ _| \    / /| |___\_|| | __\ \    / /
-      \___  \  | |  / / \ | | / / | / /  \ \  / /  \___  \ | |/ / \ \  / /
-     | \___\ | | \_ | \_| |_|  /  |  /    \ \/ /  | \___\ || / /   \ \/ /
-      \_____/   \__| \_____/|_|   |_|      \  /    \_____/ | |\ \   \  /
-                                           / /             |_| \_\  / /
-                                          / /                      / /
-                                         /_/                      /_/
+		$string = "
 
-	§fMinecraft PocketEdition Server Tool[§eStarrySky§f]§aMineCraft version:§b" . \pocketmine\MINECRAFT_VERSION . "
-		 §fCODENAME: §6" . \pocketmine\CODENAME . "
-	    §fSource code: §3https://github.com/StarrySky-PE/StarrySky
-	    §fOur Twitter: §3https://twotter.com/starrysky_pe
-	";
+§e _________________________________________________________________________________________________________________________________
+§e|      _____    _                                   _____   _                      |   		§e§l[Information]
+§e|     / ___ \ _| |_   ___    _  __ _  __ _      __ / ___ \ | |   __      __        |§6StarrySky-Version: " . \pocketmine\VERSION . "   
+§e|    | |___\_|_  __| / _ \  | |/ _| |/ _| \    / /| |___\_|| | __\ \    / /        |§6Minecraft-Version: " . \pocketmine\MINECRAFT_VERSION . "   
+§e|     \___  \  | |  / / \ | | / / | / /  \ \  / /  \___  \ | |/ / \ \  / /         |§6CodeName: " . \pocketmine\CODENAME . "   
+§e|    | \___\ | | \_ | \_| |_|  /  |  /    \ \/ /  | \___\ || / /   \ \/ /          |	   	  §e§l[Contact]
+§e|     \_____/   \__| \_____/|_|   |_|      \  /    \_____/ | |\ \   \  /           |§bTwitter: https://twitter.com/starrysky_pe
+§e|                                          / /             |_| \_\  / /            |______________________________________________
+§e|                                         / /                      / /             |
+§e|                                        /_/                      /_/              |
+§e|__________________________________________________________________________________|
+			";
 	
 		$this->getLogger()->info($string);
 	}

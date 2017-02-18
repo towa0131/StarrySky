@@ -203,7 +203,7 @@ class MainLogger extends \AttachableThreadedLogger{
 
 		$thread = \Thread::getCurrentThread();
 		if($thread === null){
-			$threadName = "";
+			$threadName = "StarrySky";
 		}elseif($thread instanceof Thread or $thread instanceof Worker){
 			$threadName = $thread->getThreadName() . "";
 		}else{
@@ -217,7 +217,7 @@ class MainLogger extends \AttachableThreadedLogger{
 				$this->shouldSendMsg .= $color . "|" . $prefix . "|" . trim($message, "\r\n") . "\n";
 			}
 		}
-        $message = TextFormat::toANSI(TextFormat::AQUA . date("H:i:s", $now) . TextFormat::DARK_AQUA . "|" . TextFormat::RESET . $color . $prefix . TextFormat::DARK_AQUA ." > " . TextFormat::RESET . $color . $message . TextFormat::RESET);
+        $message = TextFormat::toANSI(TextFormat::YELLOW . "[" . $threadName . "]" . TextFormat::RESET . TextFormat::AQUA . date("H:i:s", $now) . TextFormat::DARK_GREEN . "|" . TextFormat::RESET . $color . $prefix . TextFormat::GREEN ." > " . TextFormat::RESET . $color . $message . TextFormat::RESET);
 		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color .  TextFormat::WHITE . "[" . TextFormat::YELLOW . $threadName . TextFormat::GREEN ."-". TextFormat::WHITE . $prefix . TextFormat::WHITE . "]:" . " " . TextFormat::RESET . $color . $message . TextFormat::RESET);
 		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s") . "] ". TextFormat::RESET . $color ."<".$prefix . ">" . " " . $message . TextFormat::RESET);
 		$cleanMessage = TextFormat::clean($message);

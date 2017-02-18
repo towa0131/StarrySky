@@ -74,11 +74,11 @@ namespace pocketmine {
 	use raklib\RakLib;
 
 	const VERSION = "1.2dev";
-	const API_VERSION = "2.0.0";
+	const API_VERSION = "3.0.0";
 	const CODENAME = "Shining Star";
 	const MINECRAFT_VERSION = "v1.0.3 alpha";
 	const MINECRAFT_VERSION_NETWORK = "1.0.3";
-	const STARRYSKY_API_VERSION = '2.0.0';
+	const STARRYSKY_API_VERSION = '3.0.0';
 
 	/*
 	 * Startup code. Do not look at it, it may harm you.

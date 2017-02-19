@@ -2518,12 +2518,10 @@ class Server{
 
         echo "\x1b]0;" . $this->getName() . " " .
             $this->getPocketMineVersion() .
-            " | オンライン人数 " . count($this->players) . "/" . $this->getMaxPlayers() .
-            " | メモリー " . $usage .
-            " | アップロード率 " . round($this->network->getUpload() / 1024, 2) .
-            " kB/秒 | ダウンロード率 " . round($this->network->getDownload() / 1024, 2) .
-            " kB/秒 | 最大入室可能人数 " . $this->getTicksPerSecondAverage() .
-            " | ロード率 " . $this->getTickUsageAverage() . "%\x07";
+            " | " . $this->getLanguage()->translateString("pocketmine.live.online") . " " . count($this->players) . "/" . $this->getMaxPlayers() .
+            " | " . $this->getLanguage()->translateString("pocketmine.live.memory") . " " . $usage .
+            " | " . $this->getLanguage()->translateString("pocketmine.live.upload") ." " . round($this->network->getUpload() / 1024, 2) .
+            " | " . $this->getLanguage()->translateString("pocketmine.live.load") . " " . $this->getTickUsageAverage() . "%\x07";
         $this->network->resetStatistics();
 
 	}

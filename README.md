@@ -1,33 +1,6 @@
-﻿#StarrySky
-## StarrySky Supported 1.0.3!!
-## Language: [English](#ENG) [日本語](#JPN)
-<a name="ENG"></a>
-## English
-StarrySky is server software for Minecraft PocketEdition. <br>
-Based on **[BlueLight](https://github.com/BlueLightJapan/BlueLight)**, We quote **[Elywing](https://github.com/H4PM/Elywing)** code.<br>
-External support: <br>
-Lobi: https://web.lobi.co/game/minecraftpe/group/3755835a90e1a7a9b429773b9473d2ba9ec4b75e <br>
-Twitter: https://twitter.com/starrysky_pe <br>
-
-## binary
-* __[BinFile 32bit](https://github.com/Takesikaityo/PocketMine_Bin_win_x32)__
-* __[Binfile 64bit](https://github.com/Takesikaityo/PocketMine_Bin_win_x64)__
-
-## Third-party Libraries/Protocols Used
-* __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
-* __[PHP mbstring](http://php.net/manual/en/book.mbstring.php)__
-* __[PHP BCMath](http://php.net/manual/en/book.bc.php)__
-* __[PHP pthreads](http://pthreads.org/)__ by _[krakjoe](https://github.com/krakjoe)_: Threading for PHP - Share Nothing, Do Everything.
-* __[PHP YAML](https://code.google.com/p/php-yaml/)__ by _Bryan Davis_: The Yaml PHP Extension provides a wrapper to the LibYAML library.
-* __[LibYAML](http://pyyaml.org/wiki/LibYAML)__ by _Kirill Simonov_: A YAML 1.1 parser and emitter written in C.
-* __[cURL](http://curl.haxx.se/)__: cURL is a command line tool for transferring data with URL syntax
-* __[Zlib](http://www.zlib.net/)__: A Massively Spiffy Yet Delicately Unobtrusive Compression Library
-* __[Source RCON Protocol](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
-* __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__
-
-## Developers
-* __[towa0131](https://twitter.com/towa_towa0131)__
-* __[takesi_kaityo](https://twitter.com/takesi_kaityo)__
+#StarrySky
+## Minecraft PE 1.0.4 のサポート開始!!
+## 言語: [日本語](#JPN) [English](#ENG)
 
 <a name="JPN"></a>
 ## 日本語
@@ -55,5 +28,33 @@ Twitter: https://twitter.com/starrysky_pe<br>
 * __[UT3 Query プロトコル](http://wiki.unrealadmin.org/UT3_query_protocol)__<br>
 
 ## 開発者
+* __[towa0131](https://twitter.com/towa_towa0131)__
+* __[takesi_kaityo](https://twitter.com/takesi_kaityo)__
+
+<a name="ENG"></a>
+## English
+StarrySky is server software for Minecraft PocketEdition. <br>
+Based on **[BlueLight](https://github.com/BlueLightJapan/BlueLight)**, We quote **[Elywing](https://github.com/H4PM/Elywing)** code.<br>
+External support: <br>
+Lobi: https://web.lobi.co/game/minecraftpe/group/3755835a90e1a7a9b429773b9473d2ba9ec4b75e <br>
+Twitter: https://twitter.com/starrysky_pe <br>
+
+## binary
+* __[BinFile 32bit](https://github.com/Takesikaityo/PocketMine_Bin_win_x32)__
+* __[Binfile 64bit](https://github.com/Takesikaityo/PocketMine_Bin_win_x64)__
+
+## Third-party Libraries/Protocols Used
+* __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
+* __[PHP mbstring](http://php.net/manual/en/book.mbstring.php)__
+* __[PHP BCMath](http://php.net/manual/en/book.bc.php)__
+* __[PHP pthreads](http://pthreads.org/)__ by _[krakjoe](https://github.com/krakjoe)_: Threading for PHP - Share Nothing, Do Everything.
+* __[PHP YAML](https://code.google.com/p/php-yaml/)__ by _Bryan Davis_: The Yaml PHP Extension provides a wrapper to the LibYAML library.
+* __[LibYAML](http://pyyaml.org/wiki/LibYAML)__ by _Kirill Simonov_: A YAML 1.1 parser and emitter written in C.
+* __[cURL](http://curl.haxx.se/)__: cURL is a command line tool for transferring data with URL syntax
+* __[Zlib](http://www.zlib.net/)__: A Massively Spiffy Yet Delicately Unobtrusive Compression Library
+* __[Source RCON Protocol](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
+* __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__
+
+## Developers
 * __[towa0131](https://twitter.com/towa_towa0131)__
 * __[takesi_kaityo](https://twitter.com/takesi_kaityo)__

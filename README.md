@@ -1,5 +1,5 @@
 ﻿#StarrySky
-## StarrySky Supported 1.0.3!!
+## StarrySky Supported 1.0.4!!
 ## Language: [English](#ENG) [日本語](#JPN)
 <a name="ENG"></a>
 ## English
@@ -32,7 +32,7 @@ Twitter: https://twitter.com/starrysky_pe <br>
 <a name="JPN"></a>
 ## 日本語
 StarrySkyはMinecraft PocketEdition用のサーバーソフトウェアです。<br>
-**[BlueLight](https://github.com/BlueLightJapan/BlueLight)**をベースに、**[Elywing](https://github.com/H4PM/Elywing)**のコードを引用しています。<br>
+**[BlueLight](https://github.com/BlueLightJapan/BlueLight)** をベースに、**[Elywing](https://github.com/H4PM/Elywing)** のコードを引用しています。<br>
 外部サポート:<br>
 Lobi: https://web.lobi.co/game/minecraftpe/group/3755835a90e1a7a9b429773b9473d2ba9ec4b75e<br>
 Twitter: https://twitter.com/starrysky_pe<br>

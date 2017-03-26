@@ -1610,7 +1610,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			if($this->chunk !== null){
 				$this->level->addEntityMotion($this->chunk->getX(), $this->chunk->getZ(), $this->getId(), $this->motionX, $this->motionY, $this->motionZ);
 				$pk = new SetEntityMotionPacket();
-				$pk->eid = $this->id;
+				$pk->eid = 0;
 				$pk->motionX = $mot->x;
 				$pk->motionY = $mot->y;
 				$pk->motionZ = $mot->z;

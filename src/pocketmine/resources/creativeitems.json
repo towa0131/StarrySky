@@ -1,6 +1,18 @@
 [
     {
+        "id": 137,
+        "damage": 0,
+        "count": 1,
+        "nbt": ""
+    },
+    {
         "id": 138,
+        "damage": 0,
+        "count": 1,
+        "nbt": ""
+    },
+    {
+        "id": 122,
         "damage": 0,
         "count": 1,
         "nbt": ""

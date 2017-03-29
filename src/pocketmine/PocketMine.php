@@ -73,12 +73,12 @@ namespace pocketmine {
 	use pocketmine\wizard\Installer;
 	use raklib\RakLib;
 
-	const VERSION = "1.3dev";
-	const API_VERSION = "2.0.0";
-	const CODENAME = "Burning Star";
-	const MINECRAFT_VERSION = "v1.0.4 alpha";
-	const MINECRAFT_VERSION_NETWORK = "1.0.4";
-	const STARRYSKY_API_VERSION = '2.0.0';
+	const VERSION = "1.4dev";
+	const API_VERSION = "2.1.0";
+	const CODENAME = "Fried Potato";
+	const MINECRAFT_VERSION = "v1.0.5 alpha";
+	const MINECRAFT_VERSION_NETWORK = "1.0.5";
+	const STARRYSKY_API_VERSION = '2.1.0';
 
 	/*
 	 * Startup code. Do not look at it, it may harm you.

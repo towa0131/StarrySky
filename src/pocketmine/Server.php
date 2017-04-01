@@ -1889,6 +1889,33 @@ class Server{
 	}
 
 	/**
+	 * @param string        $title
+	 * @param string 	$subtitle
+	 * @param Player[]|null $recipients
+	 *
+	 * @return bool
+	 */
+	public function broadcastTitle($title, $subtitle, $recipients = null){
+		if(!is_array($recipients)){
+			/** @var Player[] $recipients */
+			$recipients = [];
+
+			foreach($this->pluginManager->getPermissionSubscriptions(self::BROADCAST_CHANNEL_USERS) as $permissible){
+				if($permissible instanceof Player and $permissible->hasPermission(self::BROADCAST_CHANNEL_USERS)){
+					$recipients[spl_object_hash($permissible)] = $permissible; // do not send messages directly, or some might be repeated
+				}
+			}
+		}
+
+		/** @var Player[] $recipients */
+		foreach($recipients as $recipient){
+			$recipient->sendTitle($title, $subtitle);
+		}
+
+		return count($recipients);
+	}
+
+	/**
 	 * @param string $message
 	 * @param string $permissions
 	 *

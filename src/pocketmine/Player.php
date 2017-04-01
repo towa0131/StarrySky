@@ -145,6 +145,7 @@ use pocketmine\network\protocol\ResourcePackChunkDataPacket;
 use pocketmine\network\protocol\SetPlayerGameTypePacket;
 use pocketmine\network\protocol\SetSpawnPositionPacket;
 use pocketmine\network\protocol\SetTimePacket;
+use pocketmine\network\protocol\SetTitlePacket;
 use pocketmine\network\protocol\StartGamePacket;
 use pocketmine\network\protocol\TakeItemEntityPacket;
 use pocketmine\network\protocol\TextPacket;
@@ -3534,6 +3535,25 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->source = $sender;
 		$pk->message = $message;
 		$this->dataPacket($pk);
+	}
+
+	public function sendTitle($title, $subtitle = "", $fadein = 20, $duration = 5, $fadeout = 20){
+		$pk = new SetTitlePacket();
+		$pk->type = SetTitlePacket::TYPE_SET_TITLE;
+		$pk->text = $title;
+		$pk->fadeInTime = $fadein;
+ 		$pk->stayTime = $duration;
+		$pk->fadeOutTime = $fadeout;
+		$this->dataPacket($pk);
+		if($subtitle !== ""){
+			$pk = new SetTitlePacket();
+			$pk->type = SetTitlePacket::TYPE_SET_SUBTITLE;
+			$pk->text = $subtitle;
+			$pk->fadeInTime = $fadein;
+			$pk->stayTime = $duration;
+			$pk->fadeOutTime = $fadeout;
+			$this->dataPacket($pk);
+		}
 	}
 
 	/**

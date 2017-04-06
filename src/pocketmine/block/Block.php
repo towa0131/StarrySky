@@ -245,6 +245,8 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::FENCE_GATE_DARK_OAK] = FenceGateDarkOak::class;
 			self::$list[self::FENCE_GATE_ACACIA] = FenceGateAcacia::class;
 
+			self::$list[self::ITEM_FRAME_BLOCK] = ItemFrame::class;
+
 			self::$list[self::GRASS_PATH] = GrassPath::class;
 
 			self::$list[self::PODZOL] = Podzol::class;

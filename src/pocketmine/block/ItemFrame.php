@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  *  _____   _____   __   _   _   _____  __    __  _____
@@ -18,9 +17,7 @@
  * @link https://itxtech.org
  *
  */
-
 namespace pocketmine\block;
-
 use pocketmine\item\Item;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
@@ -32,6 +29,7 @@ use pocketmine\tile\ItemFrame as ItemFrameTile;
 use pocketmine\Player;
 
 class ItemFrame extends Transparent{
+
 	protected $id = self::ITEM_FRAME_BLOCK;
 
 	public function __construct($meta = 0){
@@ -59,7 +57,6 @@ class ItemFrame extends Transparent{
 			]);
 			Tile::createTile(Tile::ITEM_FRAME, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 		}
-
 		if($tile->getItem()->getId() === 0){
 			$item = clone $item;
 			$item->setCount(1);
@@ -71,7 +68,6 @@ class ItemFrame extends Transparent{
 						$player->getInventory()->setItemInHand(Item::get(Item::AIR));
 						return true;
 					}
-
 					$item->setCount($count);
 					$player->getInventory()->setItemInHand($item);
 				}
@@ -82,14 +78,11 @@ class ItemFrame extends Transparent{
 			else $itemRot++;
 			$tile->setItemRotation($itemRot);
 		}
-
 		return true;
 	}
-
 	public function onBreak(Item $item){
 		$this->getLevel()->setBlock($this, new Air(), true, false);
 	}
-
 	public function getDrops(Item $item) : array{
 		if($this->getLevel()==null){
 			return [];
@@ -111,7 +104,6 @@ class ItemFrame extends Transparent{
 			[Item::ITEM_FRAME, 0 ,1]
 		];
 	}
-
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($target->isTransparent() === false and $face > 1 and $block->isSolid() === false){
 			$faces = [
@@ -124,9 +116,9 @@ class ItemFrame extends Transparent{
 			$this->getLevel()->setBlock($block, $this, true, true);
 			$nbt = new CompoundTag("", [
 				new StringTag("id", Tile::ITEM_FRAME),
-				new IntTag("x", $item->x),
-				new IntTag("y", $item->y),
-				new IntTag("z", $item->z),
+				new IntTag("x", $block->x),
+				new IntTag("y", $block->y),
+				new IntTag("z", $block->z),
 				new ByteTag("ItemRotation", 0),
 				new FloatTag("ItemDropChance", 1.0)
 			]);

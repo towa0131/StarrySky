@@ -3,4 +3,9 @@ branches:
 - master
 projects:
   src:
+<<<<<<< HEAD
     path: ""
+=======
+    path: ""
+
+>>>>>>> origin

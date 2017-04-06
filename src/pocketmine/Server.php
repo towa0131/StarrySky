@@ -150,6 +150,7 @@ use pocketmine\scheduler\ServerScheduler;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Cauldron;
 use pocketmine\tile\Hopper;
+use pocketmine\tile\ItemFrame;
 use pocketmine\tile\EnchantTable;
 use pocketmine\tile\FlowerPot;
 use pocketmine\tile\Furnace;
@@ -1502,6 +1503,14 @@ class Server{
 				mkdir($dataPath . "players/", 0777);
 			}
 
+			if(!file_exists($dataPath . "maps/")){
+				mkdir($dataPath . "maps/", 0777);
+			}
+
+			if(!file_exists($dataPath . "maps/map.png")){
+				copy($dataPath . "src/pocketmine/map/map.png", $dataPath . "maps/map.png");
+			}
+
 			if(!file_exists($pluginPath)){
 				mkdir($pluginPath, 0777);
 			}
@@ -2749,5 +2758,6 @@ class Server{
 		Tile::registerTile(Sign::class);
 		Tile::registerTile(Skull::class);
 		Tile::registerTile(Hopper::class);
+		Tile::registerTile(ItemFrame::class);
 	}
 }

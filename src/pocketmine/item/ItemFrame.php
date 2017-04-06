@@ -19,20 +19,13 @@
  *
 */
 
-namespace pocketmine\network\protocol;
+namespace pocketmine\item;
 
-class MapInfoRequestPacket extends DataPacket{
-	const NETWORK_ID = Info::MAP_INFO_REQUEST_PACKET;
+use pocketmine\block\Block;
 
-	public $uuid;
-
-	public function decode(){
-		$this->uuid = $this->getEntityId();
+class ItemFrame extends Item{
+	public function __construct($meta = 0, $count = 1){
+		$this->block = Block::get(Block::ITEM_FRAME_BLOCK);
+		parent::__construct(self::ITEM_FRAME, 0, $count, "Item Frame");
 	}
-
-	public function encode(){
-		$this->reset();
-		$this->putEntityId($this->uuid);
-	}
-
 }

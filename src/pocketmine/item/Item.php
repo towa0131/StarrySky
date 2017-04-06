@@ -181,6 +181,8 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::CAKE] = Cake::class;
 			self::$list[self::BED] = Bed::class;
 			self::$list[self::COOKIE] = Cookie::class;
+			self::$list[self::FILLED_MAP] = FilledMap::class;
+			self::$list[self::EMPTY_MAP] = EmptyMap::class;
 			self::$list[self::SHEARS] = Shears::class;
 			self::$list[self::MELON] = Melon::class;
 			self::$list[self::PUMPKIN_SEEDS] = PumpkinSeeds::class;
@@ -222,6 +224,7 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::ENDER_PEARL] = EnderPearl::class;
 			self::$list[self::EYE_OF_ENDER] = EyeOfEnder::class;
 			self::$list[self::HOPPER] = Hopper::class;
+			self::$list[self::ITEM_FRAME] = ItemFrame::class;
 
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){

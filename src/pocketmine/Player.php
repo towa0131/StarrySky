@@ -92,6 +92,7 @@ use pocketmine\inventory\ShapelessRecipe;
 use pocketmine\inventory\SimpleTransactionGroup;
 use pocketmine\item\Item;
 use pocketmine\item\Potion;
+use pocketmine\item\Map;
 use pocketmine\level\ChunkLoader;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\Level;
@@ -121,6 +122,7 @@ use pocketmine\network\protocol\BatchPacket;
 use pocketmine\network\protocol\ChunkRadiusUpdatedPacket;
 use pocketmine\network\protocol\ContainerClosePacket;
 use pocketmine\network\protocol\ContainerSetContentPacket;
+use pocketmine\network\protocol\ClientboundMapItemDataPacket;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\DisconnectPacket;
 use pocketmine\network\protocol\EntityEventPacket;
@@ -161,6 +163,7 @@ use pocketmine\tile\Tile;
 use pocketmine\utils\Binary;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
+use pocketmine\utils\MapUtils;
 use pocketmine\packs\ResourcePackInfoEntry;
 
 /**
@@ -2456,6 +2459,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$thrownPotion->spawnToAll();
 						}
 
+					}elseif($item->getId() == Item::EMPTY_MAP){
+
+						$item = Item::get(Item::FILLED_MAP, 0, 1);
+						$item->setMapId(1000);
+                            			$this->inventory->addItem($item);
+
               				}elseif($item->getId() === Item::ENDER_PEARL){
 						$nbt = new CompoundTag("", [
                             				"Pos" => new ListTag("Pos", [
@@ -2948,12 +2957,25 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($ev->isCancelled()){
 					break;
 				}
-
 				$pk = new AnimatePacket();
 				$pk->eid = $this->getId();
 				$pk->action = $ev->getAnimationType();
 				Server::broadcastPacket($this->getViewers(), $pk);
 				break;
+
+			case ProtocolInfo::MAP_INFO_REQUEST_PACKET:
+				$path = Server::getInstance()->getFilePath() . "maps/map.png";
+					if($packet->uuid == -1 || !file_exists($path)){
+						$map = new Map($packet->uuid);
+						$map->update(ClientboundMapItemDataPacket::BITFLAG_TEXTURE_UPDATE);
+					}else{
+						$map = new Map($packet->uuid);
+						$map->fromPng($path);
+						$map->update(ClientboundMapItemDataPacket::BITFLAG_TEXTURE_UPDATE);
+						MapUtils::cacheMap($map);
+					}
+				break;
+
 			case ProtocolInfo::ENTITY_EVENT_PACKET:
 				if($this->spawned === false or $this->blocked === true or !$this->isAlive()){
 					break;

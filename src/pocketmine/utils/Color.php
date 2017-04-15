@@ -284,6 +284,6 @@ class Color {
 	}
 
 	public function getColorCode(){
-		return ($this->red << 16 | $this->green << 8 | $this->blue) & 0xffffff;
+		return ($this->r << 16 | $this->g << 8 | $this->b) & 0xffffff;
 	}
 }

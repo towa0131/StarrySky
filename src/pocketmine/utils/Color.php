@@ -263,6 +263,10 @@ class Color {
 		return $this->b;
 	}
 
+	public static function getRGB($r, $g, $b){
+		return new Color((int) $r, (int) $g, (int) $b);
+	}
+
 	/**
 	 * Returns an RGBA 32-bit color value.
 	 * @return int
@@ -277,5 +281,9 @@ class Color {
 	 */
 	public function toABGR(): int {
 		return ($this->a << 24) | ($this->b << 16) | ($this->g << 8) | $this->r;
+	}
+
+	public function getColorCode(){
+		return ($this->red << 16 | $this->green << 8 | $this->blue) & 0xffffff;
 	}
 }

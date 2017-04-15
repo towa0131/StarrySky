@@ -76,8 +76,8 @@ namespace pocketmine {
 	const VERSION = "1.4dev";
 	const API_VERSION = "2.1.0";
 	const CODENAME = "Fried Potato";
-	const MINECRAFT_VERSION = "v1.0.5 alpha";
-	const MINECRAFT_VERSION_NETWORK = "1.0.5";
+	const MINECRAFT_VERSION = "v1.0.6 alpha";
+	const MINECRAFT_VERSION_NETWORK = "1.0.6";
 	const STARRYSKY_API_VERSION = '2.1.0';
 
 	/*

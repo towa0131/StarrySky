@@ -145,6 +145,7 @@ use pocketmine\plugin\PluginLoadOrder;
 use pocketmine\plugin\PluginManager;
 use pocketmine\plugin\ScriptPluginLoader;
 use pocketmine\plugin\FolderPluginLoader;
+use pocketmine\resourcepacks\ResourcePackManager;
 use pocketmine\scheduler\FileWriteTask;
 use pocketmine\scheduler\ServerScheduler;
 use pocketmine\tile\Chest;
@@ -243,6 +244,9 @@ class Server{
 
 	/** @var ConsoleCommandSender */
 	private $consoleSender;
+
+	/** @var ResourcePackManager */
+	private $resourceManager;
 
 	/** @var int */
 	private $maxPlayers;
@@ -667,6 +671,13 @@ class Server{
 	 */
 	public function getCraftingManager(){
 		return $this->craftingManager;
+	}
+
+	/**
+	 * @return ResourcePackManager
+	 */
+	public function getResourceManager() : ResourcePackManager{
+		return $this->resourceManager;
 	}
 
 	/**
@@ -1718,6 +1729,8 @@ class Server{
 			Enchantment::init();
 			Attribute::init();
 			$this->craftingManager = new CraftingManager();
+
+			$this->resourceManager = new ResourcePackManager($this, $this->getDataPath() . "resource_packs" . DIRECTORY_SEPARATOR);
 
 			$this->pluginManager = new PluginManager($this, $this->commandMap);
 			$this->pluginManager->subscribeToPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE, $this->consoleSender);

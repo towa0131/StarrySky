@@ -225,6 +225,7 @@ class Item implements ItemIds, \JsonSerializable{
 			self::$list[self::EYE_OF_ENDER] = EyeOfEnder::class;
 			self::$list[self::HOPPER] = Hopper::class;
 			self::$list[self::ITEM_FRAME] = ItemFrame::class;
+			self::$list[self::ROTTEN_FLESH] = RottenFlesh::class;
 
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){

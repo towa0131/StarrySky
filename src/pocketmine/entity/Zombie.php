@@ -22,9 +22,13 @@
 namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\math\Vector3;
 use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\Player;
+use pocketmine\Server;
 
 class Zombie extends Monster{
 	const NETWORK_ID = 32;
@@ -32,6 +36,13 @@ class Zombie extends Monster{
 	public $width = 0.6;
 	public $length = 0.6;
 	public $height = 1.8;
+	public $walkspeed = 1;
+
+
+	public function initEntity(){
+		parent::initEntity();
+		$this->setMaxHealth(20);
+	}
 
 	public function getName(){
 		return "Zombie";

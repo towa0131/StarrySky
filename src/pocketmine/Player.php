@@ -3566,13 +3566,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function sendTitle($title, $subtitle = "", $fadein = 20, $duration = 5, $fadeout = 20){
-		$pk = new SetTitlePacket();
-		$pk->type = SetTitlePacket::TYPE_SET_TITLE;
-		$pk->text = $title;
-		$pk->fadeInTime = $fadein;
- 		$pk->stayTime = $duration;
-		$pk->fadeOutTime = $fadeout;
-		$this->dataPacket($pk);
 		if($subtitle !== ""){
 			$pk = new SetTitlePacket();
 			$pk->type = SetTitlePacket::TYPE_SET_SUBTITLE;
@@ -3582,6 +3575,23 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->fadeOutTime = $fadeout;
 			$this->dataPacket($pk);
 		}
+		$pk = new SetTitlePacket();
+		$pk->type = SetTitlePacket::TYPE_SET_TITLE;
+		$pk->text = $title;
+		$pk->fadeInTime = $fadein;
+ 		$pk->stayTime = $duration;
+		$pk->fadeOutTime = $fadeout;
+		$this->dataPacket($pk);
+	}
+
+	public function sendActionBar($actionbar, $fadein = 20, $duration = 5, $fadeout = 20){
+		$pk = new SetTitlePacket();
+		$pk->type = SetTitlePacket::TYPE_SET_ACTIONBAR_MESSAGE;
+		$pk->text = $actionbar;
+		$pk->fadeInTime = $fadein;
+ 		$pk->stayTime = $duration;
+		$pk->fadeOutTime = $fadeout;
+		$this->dataPacket($pk);
 	}
 
 	/**

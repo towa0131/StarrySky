@@ -73,11 +73,11 @@ namespace pocketmine {
 	use pocketmine\wizard\Installer;
 	use raklib\RakLib;
 
-	const VERSION = "1.5dev";
+	const VERSION = "1.5.1dev";
 	const API_VERSION = "2.1.0";
 	const CODENAME = "Planet";
-	const MINECRAFT_VERSION = "v1.0.6 alpha";
-	const MINECRAFT_VERSION_NETWORK = "1.0.6";
+	const MINECRAFT_VERSION = "v1.0.7 alpha";
+	const MINECRAFT_VERSION_NETWORK = "1.0.7";
 	const STARRYSKY_API_VERSION = '2.2.0';
 
 	/*

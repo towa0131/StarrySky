@@ -53,22 +53,31 @@ class DragonEgg extends Fallable{
 		return 3;
 	}
 
-	/*public function onActivate(Item $item, Player $player = null){
-		$result = 1;
-			while($result){
-		$newx = mt_rand($this->x - 20,$this->x + 20);
-		$newy = mt_rand($this->y, $this->y + 3);
-		$newz = mt_rand($this->z - 20, $this->z + 20);
-		$newId = $this->getLevel()->getBlock(new Vector3($newx, $newy, $newz))->getID();
-		if($newId == 0 || $newId == 8){
-		$this->getLevel()->setBlock($this, new Air(), true, true);
-		$this->getLevel()->setBlock(new Vector3($newx, $newy, $newz), Block::DRAGON_EGG, true, true);
-		$result = 0;
-				}else{
-		$result = 1;
-				}
-			}
+	public function canBeActivated(){
 		return true;
 	}
-	*/
+
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		$this->getLevel()->setBlock($block, $this, true, true);
+		return true;
+	}
+
+	public function onBreak(Item $item){
+		$this->getLevel()->setBlock($this, new Air(), true, true);
+		return true;
+	}
+
+	public function onActivate(Item $item, Player $player = null){
+		while(1){
+		$newx = mt_rand($this->x - 13,$this->x + 13;
+		$newy = mt_rand($this->y, $this->y + 3);
+		$newz = mt_rand($this->z - 13, $this->z + 13);
+		$newId = $this->getLevel()->getBlock(new Vector3($newx, $newy, $newz))->getID();
+		if($newId == 0 || $newId == 8 || $newId == 9 || $newId == 10 || $newId == 11){
+		$this->getLevel()->setBlock($this, new Air(), true, true);
+		$this->getLevel()->setBlock(new Vector3($newx, $newy, $newz), $this, true, true);
+			return true;
+			}
+		}
+	}
 }

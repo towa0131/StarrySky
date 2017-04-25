@@ -32,11 +32,7 @@ class InteractPacket extends DataPacket{
 	const ACTION_LEAVE_VEHICLE = 3;
 	const ACTION_MOUSEOVER = 4;
 
-	/** @deprecated Do NOT use this. This constant is misleading and will be removed in the future */
-	const ACTION_JUMP = 3;
-
 	public $action;
-	public $eid;
 	public $target;
 
 	public function getName(){
@@ -46,7 +42,6 @@ class InteractPacket extends DataPacket{
 	public function decode(){
 		$this->action = $this->getByte();
 		$this->target = $this->getEntityId();
-		$this->eid = $this->target;
 	}
 
 	public function encode(){

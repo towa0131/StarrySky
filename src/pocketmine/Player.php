@@ -177,6 +177,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	const SPECTATOR = 3;
 	const VIEW = Player::SPECTATOR;
 
+	const CRAFTING_SMALL = 0;
+	const CRAFTING_BIG = 1;
+	const CRAFTING_ANVIL = 2;
+	const CRAFTING_ENCHANT = 3;
+
 	const SURVIVAL_SLOTS = 36;
 	const CREATIVE_SLOTS = 112;
 
@@ -209,9 +214,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public $blocked = false;
 	public $achievements = [];
 	public $lastCorrect;
+
+	public $craftingType = self::CRAFTING_SMALL; //0 = 2x2 crafting, 1 = 3x3 crafting, 2 = anvil, 3 = enchanting
+
 	/** @var SimpleTransactionGroup */
 	protected $currentTransaction = null;
-	public $craftingType = 0; //0 = 2x2 crafting, 1 = 3x3 crafting, 2 = stonecutter
 
 	protected $isCrafting = false;
 
@@ -231,6 +238,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	protected $username;
 	protected $iusername;
 	protected $displayName;
+	protected $deviceModel;
 	protected $startAction = -1;
 	/** @var Vector3 */
 	protected $sleeping = null;
@@ -441,6 +449,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 */
 	public function getClientId(){
 		return $this->randomClientId;
+	}
+
+	public function getDeviceModel(){
+		return $this->deviceModel;
 	}
 
 	public function getClientSecret(){
@@ -1847,6 +1859,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->server->getPluginManager()->subscribeToPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE, $this);
 		}
 
+
 		foreach($this->server->getOnlinePlayers() as $p){
 			if($p !== $this and strtolower($p->getName()) === strtolower($this->getName())){
 				if($p->kick("logged in from another location") === false){
@@ -1860,6 +1873,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 			}
 		}
+					//Sound
+						$pk = new ResourcePackStackPacket();
+						$pk->resourcePackStack = [];
+						$pk->mustAccept = false;
+						$this->dataPacket($pk);
 
 		$nbt = $this->server->getOfflinePlayerData($this->username);
 		$this->playedBefore = ($nbt["lastPlayed"] - $nbt["firstPlayed"]) > 1; // microtime(true) - microtime(true) may have less than one millisecond difference
@@ -2050,6 +2068,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->username = TextFormat::clean($packet->username);
 				$this->displayName = $this->username;
 				$this->iusername = strtolower($this->username);
+				$this->deviceModel = $packet->deviceModel;
 				$this->setDataProperty(self::DATA_NAMETAG, self::DATA_TYPE_STRING, $this->username, false);
 
 				if(count($this->server->getOnlinePlayers()) >= $this->server->getMaxPlayers() and $this->kick("disconnectionScreen.serverFull", false)){
@@ -2119,6 +2138,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 				$this->setSkin($packet->skin, $packet->skinId);
 
+
 				$this->server->getPluginManager()->callEvent($ev = new PlayerPreLoginEvent($this, "Plugin reason"));
 				if($ev->isCancelled()){
 					$this->close("", $ev->getKickMessage());
@@ -2180,7 +2200,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case ProtocolInfo::ADVENTURE_SETTINGS_PACKET:
 				//TODO: player abilities, check for other changes
 				if($packet->isFlying and !$this->allowFlight){
-					$this->kick($this->server->getLanguage()->translateString("pocketmine.server.fly"));
+					//$this->kick($this->server->getLanguage()->translateString("pocketmine.server.fly"));
 					break;
 				}else{
 					$this->server->getPluginManager()->callEvent($ev = new PlayerToggleFlightEvent($this, $packet->isFlying));
@@ -2807,8 +2827,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 
 			case ProtocolInfo::INTERACT_PACKET:
-
-				if($this->spawned === false or !$this->isAlive() or $this->blocked){
+				if($this->spawned === false or !$this->isAlive()){
 					break;
 				}
 
@@ -2817,28 +2836,36 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$target = $this->level->getEntity($packet->target);
 
 				$cancelled = false;
-
 				switch($packet->action){
+					case InteractPacket::ACTION_LEAVE_VEHICLE:
+						$this->isLinked = false;
+						$this->setUnLink($target);
+						unset($this->linkedentity);
+						break;
 					case InteractPacket::ACTION_RIGHT_CLICK:
-						if($target instanceof Horse){
-							$this->isLinked = true;
-							$this->setLink($target);
-							$this->linkedentity = $target;
+							/*
+							if($target instanceof Horse){
+								$this->isLinked = true;
+								$this->setLink($target);
+								$this->linkedentity = $target;
 
-						}elseif($target instanceof Pig){
-							$this->isLinked = true;
-							$this->setLink($target);
-							$this->linkedentity = $target;
+							}elseif($target instanceof Pig){
+								$this->isLinked = true;
+								$this->setLink($target);
+								$this->linkedentity = $target;
 
-						}elseif($target instanceof Boat){
-
-							$this->isLinked = true;
-							$this->setLink($target);
-							$this->linkedentity = $target;
-
-						}
+							}elseif($target instanceof Boat){
+								$this->isLinked = true;
+								$this->setLink($target);
+								$this->linkedentity = $target;
+							}
+							if($target instanceof Rideable){
+								$this->isLinked = true;
+								$this->setLink($target);
+								$this->linkedentity = $target;
+							}*/
 					break;
-					case InteractPacket::ACTION_LEFT_CLICK:
+					case InteractPacket::ACTION_LEFT_CLICK: //Attack
 						if($target instanceof Player and $this->server->getConfigBoolean("pvp", true) === false){
 							$cancelled = true;
 						}
@@ -2849,7 +2876,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								$this->server->getLogger()->warning($this->getServer()->getLanguage()->translateString("pocketmine.player.invalidEntity", [$this->getName()]));
 								break;
 							}
-
 							$item = $this->inventory->getItemInHand();
 							$damageTable = [
 								Item::WOODEN_SWORD => 4,
@@ -3311,8 +3337,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 					$transaction = new BaseTransaction($this->inventory, $packet->slot + $this->inventory->getSize(), $this->inventory->getArmorItem($packet->slot), $packet->item);
 				}elseif(isset($this->windowIndex[$packet->windowid])){
-					$this->craftingType = 0;
+					//$this->craftingType = 0;
 					$inv = $this->windowIndex[$packet->windowid];
+				if($inv instanceof EnchantInventory and $packet->item->hasEnchantments()){
+						$inv->onEnchant($this, $inv->getItem($packet->slot), $packet->item);
+					}
 					$transaction = new BaseTransaction($inv, $packet->slot, $inv->getItem($packet->slot), $packet->item);
 				}else{
 					break;

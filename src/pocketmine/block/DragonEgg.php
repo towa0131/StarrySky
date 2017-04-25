@@ -69,7 +69,7 @@ class DragonEgg extends Fallable{
 
 	public function onActivate(Item $item, Player $player = null){
 		while(1){
-		$newx = mt_rand($this->x - 13,$this->x + 13;
+		$newx = mt_rand($this->x - 13,$this->x + 13);
 		$newy = mt_rand($this->y, $this->y + 3);
 		$newz = mt_rand($this->z - 13, $this->z + 13);
 		$newId = $this->getLevel()->getBlock(new Vector3($newx, $newy, $newz))->getID();

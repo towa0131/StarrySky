@@ -425,7 +425,6 @@ class Item implements ItemIds, \JsonSerializable{
 
 		return $this;
 	}
-
 	public function getCustomBlockData(){
 		if(!$this->hasCompoundTag()){
 			return null;
@@ -464,7 +463,6 @@ class Item implements ItemIds, \JsonSerializable{
 		if(!$this->hasEnchantments()){
 			return null;
 		}
-
 		foreach($this->getNamedTag()->ench as $entry){
 			if($entry["id"] === $id){
 				$e = Enchantment::getEnchantment($entry["id"]);
@@ -472,9 +470,9 @@ class Item implements ItemIds, \JsonSerializable{
 				return $e;
 			}
 		}
-
 		return null;
 	}
+
 
 	/**
 	 * @param Enchantment $ench

@@ -76,8 +76,8 @@ namespace pocketmine {
 	const VERSION = "1.5.2dev";
 	const API_VERSION = "2.1.0";
 	const CODENAME = "Planet";
-	const MINECRAFT_VERSION = "v1.1.3 alpha";
-	const MINECRAFT_VERSION_NETWORK = "1.1.3";
+	const MINECRAFT_VERSION = "v1.1.0 alpha";
+	const MINECRAFT_VERSION_NETWORK = "1.1.0";
 	const STARRYSKY_API_VERSION = "2.3.0";
 
 	/*

@@ -31,13 +31,10 @@ interface Info{
 	 * Actual Minecraft: PE protocol version
 	 */
 
-<<<<<<< HEAD
 	const CURRENT_PROTOCOL = 113;
 	const ACCEPTED_PROTOCOLS = [113];
-=======
 	const CURRENT_PROTOCOL = 107;
 	const ACCEPTED_PROTOCOLS = [105, 106, 107];
->>>>>>> origin/master
 	const LOGIN_PACKET = 0x01;
 	const PLAY_STATUS_PACKET = 0x02;
 	const SERVER_TO_CLIENT_HANDSHAKE_PACKET = 0x03;
